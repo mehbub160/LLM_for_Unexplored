@@ -1,0 +1,110 @@
+{
+  "analysis_date": "2025-07-04 05:35:54",
+  "patient_profile": {
+    "patient_id": "DEMO_002",
+    "age": 35,
+    "diagnosis": "Major Depressive Disorder",
+    "treatment_history": "First episode, new to therapy",
+    "medications": "None currently",
+    "treatment_duration": "3 weeks",
+    "baseline_mood": "depressed",
+    "condition": "depression"
+  },
+  "llm_type": "ollama",
+  "psychological_features": {
+    "overall_sentiment_trend": "stable",
+    "session_sentiments": [
+      0.031,
+      0.0,
+      -0.115,
+      -0.018,
+      0.0
+    ],
+    "mood_progression": [
+      "stable",
+      "mixed",
+      "declining",
+      "declining",
+      "improving"
+    ],
+    "risk_assessment": "moderate_risk",
+    "therapeutic_engagement": 0.3,
+    "emotional_vocabulary": [
+      "better",
+      "bad",
+      "good",
+      "struggling",
+      "struggling"
+    ],
+    "behavioral_patterns": [
+      "variable_mood",
+      "high_engagement"
+    ],
+    "session_count": 5
+  },
+  "therapeutic_analysis": "COMPREHENSIVE PSYCHOLOGICAL ASSESSMENT AND TREATMENT RECOMMENDATIONS\n\nEXECUTIVE SUMMARY:\nPatient Assessment: 5 sessions analyzed\nCurrent Status: Stable presentation with consistent engagement\nRisk Level: Moderate Risk\nEngagement Level: 0.30/1.0 (Needs Improvement)\n\n1. PSYCHOLOGICAL INSIGHT SUMMARY:\n\nCurrent Mental Health Status:\nThe patient demonstrates stable mood patterns across 5 therapeutic sessions. The therapeutic engagement level of 0.30 indicates need for engagement enhancement.\n\nKey Psychological Themes:\n\u2022 Stable therapeutic process with consistent presentation\n\u2022 Focus needed on therapeutic engagement\n\u2022 Elevated emotional distress requiring close monitoring\n\nTherapeutic Relationship Quality:\nBuilding therapeutic alliance requires continued focus\n\n2. EVIDENCE-BASED THERAPY RECOMMENDATIONS:\n\nPrimary Therapeutic Approach:\nMotivational interviewing to enhance engagement\n\nRecommended Session Structure:\n\u2022 Frequency: Weekly sessions\n\u2022 Duration: 50-minute sessions\n\u2022 Format: Individual therapy with periodic assessment\n\nSpecific Interventions:\n\u2022 Supportive interventions with engagement building\n\u2022 Mindfulness-based interventions and emotion regulation skills\n\u2022 Trauma-informed approaches if indicated by presentation\n\nBetween-Session Activities:\nMinimal homework focus on engagement building\n\n3. RISK ASSESSMENT AND SAFETY PLANNING:\n\nCurrent Risk Evaluation: Moderate Risk\n\nSafety Protocols:\nSafety planning discussion needed\n\nCrisis Intervention Plan:\n\u2022 Standard crisis protocols in place\n\u2022 24/7 crisis hotline information provided\n\u2022 Family/support system involvement as appropriate\n\nMonitoring Requirements:\nWeekly progress monitoring\n\n4. TREATMENT PLAN MODIFICATIONS:\n\nImmediate Recommendations:\n\u2022 Psychiatric consultation for medication evaluation\n\u2022 Maintain current session schedule\n\u2022 Continue therapeutic skill building\n\nTherapy Approach Adjustments:\n\u2022 Integrate trauma-informed care principles\n\u2022 Individual therapy focus with gradual skill building\n\u2022 Incorporate family therapy sessions if clinically indicated\n\nTreatment Goals for Next Phase:\n\u2022 Stabilize mood and enhance coping skills\n\u2022 Build basic coping and self-awareness skills\n\u2022 Continue therapeutic work with regular assessment\n\nExpected Timeline:\nMaintain current treatment approach\nWeekly treatment plan review recommended\n\nCLINICAL NOTES:\nThis assessment is based on 5 therapeutic sessions and represents a snapshot of current functioning. The patient's stable trend and 0.30 engagement level suggest need for enhanced therapeutic support and possible treatment intensification.\n\nREFERRAL RECOMMENDATIONS:\n\u2022 Consider psychiatric consultation if no recent evaluation\n\u2022 Neuropsychological testing if cognitive concerns arise\n\u2022 Standard medical care coordination\n\nFOLLOW-UP REQUIREMENTS:\n\u2022 Next scheduled session as planned\n\u2022 Treatment plan review in 2 weeks\n\u2022 Outcome measurement using standardized assessments\n\nThis assessment follows evidence-based clinical psychology practices and prioritizes patient safety, therapeutic alliance, and measurable treatment outcomes. All recommendations should be implemented with appropriate clinical supervision and documentation.\n\nDISCLAIMER: This assessment is generated as a therapeutic support tool and must be reviewed and validated by a licensed mental health professional before implementation. Clinical judgment and direct patient contact remain essential for comprehensive care.",
+  "validation_result": {
+    "validation_date": "2025-07-04 05:35:54",
+    "reviewing_clinician": "Dr. Sarah Chen, Licensed Clinical Psychologist",
+    "outcome": "approved_with_modifications",
+    "validation_score": 0.79,
+    "clinical_notes": "Recommendations are clinically sound with minor adjustments needed. Needs Attention risk level appropriately identified. Approved with noted modifications.",
+    "modifications_required": [
+      "Clarify session frequency based on patient availability",
+      "Add specific outcome measures for progress tracking"
+    ],
+    "safety_cleared": false,
+    "implementation_approved": true
+  },
+  "algorithm_outputs": {
+    "S": {
+      "overall_sentiment_trend": "stable",
+      "session_sentiments": [
+        0.031,
+        0.0,
+        -0.115,
+        -0.018,
+        0.0
+      ],
+      "mood_progression": [
+        "stable",
+        "mixed",
+        "declining",
+        "declining",
+        "improving"
+      ],
+      "risk_assessment": "moderate_risk",
+      "therapeutic_engagement": 0.3,
+      "emotional_vocabulary": [
+        "better",
+        "bad",
+        "good",
+        "struggling",
+        "struggling"
+      ],
+      "behavioral_patterns": [
+        "variable_mood",
+        "high_engagement"
+      ],
+      "session_count": 5
+    },
+    "T_s": "COMPREHENSIVE PSYCHOLOGICAL ASSESSMENT AND TREATMENT RECOMMENDATIONS\n\nEXECUTIVE SUMMARY:\nPatient Assessment: 5 sessions analyzed\nCurrent Status: Stable presentation with consistent engagement\nRisk Level: Moderate Risk\nEngagement Level: 0.30/1.0 (Needs Improvement)\n\n1. PSYCHOLOGICAL INSIGHT SUMMARY:\n\nCurrent Mental Health Status:\nThe patient demonstrates stable mood patterns across 5 therapeutic sessions. The therapeutic engagement level of 0.30 indicates need for engagement enhancement.\n\nKey Psychological Themes:\n\u2022 Stable therapeutic process with consistent presentation\n\u2022 Focus needed on therapeutic engagement\n\u2022 Elevated emotional distress requiring close monitoring\n\nTherapeutic Relationship Quality:\nBuilding therapeutic alliance requires continued focus\n\n2. EVIDENCE-BASED THERAPY RECOMMENDATIONS:\n\nPrimary Therapeutic Approach:\nMotivational interviewing to enhance engagement\n\nRecommended Session Structure:\n\u2022 Frequency: Weekly sessions\n\u2022 Duration: 50-minute sessions\n\u2022 Format: Individual therapy with periodic assessment\n\nSpecific Interventions:\n\u2022 Supportive interventions with engagement building\n\u2022 Mindfulness-based interventions and emotion regulation skills\n\u2022 Trauma-informed approaches if indicated by presentation\n\nBetween-Session Activities:\nMinimal homework focus on engagement building\n\n3. RISK ASSESSMENT AND SAFETY PLANNING:\n\nCurrent Risk Evaluation: Moderate Risk\n\nSafety Protocols:\nSafety planning discussion needed\n\nCrisis Intervention Plan:\n\u2022 Standard crisis protocols in place\n\u2022 24/7 crisis hotline information provided\n\u2022 Family/support system involvement as appropriate\n\nMonitoring Requirements:\nWeekly progress monitoring\n\n4. TREATMENT PLAN MODIFICATIONS:\n\nImmediate Recommendations:\n\u2022 Psychiatric consultation for medication evaluation\n\u2022 Maintain current session schedule\n\u2022 Continue therapeutic skill building\n\nTherapy Approach Adjustments:\n\u2022 Integrate trauma-informed care principles\n\u2022 Individual therapy focus with gradual skill building\n\u2022 Incorporate family therapy sessions if clinically indicated\n\nTreatment Goals for Next Phase:\n\u2022 Stabilize mood and enhance coping skills\n\u2022 Build basic coping and self-awareness skills\n\u2022 Continue therapeutic work with regular assessment\n\nExpected Timeline:\nMaintain current treatment approach\nWeekly treatment plan review recommended\n\nCLINICAL NOTES:\nThis assessment is based on 5 therapeutic sessions and represents a snapshot of current functioning. The patient's stable trend and 0.30 engagement level suggest need for enhanced therapeutic support and possible treatment intensification.\n\nREFERRAL RECOMMENDATIONS:\n\u2022 Consider psychiatric consultation if no recent evaluation\n\u2022 Neuropsychological testing if cognitive concerns arise\n\u2022 Standard medical care coordination\n\nFOLLOW-UP REQUIREMENTS:\n\u2022 Next scheduled session as planned\n\u2022 Treatment plan review in 2 weeks\n\u2022 Outcome measurement using standardized assessments\n\nThis assessment follows evidence-based clinical psychology practices and prioritizes patient safety, therapeutic alliance, and measurable treatment outcomes. All recommendations should be implemented with appropriate clinical supervision and documentation.\n\nDISCLAIMER: This assessment is generated as a therapeutic support tool and must be reviewed and validated by a licensed mental health professional before implementation. Clinical judgment and direct patient contact remain essential for comprehensive care.",
+    "V": {
+      "validation_date": "2025-07-04 05:35:54",
+      "reviewing_clinician": "Dr. Sarah Chen, Licensed Clinical Psychologist",
+      "outcome": "approved_with_modifications",
+      "validation_score": 0.79,
+      "clinical_notes": "Recommendations are clinically sound with minor adjustments needed. Needs Attention risk level appropriately identified. Approved with noted modifications.",
+      "modifications_required": [
+        "Clarify session frequency based on patient availability",
+        "Add specific outcome measures for progress tracking"
+      ],
+      "safety_cleared": false,
+      "implementation_approved": true
+    }
+  },
+  "conversation_summary": {
+    "session_count": 5,
+    "date_range": "2025-06-06 to 2025-07-04"
+  }
+}

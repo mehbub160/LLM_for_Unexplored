@@ -1,0 +1,116 @@
+PSYCHIATRIC MONITORING AND THERAPY RECOMMENDATION REPORT
+======================================================================
+
+Patient ID: DEMO_002
+Analysis Date: 2025-07-04 05:35:54
+Primary Diagnosis: Major Depressive Disorder
+LLM Model: ollama
+
+PSYCHOLOGICAL FEATURES:
+------------------------------
+Sessions Analyzed: 5
+Sentiment Trend: stable
+Engagement Level: 0.3
+Risk Level: moderate_risk
+Behavioral Patterns: variable_mood, high_engagement
+
+CLINICAL VALIDATION:
+------------------------------
+Outcome: approved_with_modifications
+Safety Cleared: False
+Implementation Approved: True
+Clinical Notes: Recommendations are clinically sound with minor adjustments needed. Needs Attention risk level appropriately identified. Approved with noted modifications.
+
+THERAPEUTIC ANALYSIS AND RECOMMENDATIONS:
+------------------------------
+COMPREHENSIVE PSYCHOLOGICAL ASSESSMENT AND TREATMENT RECOMMENDATIONS
+
+EXECUTIVE SUMMARY:
+Patient Assessment: 5 sessions analyzed
+Current Status: Stable presentation with consistent engagement
+Risk Level: Moderate Risk
+Engagement Level: 0.30/1.0 (Needs Improvement)
+
+1. PSYCHOLOGICAL INSIGHT SUMMARY:
+
+Current Mental Health Status:
+The patient demonstrates stable mood patterns across 5 therapeutic sessions. The therapeutic engagement level of 0.30 indicates need for engagement enhancement.
+
+Key Psychological Themes:
+• Stable therapeutic process with consistent presentation
+• Focus needed on therapeutic engagement
+• Elevated emotional distress requiring close monitoring
+
+Therapeutic Relationship Quality:
+Building therapeutic alliance requires continued focus
+
+2. EVIDENCE-BASED THERAPY RECOMMENDATIONS:
+
+Primary Therapeutic Approach:
+Motivational interviewing to enhance engagement
+
+Recommended Session Structure:
+• Frequency: Weekly sessions
+• Duration: 50-minute sessions
+• Format: Individual therapy with periodic assessment
+
+Specific Interventions:
+• Supportive interventions with engagement building
+• Mindfulness-based interventions and emotion regulation skills
+• Trauma-informed approaches if indicated by presentation
+
+Between-Session Activities:
+Minimal homework focus on engagement building
+
+3. RISK ASSESSMENT AND SAFETY PLANNING:
+
+Current Risk Evaluation: Moderate Risk
+
+Safety Protocols:
+Safety planning discussion needed
+
+Crisis Intervention Plan:
+• Standard crisis protocols in place
+• 24/7 crisis hotline information provided
+• Family/support system involvement as appropriate
+
+Monitoring Requirements:
+Weekly progress monitoring
+
+4. TREATMENT PLAN MODIFICATIONS:
+
+Immediate Recommendations:
+• Psychiatric consultation for medication evaluation
+• Maintain current session schedule
+• Continue therapeutic skill building
+
+Therapy Approach Adjustments:
+• Integrate trauma-informed care principles
+• Individual therapy focus with gradual skill building
+• Incorporate family therapy sessions if clinically indicated
+
+Treatment Goals for Next Phase:
+• Stabilize mood and enhance coping skills
+• Build basic coping and self-awareness skills
+• Continue therapeutic work with regular assessment
+
+Expected Timeline:
+Maintain current treatment approach
+Weekly treatment plan review recommended
+
+CLINICAL NOTES:
+This assessment is based on 5 therapeutic sessions and represents a snapshot of current functioning. The patient's stable trend and 0.30 engagement level suggest need for enhanced therapeutic support and possible treatment intensification.
+
+REFERRAL RECOMMENDATIONS:
+• Consider psychiatric consultation if no recent evaluation
+• Neuropsychological testing if cognitive concerns arise
+• Standard medical care coordination
+
+FOLLOW-UP REQUIREMENTS:
+• Next scheduled session as planned
+• Treatment plan review in 2 weeks
+• Outcome measurement using standardized assessments
+
+This assessment follows evidence-based clinical psychology practices and prioritizes patient safety, therapeutic alliance, and measurable treatment outcomes. All recommendations should be implemented with appropriate clinical supervision and documentation.
+
+DISCLAIMER: This assessment is generated as a therapeutic support tool and must be reviewed and validated by a licensed mental health professional before implementation. Clinical judgment and direct patient contact remain essential for comprehensive care.
