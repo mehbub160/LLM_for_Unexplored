@@ -1,0 +1,130 @@
+{
+  "match_context": {
+    "match_context": {
+      "format": "T20 International",
+      "tournament": "ICC T20 World Cup 2024",
+      "importance_level": "Semi-Final",
+      "crowd_support": "High - Home advantage",
+      "media_pressure": "Very High"
+    },
+    "environmental_data": {
+      "temperature": 35,
+      "humidity": 68,
+      "wind_speed": 15,
+      "wind_direction": "South-West",
+      "altitude": 1200,
+      "weather_forecast": "Partly cloudy, possible evening showers",
+      "pitch_conditions": "Dry, expected to favor spinners in second innings"
+    },
+    "ground_history": {
+      "ground_name": "M. Chinnaswamy Stadium",
+      "location": "Bangalore, India",
+      "avg_first_innings_score": 168,
+      "avg_second_innings_score": 152,
+      "toss_win_percentage": 65,
+      "most_successful_strategy": "Bowl first, chase with spinners",
+      "ground_characteristics": [
+        "Short boundaries (60m square)",
+        "Fast outfield",
+        "Spin-friendly in second innings",
+        "Dew factor in evening matches"
+      ],
+      "recent_matches": [
+        {
+          "team1": "India",
+          "team2": "Australia",
+          "score1": 180,
+          "score2": 165,
+          "winner": "India"
+        },
+        {
+          "team1": "England",
+          "team2": "South Africa",
+          "score1": 145,
+          "score2": 149,
+          "winner": "South Africa"
+        },
+        {
+          "team1": "Pakistan",
+          "team2": "New Zealand",
+          "score1": 175,
+          "score2": 170,
+          "winner": "Pakistan"
+        }
+      ]
+    },
+    "team_metadata": {
+      "team_name": "India",
+      "opponent_team": "Australia",
+      "home_climate_region": "Tropical/Subtropical",
+      "climate_adaptability": 9,
+      "recent_form": "W-W-L-W-W",
+      "key_players": [
+        "Virat Kohli (Batsman)",
+        "Jasprit Bumrah (Fast Bowler)",
+        "Ravindra Jadeja (All-rounder)",
+        "Rohit Sharma (Captain/Batsman)"
+      ],
+      "squad_strengths": [
+        "Strong spin bowling attack",
+        "Experienced batting lineup",
+        "Home ground advantage",
+        "Excellent fielding unit",
+        "Depth in all-rounders"
+      ],
+      "squad_weaknesses": [
+        "Pace bowling in death overs",
+        "Middle-order instability",
+        "Pressure handling in knockouts"
+      ],
+      "opponent_analysis": {
+        "opponent_strengths": [
+          "Aggressive batting",
+          "Quality pace attack",
+          "Big match experience"
+        ],
+        "opponent_weaknesses": [
+          "Spin bowling struggle",
+          "Middle overs batting",
+          "Subcontinent conditions"
+        ]
+      }
+    },
+    "historical_context": {
+      "head_to_head_record": "India 12 - 8 Australia (Last 20 T20Is)",
+      "last_encounter": {
+        "date": "2024-01-15",
+        "venue": "Melbourne",
+        "result": "Australia won by 7 runs",
+        "key_factors": [
+          "Australian pace bowling",
+          "Indian middle-order collapse"
+        ]
+      },
+      "tournament_performance": {
+        "india_progress": "Group: 4/4 wins, Quarter-final: Won vs England",
+        "australia_progress": "Group: 3/4 wins, Quarter-final: Won vs South Africa"
+      }
+    }
+  },
+  "llm_analysis": {
+    "model_used": "transformers",
+    "analysis_timestamp": "2025-07-04T10:39:34.089580",
+    "raw_llm_output": "",
+    "success_feasibility_score": "Moderate",
+    "key_influencing_factors": [
+      "Comprehensive match conditions analysis"
+    ],
+    "tactical_suggestions": [
+      "Comprehensive tactical approach based on analysis"
+    ]
+  },
+  "strategic_assessment": {
+    "overall_recommendation": "Balanced strategy recommended - adapt tactically based on match flow",
+    "confidence_level": "Low",
+    "priority_actions": [
+      "1. Review all strategic elements",
+      "2. Adapt tactics to conditions"
+    ]
+  }
+}
