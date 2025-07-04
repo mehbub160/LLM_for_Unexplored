@@ -1,0 +1,432 @@
+[
+  {
+    "session_number": 1,
+    "date": "2025-06-06",
+    "duration_minutes": 56,
+    "mood_trend": "stable",
+    "exchanges": [
+      {
+        "speaker": "therapist",
+        "text": "Tell me about your mood lately.",
+        "timestamp": "2025-06-06 10:00:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "I'm getting through each day, but it's still difficult.",
+        "timestamp": "2025-06-06 10:01:30"
+      },
+      {
+        "speaker": "therapist",
+        "text": "I hear that you're working hard on this.",
+        "timestamp": "2025-06-06 10:04:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "I'm doing okay, just taking it one day at a time.",
+        "timestamp": "2025-06-06 10:06:30"
+      },
+      {
+        "speaker": "therapist",
+        "text": "How did that make you feel?",
+        "timestamp": "2025-06-06 10:08:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "Some days are better than others, but I'm managing.",
+        "timestamp": "2025-06-06 10:10:30"
+      },
+      {
+        "speaker": "therapist",
+        "text": "I hear that you're working hard on this.",
+        "timestamp": "2025-06-06 10:12:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "I'm trying to stay consistent with the exercises.",
+        "timestamp": "2025-06-06 10:14:30"
+      },
+      {
+        "speaker": "therapist",
+        "text": "That sounds challenging. How are you coping with it?",
+        "timestamp": "2025-06-06 10:16:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "I'm doing okay, just taking it one day at a time.",
+        "timestamp": "2025-06-06 10:18:30"
+      },
+      {
+        "speaker": "therapist",
+        "text": "What strategies have been most helpful for you?",
+        "timestamp": "2025-06-06 10:20:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "Some days are better than others, but I'm managing.",
+        "timestamp": "2025-06-06 10:22:30"
+      },
+      {
+        "speaker": "therapist",
+        "text": "How did that make you feel?",
+        "timestamp": "2025-06-06 10:24:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "I'm trying to stay consistent with the exercises.",
+        "timestamp": "2025-06-06 10:26:30"
+      },
+      {
+        "speaker": "therapist",
+        "text": "What strategies have been most helpful for you?",
+        "timestamp": "2025-06-06 10:28:00"
+      }
+    ],
+    "session_notes": "Session 1 - stable mood pattern observed"
+  },
+  {
+    "session_number": 2,
+    "date": "2025-06-13",
+    "duration_minutes": 50,
+    "mood_trend": "mixed",
+    "exchanges": [
+      {
+        "speaker": "therapist",
+        "text": "Tell me about your mood lately.",
+        "timestamp": "2025-06-13 10:00:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "I'm getting through each day, but it's still difficult.",
+        "timestamp": "2025-06-13 10:01:30"
+      },
+      {
+        "speaker": "therapist",
+        "text": "What do you think contributed to that experience?",
+        "timestamp": "2025-06-13 10:04:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "I have good days and bad days.",
+        "timestamp": "2025-06-13 10:06:30"
+      },
+      {
+        "speaker": "therapist",
+        "text": "What do you think contributed to that experience?",
+        "timestamp": "2025-06-13 10:08:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "My mood has been pretty inconsistent.",
+        "timestamp": "2025-06-13 10:10:30"
+      },
+      {
+        "speaker": "therapist",
+        "text": "That sounds challenging. How are you coping with it?",
+        "timestamp": "2025-06-13 10:12:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "My mood has been pretty inconsistent.",
+        "timestamp": "2025-06-13 10:14:30"
+      },
+      {
+        "speaker": "therapist",
+        "text": "What do you think contributed to that experience?",
+        "timestamp": "2025-06-13 10:16:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "I have good days and bad days.",
+        "timestamp": "2025-06-13 10:18:30"
+      },
+      {
+        "speaker": "therapist",
+        "text": "How did that make you feel?",
+        "timestamp": "2025-06-13 10:20:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "It's been up and down for me.",
+        "timestamp": "2025-06-13 10:22:30"
+      },
+      {
+        "speaker": "therapist",
+        "text": "I hear that you're working hard on this.",
+        "timestamp": "2025-06-13 10:24:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "It's been up and down for me.",
+        "timestamp": "2025-06-13 10:26:30"
+      },
+      {
+        "speaker": "therapist",
+        "text": "That sounds challenging. How are you coping with it?",
+        "timestamp": "2025-06-13 10:28:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "I have good days and bad days.",
+        "timestamp": "2025-06-13 10:30:30"
+      }
+    ],
+    "session_notes": "Session 2 - mixed mood pattern observed"
+  },
+  {
+    "session_number": 3,
+    "date": "2025-06-20",
+    "duration_minutes": 50,
+    "mood_trend": "declining",
+    "exchanges": [
+      {
+        "speaker": "therapist",
+        "text": "What's been on your mind this week?",
+        "timestamp": "2025-06-20 10:00:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "It's been hard to find energy for anything lately.",
+        "timestamp": "2025-06-20 10:01:30"
+      },
+      {
+        "speaker": "therapist",
+        "text": "I hear that you're working hard on this.",
+        "timestamp": "2025-06-20 10:04:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "I've been struggling more than usual.",
+        "timestamp": "2025-06-20 10:06:30"
+      },
+      {
+        "speaker": "therapist",
+        "text": "That sounds challenging. How are you coping with it?",
+        "timestamp": "2025-06-20 10:08:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "I've been struggling more than usual.",
+        "timestamp": "2025-06-20 10:10:30"
+      },
+      {
+        "speaker": "therapist",
+        "text": "What do you think contributed to that experience?",
+        "timestamp": "2025-06-20 10:12:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "The symptoms have been more intense lately.",
+        "timestamp": "2025-06-20 10:14:30"
+      },
+      {
+        "speaker": "therapist",
+        "text": "What strategies have been most helpful for you?",
+        "timestamp": "2025-06-20 10:16:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "I've been struggling more than usual.",
+        "timestamp": "2025-06-20 10:18:30"
+      },
+      {
+        "speaker": "therapist",
+        "text": "Can you tell me more about that?",
+        "timestamp": "2025-06-20 10:20:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "I've been struggling more than usual.",
+        "timestamp": "2025-06-20 10:22:30"
+      },
+      {
+        "speaker": "therapist",
+        "text": "I hear that you're working hard on this.",
+        "timestamp": "2025-06-20 10:24:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "I've been struggling more than usual.",
+        "timestamp": "2025-06-20 10:26:30"
+      },
+      {
+        "speaker": "therapist",
+        "text": "What do you think contributed to that experience?",
+        "timestamp": "2025-06-20 10:28:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "I've been struggling more than usual.",
+        "timestamp": "2025-06-20 10:30:30"
+      },
+      {
+        "speaker": "therapist",
+        "text": "Can you tell me more about that?",
+        "timestamp": "2025-06-20 10:32:00"
+      }
+    ],
+    "session_notes": "Session 3 - declining mood pattern observed"
+  },
+  {
+    "session_number": 4,
+    "date": "2025-06-27",
+    "duration_minutes": 45,
+    "mood_trend": "declining",
+    "exchanges": [
+      {
+        "speaker": "therapist",
+        "text": "What's been on your mind this week?",
+        "timestamp": "2025-06-27 10:00:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "It's been hard to find energy for anything lately.",
+        "timestamp": "2025-06-27 10:01:30"
+      },
+      {
+        "speaker": "therapist",
+        "text": "I hear that you're working hard on this.",
+        "timestamp": "2025-06-27 10:04:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "It feels like I'm taking steps backward.",
+        "timestamp": "2025-06-27 10:06:30"
+      },
+      {
+        "speaker": "therapist",
+        "text": "How did that make you feel?",
+        "timestamp": "2025-06-27 10:08:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "I've been struggling more than usual.",
+        "timestamp": "2025-06-27 10:10:30"
+      },
+      {
+        "speaker": "therapist",
+        "text": "That sounds challenging. How are you coping with it?",
+        "timestamp": "2025-06-27 10:12:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "The symptoms have been more intense lately.",
+        "timestamp": "2025-06-27 10:14:30"
+      },
+      {
+        "speaker": "therapist",
+        "text": "I hear that you're working hard on this.",
+        "timestamp": "2025-06-27 10:16:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "The symptoms have been more intense lately.",
+        "timestamp": "2025-06-27 10:18:30"
+      },
+      {
+        "speaker": "therapist",
+        "text": "What do you think contributed to that experience?",
+        "timestamp": "2025-06-27 10:20:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "The symptoms have been more intense lately.",
+        "timestamp": "2025-06-27 10:22:30"
+      },
+      {
+        "speaker": "therapist",
+        "text": "What do you think contributed to that experience?",
+        "timestamp": "2025-06-27 10:24:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "The symptoms have been more intense lately.",
+        "timestamp": "2025-06-27 10:26:30"
+      },
+      {
+        "speaker": "therapist",
+        "text": "I hear that you're working hard on this.",
+        "timestamp": "2025-06-27 10:28:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "It feels like I'm taking steps backward.",
+        "timestamp": "2025-06-27 10:30:30"
+      }
+    ],
+    "session_notes": "Session 4 - declining mood pattern observed"
+  },
+  {
+    "session_number": 5,
+    "date": "2025-07-04",
+    "duration_minutes": 49,
+    "mood_trend": "improving",
+    "exchanges": [
+      {
+        "speaker": "therapist",
+        "text": "How have you been feeling since our last session?",
+        "timestamp": "2025-07-04 10:00:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "I've had a few days where I felt more motivated.",
+        "timestamp": "2025-07-04 10:01:30"
+      },
+      {
+        "speaker": "therapist",
+        "text": "I hear that you're working hard on this.",
+        "timestamp": "2025-07-04 10:04:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "I feel more in control of my emotions lately.",
+        "timestamp": "2025-07-04 10:06:30"
+      },
+      {
+        "speaker": "therapist",
+        "text": "How did that make you feel?",
+        "timestamp": "2025-07-04 10:08:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "I feel more in control of my emotions lately.",
+        "timestamp": "2025-07-04 10:10:30"
+      },
+      {
+        "speaker": "therapist",
+        "text": "What strategies have been most helpful for you?",
+        "timestamp": "2025-07-04 10:12:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "The medication adjustment seems to be working better.",
+        "timestamp": "2025-07-04 10:14:30"
+      },
+      {
+        "speaker": "therapist",
+        "text": "Can you tell me more about that?",
+        "timestamp": "2025-07-04 10:16:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "The medication adjustment seems to be working better.",
+        "timestamp": "2025-07-04 10:18:30"
+      },
+      {
+        "speaker": "therapist",
+        "text": "I hear that you're working hard on this.",
+        "timestamp": "2025-07-04 10:20:00"
+      },
+      {
+        "speaker": "patient",
+        "text": "The medication adjustment seems to be working better.",
+        "timestamp": "2025-07-04 10:22:30"
+      },
+      {
+        "speaker": "therapist",
+        "text": "What do you think contributed to that experience?",
+        "timestamp": "2025-07-04 10:24:00"
+      }
+    ],
+    "session_notes": "Session 5 - improving mood pattern observed"
+  }
+]
