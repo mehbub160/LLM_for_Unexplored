@@ -1,0 +1,251 @@
+{
+  "analysis_date": "2025-07-04",
+  "llm_type": "transformers",
+  "metadata": {
+    "location": "Caribbean Sea, Belize",
+    "depth": "3-12 meters",
+    "time": "Dawn survey",
+    "environmental_context": "Moderately impacted reef"
+  },
+  "detection_results": {
+    "images_analyzed": 12,
+    "total_species_detected": 16,
+    "species_counts": {
+      "Grouper": 49,
+      "Snapper": 32,
+      "Surgeonfish": 31,
+      "Triggerfish": 18,
+      "Damselfish": 51,
+      "Butterflyfish": 21,
+      "Octopus": 21,
+      "Ray": 22,
+      "Clownfish": 18,
+      "Parrotfish": 13,
+      "Moray Eel": 15,
+      "Tuna": 19,
+      "Wrasse": 10,
+      "Seahorse": 5,
+      "Manta Ray": 1,
+      "Sea Turtle": 2
+    },
+    "detection_confidence": 0.88,
+    "analysis_metadata": {
+      "location": "Caribbean Sea, Belize",
+      "depth": "3-12 meters",
+      "time": "Dawn survey",
+      "environmental_context": "Moderately impacted reef"
+    }
+  },
+  "distribution_analysis": {
+    "total_population": 328,
+    "species_distribution": {
+      "Grouper": {
+        "count": 49,
+        "percentage": 14.94
+      },
+      "Snapper": {
+        "count": 32,
+        "percentage": 9.76
+      },
+      "Surgeonfish": {
+        "count": 31,
+        "percentage": 9.45
+      },
+      "Triggerfish": {
+        "count": 18,
+        "percentage": 5.49
+      },
+      "Damselfish": {
+        "count": 51,
+        "percentage": 15.55
+      },
+      "Butterflyfish": {
+        "count": 21,
+        "percentage": 6.4
+      },
+      "Octopus": {
+        "count": 21,
+        "percentage": 6.4
+      },
+      "Ray": {
+        "count": 22,
+        "percentage": 6.71
+      },
+      "Clownfish": {
+        "count": 18,
+        "percentage": 5.49
+      },
+      "Parrotfish": {
+        "count": 13,
+        "percentage": 3.96
+      },
+      "Moray Eel": {
+        "count": 15,
+        "percentage": 4.57
+      },
+      "Tuna": {
+        "count": 19,
+        "percentage": 5.79
+      },
+      "Wrasse": {
+        "count": 10,
+        "percentage": 3.05
+      },
+      "Seahorse": {
+        "count": 5,
+        "percentage": 1.52
+      },
+      "Manta Ray": {
+        "count": 1,
+        "percentage": 0.3
+      },
+      "Sea Turtle": {
+        "count": 2,
+        "percentage": 0.61
+      }
+    },
+    "species_of_concern": {
+      "species": "Manta Ray",
+      "percentage": 0.3,
+      "count": 1
+    },
+    "conservation_priority_species": [
+      {
+        "species": "Manta Ray",
+        "percentage": 0.3,
+        "status": "Vulnerable",
+        "ecological_role": "Filter Feeder"
+      },
+      {
+        "species": "Sea Turtle",
+        "percentage": 0.61,
+        "status": "Endangered",
+        "ecological_role": "Ecosystem Engineer"
+      },
+      {
+        "species": "Seahorse",
+        "percentage": 1.52,
+        "status": "Vulnerable",
+        "ecological_role": "Unknown"
+      },
+      {
+        "species": "Tuna",
+        "percentage": 5.79,
+        "status": "Near Threatened",
+        "ecological_role": "Unknown"
+      },
+      {
+        "species": "Grouper",
+        "percentage": 14.94,
+        "status": "Vulnerable",
+        "ecological_role": "Keystone Species"
+      }
+    ]
+  },
+  "conservation_recommendations": "MARINE CONSERVATION ANALYSIS REPORT\n\nEXECUTIVE SUMMARY:\nSpecies of Concern: Manta Ray\nPopulation Representation: 0.3%\nConservation Priority: CRITICAL\nAction Timeline: immediate action required\nPriority Level: EMERGENCY\n\nECOLOGICAL SIGNIFICANCE:\nManta Ray represents only 0.3% of the surveyed marine population in Caribbean Sea, Belize. This critically low percentage indicates severe population stress and potential ecosystem imbalance. The species serves as a Filter Feeder - maintains plankton balance, making its decline particularly concerning for overall marine ecosystem health.\n\nCONSERVATION STATUS:\nCurrent Status: Vulnerable\nRecovery Timeline: 20-40 years with protection\nThreat Level: CRITICAL\n\nTHREAT ANALYSIS:\nPrimary Threats Identified:\n1. Fishing Pressure - Major impact on population\n2. Marine Debris - Significant ecosystem pressure\n3. Boat Strikes - Long-term population impact\n4. Climate Change - Climate-related stressor\n\nECOSYSTEM IMPACT ASSESSMENT:\nThe critically low representation of Manta Ray (0.3%) indicates:\n\u2022 Potential ecosystem collapse risk\n\u2022 Disrupted marine food web dynamics\n\u2022 Loss of ecological services\n\u2022 Reduced biodiversity resilience\n\u2022 Cascading effects on other species\n\nCONSERVATION STRATEGIES:\nImmediate Actions Required:\n1. Fishing Restrictions\n2. Cleaning Station Protection\n3. Marine Debris Reduction\n4. Boat Traffic Management\n\nMONITORING PROTOCOL:\nEssential Monitoring Activities:\n\u2022 Population Counts - Monthly frequency\n\u2022 Feeding Behavior Studies - Quarterly assessment\n\u2022 Habitat Mapping - Annual evaluation\n\u2022 Tourism Impact - Continuous monitoring\n\nLOCATION-SPECIFIC RECOMMENDATIONS:\nAddress pollution from land-based sources, overfishing pressure, and hurricane damage recovery. Engage regional fisheries organizations.\n\nPRIORITY ASSESSMENT:\nConservation Urgency: CRITICAL\nJustification: With only 0.3% population representation, Manta Ray requires immediate action required. The species' ecological role as filter feeder - maintains plankton balance makes this decline critical for ecosystem stability.\n\nRESOURCE ALLOCATION:\n\u2022 Emergency funding: Required for immediate threat mitigation\n\u2022 Research investment: Population assessment and genetic studies\n\u2022 Community engagement: Local stakeholder involvement\n\u2022 International cooperation: Cross-border conservation efforts\n\nEXPECTED OUTCOMES:\nShort-term (1-2 years):\n\u2022 Stabilized population decline\n\u2022 Implemented protection measures\n\u2022 Established monitoring protocols\n\nMedium-term (3-5 years):\n\u2022 Population recovery indicators\n\u2022 Reduced primary threats\n\u2022 Improved habitat quality\n\nLong-term (5+ years):\n\u2022 Sustainable population levels\n\u2022 Restored ecosystem balance\n\u2022 Enhanced conservation capacity\n\nCONCLUSION:\nThe marine ecosystem survey reveals a critical conservation emergency. Manta Ray population at 0.3% representation requires immediate, coordinated conservation action. Without intervention, continued decline will likely result in local extinction and significant ecosystem disruption.\n\nNEXT STEPS:\n1. Mobilize emergency conservation response team\n2. Implement immediate threat mitigation measures\n3. Establish intensive monitoring program\n4. Engage local communities and stakeholders\n5. Secure funding for long-term conservation program\n\nThis analysis indicates EMERGENCY conservation priority requiring immediate action required.",
+  "algorithm_outputs": {
+    "species_distribution": {
+      "Grouper": {
+        "count": 49,
+        "percentage": 14.94
+      },
+      "Snapper": {
+        "count": 32,
+        "percentage": 9.76
+      },
+      "Surgeonfish": {
+        "count": 31,
+        "percentage": 9.45
+      },
+      "Triggerfish": {
+        "count": 18,
+        "percentage": 5.49
+      },
+      "Damselfish": {
+        "count": 51,
+        "percentage": 15.55
+      },
+      "Butterflyfish": {
+        "count": 21,
+        "percentage": 6.4
+      },
+      "Octopus": {
+        "count": 21,
+        "percentage": 6.4
+      },
+      "Ray": {
+        "count": 22,
+        "percentage": 6.71
+      },
+      "Clownfish": {
+        "count": 18,
+        "percentage": 5.49
+      },
+      "Parrotfish": {
+        "count": 13,
+        "percentage": 3.96
+      },
+      "Moray Eel": {
+        "count": 15,
+        "percentage": 4.57
+      },
+      "Tuna": {
+        "count": 19,
+        "percentage": 5.79
+      },
+      "Wrasse": {
+        "count": 10,
+        "percentage": 3.05
+      },
+      "Seahorse": {
+        "count": 5,
+        "percentage": 1.52
+      },
+      "Manta Ray": {
+        "count": 1,
+        "percentage": 0.3
+      },
+      "Sea Turtle": {
+        "count": 2,
+        "percentage": 0.61
+      }
+    },
+    "species_of_concern": {
+      "species": "Manta Ray",
+      "percentage": 0.3,
+      "count": 1
+    },
+    "conservation_priority": [
+      {
+        "species": "Manta Ray",
+        "percentage": 0.3,
+        "status": "Vulnerable",
+        "ecological_role": "Filter Feeder"
+      },
+      {
+        "species": "Sea Turtle",
+        "percentage": 0.61,
+        "status": "Endangered",
+        "ecological_role": "Ecosystem Engineer"
+      },
+      {
+        "species": "Seahorse",
+        "percentage": 1.52,
+        "status": "Vulnerable",
+        "ecological_role": "Unknown"
+      },
+      {
+        "species": "Tuna",
+        "percentage": 5.79,
+        "status": "Near Threatened",
+        "ecological_role": "Unknown"
+      },
+      {
+        "species": "Grouper",
+        "percentage": 14.94,
+        "status": "Vulnerable",
+        "ecological_role": "Keystone Species"
+      }
+    ]
+  }
+}
