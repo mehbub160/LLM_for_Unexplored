@@ -1,0 +1,226 @@
+{
+  "market_indicators": {
+    "USD_index": 104.87,
+    "inflation_rate": 2.8,
+    "interest_rate": 5.59,
+    "oil_price": 73.27,
+    "VIX_volatility": 18.8,
+    "bond_yield_10y": 4.79
+  },
+  "historical_prices": [
+    {
+      "date": "2025-06-04",
+      "price": 2058.37,
+      "change": 8.37,
+      "volume": 83278
+    },
+    {
+      "date": "2025-06-05",
+      "price": 2072.86,
+      "change": 14.49,
+      "volume": 112098
+    },
+    {
+      "date": "2025-06-06",
+      "price": 2056.25,
+      "change": -16.61,
+      "volume": 93434
+    },
+    {
+      "date": "2025-06-07",
+      "price": 2066.85,
+      "change": 10.6,
+      "volume": 91395
+    },
+    {
+      "date": "2025-06-08",
+      "price": 2072.28,
+      "change": 5.43,
+      "volume": 84165
+    },
+    {
+      "date": "2025-06-09",
+      "price": 2044.07,
+      "change": -28.21,
+      "volume": 108657
+    },
+    {
+      "date": "2025-06-10",
+      "price": 2028.03,
+      "change": -16.04,
+      "volume": 83478
+    },
+    {
+      "date": "2025-06-11",
+      "price": 2031.7,
+      "change": 3.67,
+      "volume": 134987
+    },
+    {
+      "date": "2025-06-12",
+      "price": 2014.93,
+      "change": -16.77,
+      "volume": 116463
+    },
+    {
+      "date": "2025-06-13",
+      "price": 2033.5,
+      "change": 18.57,
+      "volume": 80851
+    },
+    {
+      "date": "2025-06-14",
+      "price": 2049.03,
+      "change": 15.53,
+      "volume": 100926
+    },
+    {
+      "date": "2025-06-15",
+      "price": 2060.91,
+      "change": 11.89,
+      "volume": 124597
+    },
+    {
+      "date": "2025-06-16",
+      "price": 2047.59,
+      "change": -13.33,
+      "volume": 108221
+    },
+    {
+      "date": "2025-06-17",
+      "price": 2075.02,
+      "change": 27.43,
+      "volume": 124118
+    },
+    {
+      "date": "2025-06-18",
+      "price": 2051.15,
+      "change": -23.87,
+      "volume": 129797
+    },
+    {
+      "date": "2025-06-19",
+      "price": 2026.95,
+      "change": -24.2,
+      "volume": 125082
+    },
+    {
+      "date": "2025-06-20",
+      "price": 2033.18,
+      "change": 6.22,
+      "volume": 85695
+    },
+    {
+      "date": "2025-06-21",
+      "price": 2046.96,
+      "change": 13.78,
+      "volume": 96361
+    },
+    {
+      "date": "2025-06-22",
+      "price": 2075.35,
+      "change": 28.39,
+      "volume": 129615
+    },
+    {
+      "date": "2025-06-23",
+      "price": 2050.08,
+      "change": -25.27,
+      "volume": 118427
+    },
+    {
+      "date": "2025-06-24",
+      "price": 2069.84,
+      "change": 19.76,
+      "volume": 127400
+    },
+    {
+      "date": "2025-06-25",
+      "price": 2074.48,
+      "change": 4.64,
+      "volume": 89116
+    },
+    {
+      "date": "2025-06-26",
+      "price": 2047.23,
+      "change": -27.25,
+      "volume": 109871
+    },
+    {
+      "date": "2025-06-27",
+      "price": 2063.62,
+      "change": 16.38,
+      "volume": 90458
+    },
+    {
+      "date": "2025-06-28",
+      "price": 2084.94,
+      "change": 21.32,
+      "volume": 93238
+    },
+    {
+      "date": "2025-06-29",
+      "price": 2077.74,
+      "change": -7.19,
+      "volume": 139429
+    },
+    {
+      "date": "2025-06-30",
+      "price": 2085.88,
+      "change": 8.14,
+      "volume": 127819
+    },
+    {
+      "date": "2025-07-01",
+      "price": 2065.64,
+      "change": -20.24,
+      "volume": 126566
+    },
+    {
+      "date": "2025-07-02",
+      "price": 2048.21,
+      "change": -17.43,
+      "volume": 114993
+    },
+    {
+      "date": "2025-07-03",
+      "price": 2060.32,
+      "change": 12.11,
+      "volume": 89358
+    }
+  ],
+  "news_articles": [
+    {
+      "headline": "Federal Reserve signals potential pause in interest rate hikes",
+      "source": "Reuters",
+      "timestamp": "2024-12-07 09:30:00",
+      "sentiment": "bullish"
+    },
+    {
+      "headline": "Inflation data shows persistent price pressures in key sectors",
+      "source": "Bloomberg",
+      "timestamp": "2024-12-07 08:15:00",
+      "sentiment": "bullish"
+    },
+    {
+      "headline": "Dollar strengthens as economic data beats expectations",
+      "source": "Wall Street Journal",
+      "timestamp": "2024-12-06 16:45:00",
+      "sentiment": "bearish"
+    },
+    {
+      "headline": "Central banks increase gold reserves amid global uncertainty",
+      "source": "Financial Times",
+      "timestamp": "2024-12-06 14:20:00",
+      "sentiment": "bullish"
+    },
+    {
+      "headline": "Geopolitical tensions drive safe-haven demand for precious metals",
+      "source": "CNBC",
+      "timestamp": "2024-12-06 11:30:00",
+      "sentiment": "bullish"
+    }
+  ],
+  "analysis_date": "2025-07-04",
+  "market_session": "US Trading Hours"
+}

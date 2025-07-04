@@ -1,0 +1,35 @@
+{
+  "market_analysis": {
+    "current_price": 2060.32,
+    "investment_decision": "HOLD",
+    "market_sentiment": "Neutral",
+    "confidence_level": "Medium",
+    "analysis_timestamp": "2025-07-04T10:44:40.572400"
+  },
+  "llm_insights": {
+    "model_used": "transformers",
+    "raw_analysis": "",
+    "key_insights": [],
+    "risk_factors": [],
+    "market_drivers": [
+      "Multiple market factors"
+    ]
+  },
+  "trading_recommendations": {
+    "primary_action": "HOLD",
+    "suggested_position_size": "5-8%",
+    "entry_price_range": "$2019-$2102",
+    "stop_loss_level": "$1957 (5% below current)",
+    "time_horizon": "2-8 weeks",
+    "risk_management": "LLM-based analysis - monitor key support/resistance levels"
+  },
+  "market_context": {
+    "data_sources": [
+      "Market indicators",
+      "Financial news",
+      "Price history"
+    ],
+    "analysis_method": "LLM-powered fundamental and technical analysis",
+    "next_review": "2025-07-11"
+  }
+}
