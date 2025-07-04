@@ -1,0 +1,772 @@
+{
+  "analysis_date": "2025-07-04 05:22:49",
+  "scenario": "extreme_risk",
+  "llm_type": "rule_based",
+  "environmental_data": {
+    "timestamp": "2025-07-04 05:22:49",
+    "scenario": "extreme_risk",
+    "regions": {
+      "Downtown Area": {
+        "region": "Downtown Area",
+        "topography": {
+          "elevation": 15,
+          "population_density": 8500,
+          "infrastructure": "high"
+        },
+        "weather": {
+          "rainfall_current": 23.66,
+          "rainfall_24h": 567.8,
+          "humidity": 102.9,
+          "temperature": 19.4,
+          "barometric_pressure": 998.3
+        },
+        "seismic": {
+          "recent_earthquake_magnitude": 0.8,
+          "earthquake_depth": 44.5,
+          "seismic_activity_level": "minimal",
+          "days_since_last_earthquake": 4
+        },
+        "wind": {
+          "surface_wind_speed": 19.3,
+          "surface_wind_direction": 159,
+          "sea_wind_speed": 12.4,
+          "sea_wind_direction": 81,
+          "wind_gust_speed": 39.8
+        },
+        "water_level": {
+          "current_level": 4.24,
+          "24h_change": 3.24,
+          "historical_average": 1.0,
+          "flood_stage": 3.0,
+          "critical_stage": 5.0
+        },
+        "rainfall": {
+          "local_rainfall": 23.66,
+          "upstream_rainfall": 29.01,
+          "local_24h_total": 567.8,
+          "upstream_24h_total": 603.5
+        }
+      },
+      "Riverside District": {
+        "region": "Riverside District",
+        "topography": {
+          "elevation": 8,
+          "population_density": 3200,
+          "infrastructure": "medium"
+        },
+        "weather": {
+          "rainfall_current": 22.13,
+          "rainfall_24h": 531.0,
+          "humidity": 95.7,
+          "temperature": 19.6,
+          "barometric_pressure": 1012.5
+        },
+        "seismic": {
+          "recent_earthquake_magnitude": 1.4,
+          "earthquake_depth": 40.6,
+          "seismic_activity_level": "minimal",
+          "days_since_last_earthquake": 38
+        },
+        "wind": {
+          "surface_wind_speed": 20.1,
+          "surface_wind_direction": 116,
+          "sea_wind_speed": 31.2,
+          "sea_wind_direction": 260,
+          "wind_gust_speed": 57.8
+        },
+        "water_level": {
+          "current_level": 4.34,
+          "24h_change": 3.34,
+          "historical_average": 1.0,
+          "flood_stage": 3.0,
+          "critical_stage": 5.0
+        },
+        "rainfall": {
+          "local_rainfall": 22.13,
+          "upstream_rainfall": 30.58,
+          "local_24h_total": 531.0,
+          "upstream_24h_total": 748.1
+        }
+      },
+      "Industrial Zone": {
+        "region": "Industrial Zone",
+        "topography": {
+          "elevation": 12,
+          "population_density": 1200,
+          "infrastructure": "high"
+        },
+        "weather": {
+          "rainfall_current": 21.74,
+          "rainfall_24h": 521.8,
+          "humidity": 104.2,
+          "temperature": 21.7,
+          "barometric_pressure": 1027.9
+        },
+        "seismic": {
+          "recent_earthquake_magnitude": 2.8,
+          "earthquake_depth": 20.8,
+          "seismic_activity_level": "moderate",
+          "days_since_last_earthquake": 52
+        },
+        "wind": {
+          "surface_wind_speed": 21.7,
+          "surface_wind_direction": 140,
+          "sea_wind_speed": 34.3,
+          "sea_wind_direction": 100,
+          "wind_gust_speed": 42.1
+        },
+        "water_level": {
+          "current_level": 3.9,
+          "24h_change": 2.9,
+          "historical_average": 1.0,
+          "flood_stage": 3.0,
+          "critical_stage": 5.0
+        },
+        "rainfall": {
+          "local_rainfall": 21.74,
+          "upstream_rainfall": 29.79,
+          "local_24h_total": 521.8,
+          "upstream_24h_total": 657.5
+        }
+      },
+      "Residential Suburbs": {
+        "region": "Residential Suburbs",
+        "topography": {
+          "elevation": 22,
+          "population_density": 2800,
+          "infrastructure": "medium"
+        },
+        "weather": {
+          "rainfall_current": 15.39,
+          "rainfall_24h": 369.3,
+          "humidity": 96.1,
+          "temperature": 19.0,
+          "barometric_pressure": 1024.8
+        },
+        "seismic": {
+          "recent_earthquake_magnitude": 0.7,
+          "earthquake_depth": 41.3,
+          "seismic_activity_level": "moderate",
+          "days_since_last_earthquake": 24
+        },
+        "wind": {
+          "surface_wind_speed": 13.5,
+          "surface_wind_direction": 242,
+          "sea_wind_speed": 13.2,
+          "sea_wind_direction": 66,
+          "wind_gust_speed": 22.1
+        },
+        "water_level": {
+          "current_level": 2.76,
+          "24h_change": 1.76,
+          "historical_average": 1.0,
+          "flood_stage": 3.0,
+          "critical_stage": 5.0
+        },
+        "rainfall": {
+          "local_rainfall": 15.39,
+          "upstream_rainfall": 20.69,
+          "local_24h_total": 369.3,
+          "upstream_24h_total": 342.6
+        }
+      },
+      "Agricultural Valley": {
+        "region": "Agricultural Valley",
+        "topography": {
+          "elevation": 5,
+          "population_density": 350,
+          "infrastructure": "low"
+        },
+        "weather": {
+          "rainfall_current": 22.23,
+          "rainfall_24h": 533.5,
+          "humidity": 99.3,
+          "temperature": 19.3,
+          "barometric_pressure": 1018.2
+        },
+        "seismic": {
+          "recent_earthquake_magnitude": 1.9,
+          "earthquake_depth": 13.6,
+          "seismic_activity_level": "minimal",
+          "days_since_last_earthquake": 11
+        },
+        "wind": {
+          "surface_wind_speed": 40.1,
+          "surface_wind_direction": 156,
+          "sea_wind_speed": 27.9,
+          "sea_wind_direction": 4,
+          "wind_gust_speed": 55.9
+        },
+        "water_level": {
+          "current_level": 4.97,
+          "24h_change": 3.97,
+          "historical_average": 1.0,
+          "flood_stage": 3.0,
+          "critical_stage": 5.0
+        },
+        "rainfall": {
+          "local_rainfall": 22.23,
+          "upstream_rainfall": 23.48,
+          "local_24h_total": 533.5,
+          "upstream_24h_total": 596.4
+        }
+      },
+      "Coastal Region": {
+        "region": "Coastal Region",
+        "topography": {
+          "elevation": 3,
+          "population_density": 1800,
+          "infrastructure": "medium"
+        },
+        "weather": {
+          "rainfall_current": 16.04,
+          "rainfall_24h": 384.8,
+          "humidity": 95.0,
+          "temperature": 18.4,
+          "barometric_pressure": 1005.0
+        },
+        "seismic": {
+          "recent_earthquake_magnitude": 2.2,
+          "earthquake_depth": 23.3,
+          "seismic_activity_level": "moderate",
+          "days_since_last_earthquake": 27
+        },
+        "wind": {
+          "surface_wind_speed": 28.7,
+          "surface_wind_direction": 255,
+          "sea_wind_speed": 28.3,
+          "sea_wind_direction": 150,
+          "wind_gust_speed": 42.5
+        },
+        "water_level": {
+          "current_level": 4.26,
+          "24h_change": 3.26,
+          "historical_average": 1.0,
+          "flood_stage": 3.0,
+          "critical_stage": 5.0
+        },
+        "rainfall": {
+          "local_rainfall": 16.04,
+          "upstream_rainfall": 20.59,
+          "local_24h_total": 384.8,
+          "upstream_24h_total": 525.5
+        }
+      }
+    },
+    "forecast": [
+      {
+        "hour": 1,
+        "rainfall_forecast": 11.7,
+        "confidence": 0.74
+      },
+      {
+        "hour": 2,
+        "rainfall_forecast": 6.36,
+        "confidence": 0.88
+      },
+      {
+        "hour": 3,
+        "rainfall_forecast": 8.32,
+        "confidence": 0.85
+      },
+      {
+        "hour": 4,
+        "rainfall_forecast": 8.61,
+        "confidence": 0.73
+      },
+      {
+        "hour": 5,
+        "rainfall_forecast": 11.9,
+        "confidence": 0.82
+      },
+      {
+        "hour": 6,
+        "rainfall_forecast": 9.34,
+        "confidence": 0.85
+      },
+      {
+        "hour": 7,
+        "rainfall_forecast": 17.63,
+        "confidence": 0.74
+      },
+      {
+        "hour": 8,
+        "rainfall_forecast": 17.03,
+        "confidence": 0.85
+      },
+      {
+        "hour": 9,
+        "rainfall_forecast": 11.03,
+        "confidence": 0.72
+      },
+      {
+        "hour": 10,
+        "rainfall_forecast": 8.69,
+        "confidence": 0.75
+      },
+      {
+        "hour": 11,
+        "rainfall_forecast": 16.61,
+        "confidence": 0.89
+      },
+      {
+        "hour": 12,
+        "rainfall_forecast": 18.61,
+        "confidence": 0.71
+      },
+      {
+        "hour": 13,
+        "rainfall_forecast": 12.5,
+        "confidence": 0.71
+      },
+      {
+        "hour": 14,
+        "rainfall_forecast": 10.66,
+        "confidence": 0.88
+      },
+      {
+        "hour": 15,
+        "rainfall_forecast": 17.6,
+        "confidence": 0.84
+      },
+      {
+        "hour": 16,
+        "rainfall_forecast": 18.79,
+        "confidence": 0.83
+      },
+      {
+        "hour": 17,
+        "rainfall_forecast": 19.39,
+        "confidence": 0.88
+      },
+      {
+        "hour": 18,
+        "rainfall_forecast": 16.38,
+        "confidence": 0.82
+      },
+      {
+        "hour": 19,
+        "rainfall_forecast": 9.85,
+        "confidence": 0.87
+      },
+      {
+        "hour": 20,
+        "rainfall_forecast": 14.74,
+        "confidence": 0.73
+      },
+      {
+        "hour": 21,
+        "rainfall_forecast": 16.63,
+        "confidence": 0.79
+      },
+      {
+        "hour": 22,
+        "rainfall_forecast": 11.98,
+        "confidence": 0.83
+      },
+      {
+        "hour": 23,
+        "rainfall_forecast": 17.21,
+        "confidence": 0.93
+      },
+      {
+        "hour": 24,
+        "rainfall_forecast": 15.93,
+        "confidence": 0.7
+      },
+      {
+        "hour": 25,
+        "rainfall_forecast": 17.02,
+        "confidence": 0.73
+      },
+      {
+        "hour": 26,
+        "rainfall_forecast": 15.21,
+        "confidence": 0.9
+      },
+      {
+        "hour": 27,
+        "rainfall_forecast": 8.64,
+        "confidence": 0.75
+      },
+      {
+        "hour": 28,
+        "rainfall_forecast": 13.64,
+        "confidence": 0.93
+      },
+      {
+        "hour": 29,
+        "rainfall_forecast": 7.06,
+        "confidence": 0.89
+      },
+      {
+        "hour": 30,
+        "rainfall_forecast": 6.8,
+        "confidence": 0.79
+      },
+      {
+        "hour": 31,
+        "rainfall_forecast": 9.73,
+        "confidence": 0.91
+      },
+      {
+        "hour": 32,
+        "rainfall_forecast": 7.09,
+        "confidence": 0.75
+      },
+      {
+        "hour": 33,
+        "rainfall_forecast": 11.15,
+        "confidence": 0.74
+      },
+      {
+        "hour": 34,
+        "rainfall_forecast": 8.12,
+        "confidence": 0.78
+      },
+      {
+        "hour": 35,
+        "rainfall_forecast": 11.19,
+        "confidence": 0.81
+      },
+      {
+        "hour": 36,
+        "rainfall_forecast": 12.5,
+        "confidence": 0.93
+      },
+      {
+        "hour": 37,
+        "rainfall_forecast": 5.45,
+        "confidence": 0.84
+      },
+      {
+        "hour": 38,
+        "rainfall_forecast": 9.47,
+        "confidence": 0.8
+      },
+      {
+        "hour": 39,
+        "rainfall_forecast": 10.48,
+        "confidence": 0.83
+      },
+      {
+        "hour": 40,
+        "rainfall_forecast": 8.52,
+        "confidence": 0.89
+      },
+      {
+        "hour": 41,
+        "rainfall_forecast": 7.56,
+        "confidence": 0.81
+      },
+      {
+        "hour": 42,
+        "rainfall_forecast": 5.55,
+        "confidence": 0.94
+      },
+      {
+        "hour": 43,
+        "rainfall_forecast": 7.51,
+        "confidence": 0.82
+      },
+      {
+        "hour": 44,
+        "rainfall_forecast": 4.67,
+        "confidence": 0.76
+      },
+      {
+        "hour": 45,
+        "rainfall_forecast": 5.36,
+        "confidence": 0.85
+      },
+      {
+        "hour": 46,
+        "rainfall_forecast": 4.48,
+        "confidence": 0.71
+      },
+      {
+        "hour": 47,
+        "rainfall_forecast": 4.63,
+        "confidence": 0.74
+      },
+      {
+        "hour": 48,
+        "rainfall_forecast": 4.85,
+        "confidence": 0.77
+      },
+      {
+        "hour": 49,
+        "rainfall_forecast": 7.99,
+        "confidence": 0.85
+      },
+      {
+        "hour": 50,
+        "rainfall_forecast": 10.26,
+        "confidence": 0.84
+      },
+      {
+        "hour": 51,
+        "rainfall_forecast": 8.23,
+        "confidence": 0.73
+      },
+      {
+        "hour": 52,
+        "rainfall_forecast": 9.3,
+        "confidence": 0.78
+      },
+      {
+        "hour": 53,
+        "rainfall_forecast": 8.77,
+        "confidence": 0.88
+      },
+      {
+        "hour": 54,
+        "rainfall_forecast": 5.95,
+        "confidence": 0.76
+      },
+      {
+        "hour": 55,
+        "rainfall_forecast": 8.68,
+        "confidence": 0.74
+      },
+      {
+        "hour": 56,
+        "rainfall_forecast": 7.6,
+        "confidence": 0.86
+      },
+      {
+        "hour": 57,
+        "rainfall_forecast": 12.18,
+        "confidence": 0.74
+      },
+      {
+        "hour": 58,
+        "rainfall_forecast": 11.22,
+        "confidence": 0.82
+      },
+      {
+        "hour": 59,
+        "rainfall_forecast": 10.12,
+        "confidence": 0.94
+      },
+      {
+        "hour": 60,
+        "rainfall_forecast": 13.62,
+        "confidence": 0.77
+      },
+      {
+        "hour": 61,
+        "rainfall_forecast": 14.05,
+        "confidence": 0.92
+      },
+      {
+        "hour": 62,
+        "rainfall_forecast": 12.99,
+        "confidence": 0.72
+      },
+      {
+        "hour": 63,
+        "rainfall_forecast": 14.24,
+        "confidence": 0.82
+      },
+      {
+        "hour": 64,
+        "rainfall_forecast": 13.09,
+        "confidence": 0.79
+      },
+      {
+        "hour": 65,
+        "rainfall_forecast": 12.09,
+        "confidence": 0.79
+      },
+      {
+        "hour": 66,
+        "rainfall_forecast": 11.56,
+        "confidence": 0.78
+      },
+      {
+        "hour": 67,
+        "rainfall_forecast": 9.55,
+        "confidence": 0.78
+      },
+      {
+        "hour": 68,
+        "rainfall_forecast": 12.72,
+        "confidence": 0.81
+      },
+      {
+        "hour": 69,
+        "rainfall_forecast": 15.05,
+        "confidence": 0.92
+      },
+      {
+        "hour": 70,
+        "rainfall_forecast": 17.47,
+        "confidence": 0.77
+      },
+      {
+        "hour": 71,
+        "rainfall_forecast": 11.06,
+        "confidence": 0.86
+      },
+      {
+        "hour": 72,
+        "rainfall_forecast": 16.18,
+        "confidence": 0.73
+      }
+    ]
+  },
+  "prediction_results": {
+    "overall_severity": 0.27,
+    "risk_level": "Low",
+    "region_severities": {
+      "Downtown Area": 0.242,
+      "Riverside District": 0.369,
+      "Industrial Zone": 0.25,
+      "Residential Suburbs": 0.155,
+      "Agricultural Valley": 0.526,
+      "Coastal Region": 0.369
+    },
+    "aggregated_features": {
+      "Downtown Area": {
+        "region": "Downtown Area",
+        "elevation": 15,
+        "population_density": 8500,
+        "infrastructure": "high",
+        "rainfall_current": 23.66,
+        "rainfall_24h": 567.8,
+        "humidity": 102.9,
+        "temperature": 19.4,
+        "barometric_pressure": 998.3,
+        "earthquake_magnitude": 0.8,
+        "earthquake_depth": 44.5,
+        "surface_wind_speed": 19.3,
+        "sea_wind_speed": 12.4,
+        "wind_gust_speed": 39.8,
+        "current_water_level": 4.24,
+        "water_level_change": 3.24,
+        "flood_stage_ratio": 1.4133333333333333,
+        "local_rainfall": 23.66,
+        "upstream_rainfall": 29.01,
+        "upstream_factor": 1.2261200338123415
+      },
+      "Riverside District": {
+        "region": "Riverside District",
+        "elevation": 8,
+        "population_density": 3200,
+        "infrastructure": "medium",
+        "rainfall_current": 22.13,
+        "rainfall_24h": 531.0,
+        "humidity": 95.7,
+        "temperature": 19.6,
+        "barometric_pressure": 1012.5,
+        "earthquake_magnitude": 1.4,
+        "earthquake_depth": 40.6,
+        "surface_wind_speed": 20.1,
+        "sea_wind_speed": 31.2,
+        "wind_gust_speed": 57.8,
+        "current_water_level": 4.34,
+        "water_level_change": 3.34,
+        "flood_stage_ratio": 1.4466666666666665,
+        "local_rainfall": 22.13,
+        "upstream_rainfall": 30.58,
+        "upstream_factor": 1.3818346136466335
+      },
+      "Industrial Zone": {
+        "region": "Industrial Zone",
+        "elevation": 12,
+        "population_density": 1200,
+        "infrastructure": "high",
+        "rainfall_current": 21.74,
+        "rainfall_24h": 521.8,
+        "humidity": 104.2,
+        "temperature": 21.7,
+        "barometric_pressure": 1027.9,
+        "earthquake_magnitude": 2.8,
+        "earthquake_depth": 20.8,
+        "surface_wind_speed": 21.7,
+        "sea_wind_speed": 34.3,
+        "wind_gust_speed": 42.1,
+        "current_water_level": 3.9,
+        "water_level_change": 2.9,
+        "flood_stage_ratio": 1.3,
+        "local_rainfall": 21.74,
+        "upstream_rainfall": 29.79,
+        "upstream_factor": 1.3702851885924563
+      },
+      "Residential Suburbs": {
+        "region": "Residential Suburbs",
+        "elevation": 22,
+        "population_density": 2800,
+        "infrastructure": "medium",
+        "rainfall_current": 15.39,
+        "rainfall_24h": 369.3,
+        "humidity": 96.1,
+        "temperature": 19.0,
+        "barometric_pressure": 1024.8,
+        "earthquake_magnitude": 0.7,
+        "earthquake_depth": 41.3,
+        "surface_wind_speed": 13.5,
+        "sea_wind_speed": 13.2,
+        "wind_gust_speed": 22.1,
+        "current_water_level": 2.76,
+        "water_level_change": 1.76,
+        "flood_stage_ratio": 0.9199999999999999,
+        "local_rainfall": 15.39,
+        "upstream_rainfall": 20.69,
+        "upstream_factor": 1.3443794671864848
+      },
+      "Agricultural Valley": {
+        "region": "Agricultural Valley",
+        "elevation": 5,
+        "population_density": 350,
+        "infrastructure": "low",
+        "rainfall_current": 22.23,
+        "rainfall_24h": 533.5,
+        "humidity": 99.3,
+        "temperature": 19.3,
+        "barometric_pressure": 1018.2,
+        "earthquake_magnitude": 1.9,
+        "earthquake_depth": 13.6,
+        "surface_wind_speed": 40.1,
+        "sea_wind_speed": 27.9,
+        "wind_gust_speed": 55.9,
+        "current_water_level": 4.97,
+        "water_level_change": 3.97,
+        "flood_stage_ratio": 1.6566666666666665,
+        "local_rainfall": 22.23,
+        "upstream_rainfall": 23.48,
+        "upstream_factor": 1.056230319388214
+      },
+      "Coastal Region": {
+        "region": "Coastal Region",
+        "elevation": 3,
+        "population_density": 1800,
+        "infrastructure": "medium",
+        "rainfall_current": 16.04,
+        "rainfall_24h": 384.8,
+        "humidity": 95.0,
+        "temperature": 18.4,
+        "barometric_pressure": 1005.0,
+        "earthquake_magnitude": 2.2,
+        "earthquake_depth": 23.3,
+        "surface_wind_speed": 28.7,
+        "sea_wind_speed": 28.3,
+        "wind_gust_speed": 42.5,
+        "current_water_level": 4.26,
+        "water_level_change": 3.26,
+        "flood_stage_ratio": 1.42,
+        "local_rainfall": 16.04,
+        "upstream_rainfall": 20.59,
+        "upstream_factor": 1.2836658354114714
+      }
+    },
+    "high_risk_regions": []
+  },
+  "disaster_response_plan": "COMPREHENSIVE FLOOD DISASTER RESPONSE PLAN\n\nEXECUTIVE SUMMARY:\nAlert Level: GREEN - ADVISORY\nFlood Severity: 0.270/1.0\nRisk Classification: LOW\nResponse Timeline: ROUTINE - 12-24 hours\nEvacuation Status: MONITORING PHASE\n\n1. IMMEDIATE ACTIONS (ROUTINE - 12-24 hours):\n\nEmergency Operations:\n\u2022 Activate Emergency Operations Center (EOC) at GREEN - ADVISORY level\n\u2022 Deploy emergency response teams to high-risk areas\n\u2022 Establish command and control structure\n\u2022 Initiate real-time monitoring of water levels and weather conditions\n\nResource Mobilization:\n\u2022 Prepare emergency vehicles and equipment for deployment\n\u2022 Place emergency services on standby\n\u2022 Prepare emergency shelters for activation\n\u2022 Coordinate with utility companies for potential power shutoffs\n\n2. EVACUATION PLANNING:\n\nPriority Evacuation Areas:\n\u2022 No specific high-risk regions identified - monitor all areas\n\nEvacuation Routes:\n\u2022 Primary routes: Main highways and elevated roadways\n\u2022 Secondary routes: Back roads and alternative paths\n\u2022 Emergency routes: Helicopter landing zones for water rescue\n\u2022 Monitor traffic conditions on main routes\n\nEvacuation Centers:\n\u2022 Prepare primary emergency shelters\n\u2022 Coordinate with Red Cross for shelter management\n\u2022 Establish medical facilities at each evacuation center\n\u2022 Prepare for 24-hour shelter operations\n\n3. ALERT SYSTEM:\n\nPublic Alert Level: GREEN - ADVISORY\n\nEmergency Broadcast Message:\n\"FLOOD WARNING - GREEN - ADVISORY\nThis is an official emergency alert. FLOOD WARNING IN EFFECT for the following areas: multiple regions.\nMonitor conditions and be prepared to evacuate.\nAvoid flood-prone areas.\nTune to local emergency radio for updates. Call 911 only for life-threatening emergencies.\"\n\nCommunication Channels:\n\u2022 Emergency Alert System (EAS) broadcast\n\u2022 Activate emergency notification systems\n\u2022 Social media emergency alerts\n\u2022 Automated phone calls to residents\n\u2022 Local news media coordination\n\n4. AUTHORITY COORDINATION:\n\nPrimary Agencies:\n\u2022 Emergency Management Agency (Lead Coordinator)\n\u2022 Fire Department (Rescue Operations)\n\u2022 Police Department (Evacuation and Traffic Control)\n\u2022 Public Works (Infrastructure Protection)\n\u2022 Weather Service (Monitoring)\n\nSecondary Agencies:\n\u2022 State Emergency Management\n\u2022 State Police (Traffic Control)\n\u2022 Red Cross (Shelter Operations)\n\u2022 Local Utilities (Infrastructure)\n\nResource Requirements:\n\u2022 Response: $100K-500K operational budget\n\u2022 Personnel: 50-200 emergency responders\n\u2022 Equipment: Emergency vehicle readiness\n\u2022 Facilities: Primary EOC and key shelters\n\n5. TIMELINE AND PRIORITIES:\n\nCritical Timeline:\n\u2022 Hour 0-6: Evacuation preparation\n\u2022 Hour 6-12: Voluntary evacuation\n\u2022 Hour 12-24: Monitor conditions\n\u2022 Hour 24-48: Response as needed\n\nPriority Areas (Highest to Lowest):\n\u2022 All regions under general monitoring protocol\n\nResponse Phases:\n\u2022 PHASE 1: PREPARATION (0-6 hours)\n\u2022 PHASE 2: MONITORING (6-24 hours)\n\u2022 PHASE 3: RESPONSE (24-72 hours)\n\u2022 PHASE 4: RECOVERY OPERATIONS (48+ hours)\n\nSPECIAL CONSIDERATIONS:\n\nVulnerable Populations:\n\u2022 Special needs population monitoring\n\u2022 Voluntary evacuation assistance\n\u2022 Pet accommodation planning\n\nInfrastructure Protection:\n\u2022 Utility system monitoring\n\u2022 Flood barrier preparation\n\u2022 Infrastructure monitoring\n\nPublic Safety:\n\u2022 Increased security patrols\n\u2022 Emergency services readiness\n\u2022 Medical services coordination\n\nCONCLUSION:\nThis LOW flood risk scenario (severity 0.270) requires routine - 12-24 hours coordinated emergency response. The plan prioritizes life safety through protective actions, resource mobilization, and multi-agency coordination. Success depends on rapid implementation of evacuation procedures and effective public communication.\n\nNEXT STEPS:\n1. Implement monitoring and preparation protocols\n2. Alert emergency response agencies\n3. Issue public advisories\n4. Prepare emergency operations\n5. Continue environmental monitoring\n\nThis disaster response plan follows established emergency management protocols and is designed to protect lives and minimize property damage during flood events.",
+  "algorithm_outputs": {
+    "lambda": 0.27,
+    "r": "Low",
+    "A": "COMPREHENSIVE FLOOD DISASTER RESPONSE PLAN\n\nEXECUTIVE SUMMARY:\nAlert Level: GREEN - ADVISORY\nFlood Severity: 0.270/1.0\nRisk Classification: LOW\nResponse Timeline: ROUTINE - 12-24 hours\nEvacuation Status: MONITORING PHASE\n\n1. IMMEDIATE ACTIONS (ROUTINE - 12-24 hours):\n\nEmergency Operations:\n\u2022 Activate Emergency Operations Center (EOC) at GREEN - ADVISORY level\n\u2022 Deploy emergency response teams to high-risk areas\n\u2022 Establish command and control structure\n\u2022 Initiate real-time monitoring of water levels and weather conditions\n\nResource Mobilization:\n\u2022 Prepare emergency vehicles and equipment for deployment\n\u2022 Place emergency services on standby\n\u2022 Prepare emergency shelters for activation\n\u2022 Coordinate with utility companies for potential power shutoffs\n\n2. EVACUATION PLANNING:\n\nPriority Evacuation Areas:\n\u2022 No specific high-risk regions identified - monitor all areas\n\nEvacuation Routes:\n\u2022 Primary routes: Main highways and elevated roadways\n\u2022 Secondary routes: Back roads and alternative paths\n\u2022 Emergency routes: Helicopter landing zones for water rescue\n\u2022 Monitor traffic conditions on main routes\n\nEvacuation Centers:\n\u2022 Prepare primary emergency shelters\n\u2022 Coordinate with Red Cross for shelter management\n\u2022 Establish medical facilities at each evacuation center\n\u2022 Prepare for 24-hour shelter operations\n\n3. ALERT SYSTEM:\n\nPublic Alert Level: GREEN - ADVISORY\n\nEmergency Broadcast Message:\n\"FLOOD WARNING - GREEN - ADVISORY\nThis is an official emergency alert. FLOOD WARNING IN EFFECT for the following areas: multiple regions.\nMonitor conditions and be prepared to evacuate.\nAvoid flood-prone areas.\nTune to local emergency radio for updates. Call 911 only for life-threatening emergencies.\"\n\nCommunication Channels:\n\u2022 Emergency Alert System (EAS) broadcast\n\u2022 Activate emergency notification systems\n\u2022 Social media emergency alerts\n\u2022 Automated phone calls to residents\n\u2022 Local news media coordination\n\n4. AUTHORITY COORDINATION:\n\nPrimary Agencies:\n\u2022 Emergency Management Agency (Lead Coordinator)\n\u2022 Fire Department (Rescue Operations)\n\u2022 Police Department (Evacuation and Traffic Control)\n\u2022 Public Works (Infrastructure Protection)\n\u2022 Weather Service (Monitoring)\n\nSecondary Agencies:\n\u2022 State Emergency Management\n\u2022 State Police (Traffic Control)\n\u2022 Red Cross (Shelter Operations)\n\u2022 Local Utilities (Infrastructure)\n\nResource Requirements:\n\u2022 Response: $100K-500K operational budget\n\u2022 Personnel: 50-200 emergency responders\n\u2022 Equipment: Emergency vehicle readiness\n\u2022 Facilities: Primary EOC and key shelters\n\n5. TIMELINE AND PRIORITIES:\n\nCritical Timeline:\n\u2022 Hour 0-6: Evacuation preparation\n\u2022 Hour 6-12: Voluntary evacuation\n\u2022 Hour 12-24: Monitor conditions\n\u2022 Hour 24-48: Response as needed\n\nPriority Areas (Highest to Lowest):\n\u2022 All regions under general monitoring protocol\n\nResponse Phases:\n\u2022 PHASE 1: PREPARATION (0-6 hours)\n\u2022 PHASE 2: MONITORING (6-24 hours)\n\u2022 PHASE 3: RESPONSE (24-72 hours)\n\u2022 PHASE 4: RECOVERY OPERATIONS (48+ hours)\n\nSPECIAL CONSIDERATIONS:\n\nVulnerable Populations:\n\u2022 Special needs population monitoring\n\u2022 Voluntary evacuation assistance\n\u2022 Pet accommodation planning\n\nInfrastructure Protection:\n\u2022 Utility system monitoring\n\u2022 Flood barrier preparation\n\u2022 Infrastructure monitoring\n\nPublic Safety:\n\u2022 Increased security patrols\n\u2022 Emergency services readiness\n\u2022 Medical services coordination\n\nCONCLUSION:\nThis LOW flood risk scenario (severity 0.270) requires routine - 12-24 hours coordinated emergency response. The plan prioritizes life safety through protective actions, resource mobilization, and multi-agency coordination. Success depends on rapid implementation of evacuation procedures and effective public communication.\n\nNEXT STEPS:\n1. Implement monitoring and preparation protocols\n2. Alert emergency response agencies\n3. Issue public advisories\n4. Prepare emergency operations\n5. Continue environmental monitoring\n\nThis disaster response plan follows established emergency management protocols and is designed to protect lives and minimize property damage during flood events."
+  }
+}
