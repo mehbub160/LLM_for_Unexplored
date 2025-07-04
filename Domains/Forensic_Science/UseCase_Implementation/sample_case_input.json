@@ -1,0 +1,201 @@
+{
+  "case_information": {
+    "case_id": "CASE-2024-0156",
+    "case_type": "theft",
+    "incident_description": "Laptop computer stolen from office building",
+    "incident_date": "2024-01-15",
+    "incident_time": "14:30",
+    "location": "Tech Corp Building, 5th Floor, Room 512",
+    "stolen_items": [
+      {
+        "item": "MacBook Pro 16-inch",
+        "serial_number": "C02XK1YZMD6T",
+        "value": "$2,400",
+        "owner": "Sarah Johnson"
+      }
+    ],
+    "reporting_officer": "Detective Martinez",
+    "case_status": "under_investigation"
+  },
+  "established_facts": {
+    "timeline": {
+      "14:00": "Building security confirms normal access patterns",
+      "14:15": "Victim last seen laptop on desk",
+      "14:30": "Victim leaves for meeting",
+      "15:45": "Victim returns, discovers laptop missing",
+      "16:00": "Security notified, building locked down"
+    },
+    "physical_evidence": [
+      "Security camera footage shows suspect entering floor at 14:35",
+      "Key card access log shows unauthorized entry to Room 512 at 14:37",
+      "Fingerprints found on victim's desk drawer",
+      "No signs of forced entry"
+    ],
+    "witnesses": [
+      {
+        "name": "Mike Chen",
+        "role": "Colleague",
+        "statement": "Saw suspect near victim's office around 2:30 PM"
+      },
+      {
+        "name": "Security Guard Roberts",
+        "role": "Building Security",
+        "statement": "Noticed suspect acting nervous near elevators"
+      }
+    ],
+    "suspect_background": {
+      "name": "Alex Thompson",
+      "role": "IT Contractor",
+      "access_level": "Limited floor access",
+      "previous_incidents": "None on record",
+      "employment_status": "Temporary contract ending this week"
+    }
+  },
+  "interview_metadata": {
+    "interview_date": "2024-01-16",
+    "interview_time": "10:00 AM",
+    "duration_minutes": 45,
+    "location": "Police Station - Interview Room 2",
+    "interviewer": "Detective Martinez",
+    "subject": "Alex Thompson",
+    "legal_representation": false,
+    "miranda_rights_read": true,
+    "recording_device": "Digital audio/video system"
+  },
+  "conversation_transcript": [
+    {
+      "timestamp": "10:02:15",
+      "speaker": "Detective",
+      "content": "Alex, thank you for coming in today. I want to talk to you about what happened at Tech Corp yesterday. Can you tell me where you were between 2 PM and 4 PM?"
+    },
+    {
+      "timestamp": "10:02:32",
+      "speaker": "Subject",
+      "content": "I was working on the network maintenance project. I think I was mostly in the server room on the 3rd floor."
+    },
+    {
+      "timestamp": "10:02:45",
+      "speaker": "Detective",
+      "content": "You think? Can you be more specific about your location and activities?"
+    },
+    {
+      "timestamp": "10:02:58",
+      "speaker": "Subject",
+      "content": "Well, I definitely was on the 3rd floor. I was running cable diagnostics and... uh... updating some software. I probably didn't leave that area all afternoon."
+    },
+    {
+      "timestamp": "10:03:15",
+      "speaker": "Detective",
+      "content": "We have key card records showing access to the 5th floor at 2:37 PM. Can you explain that?"
+    },
+    {
+      "timestamp": "10:03:28",
+      "speaker": "Subject",
+      "content": "Oh, the 5th floor? I... I might have gone up there briefly. Sometimes I need to check network connections on different floors. But I wasn't there long."
+    },
+    {
+      "timestamp": "10:03:45",
+      "speaker": "Detective",
+      "content": "Specifically, your card accessed Room 512. Do you know Sarah Johnson?"
+    },
+    {
+      "timestamp": "10:03:52",
+      "speaker": "Subject",
+      "content": "Sarah? Yeah, I know who she is. But I would never go into someone's office without permission. Maybe there was a mistake with the card reader?"
+    },
+    {
+      "timestamp": "10:04:10",
+      "speaker": "Detective",
+      "content": "The system is quite accurate. What were you doing in Room 512?"
+    },
+    {
+      "timestamp": "10:04:18",
+      "speaker": "Subject",
+      "content": "I honestly don't remember being in that specific room. I mean, I might have poked my head in to check a network port, but I definitely didn't touch anything that wasn't mine."
+    },
+    {
+      "timestamp": "10:04:35",
+      "speaker": "Detective",
+      "content": "A laptop was stolen from that room. A very expensive MacBook Pro. Do you know anything about that?"
+    },
+    {
+      "timestamp": "10:04:43",
+      "speaker": "Subject",
+      "content": "A laptop was stolen? That's terrible! But I had nothing to do with that. I would never steal anything, especially not from someone I work with."
+    },
+    {
+      "timestamp": "10:05:00",
+      "speaker": "Detective",
+      "content": "We have a witness who saw you near Sarah's office around 2:30 PM, looking nervous."
+    },
+    {
+      "timestamp": "10:05:12",
+      "speaker": "Subject",
+      "content": "Nervous? I wasn't nervous. I was just focused on my work. Maybe I looked concentrated, but definitely not nervous. Who said I looked nervous?"
+    },
+    {
+      "timestamp": "10:05:28",
+      "speaker": "Detective",
+      "content": "Can anyone verify where you were during the time in question?"
+    },
+    {
+      "timestamp": "10:05:35",
+      "speaker": "Subject",
+      "content": "I was mostly working alone. But my supervisor, Tom, might have seen me around. And I think I talked to someone from maintenance, but I can't remember exactly when."
+    },
+    {
+      "timestamp": "10:05:52",
+      "speaker": "Detective",
+      "content": "You mentioned you were on the 3rd floor, but now you're not sure about the timing of your conversations. Can you walk me through your afternoon more carefully?"
+    },
+    {
+      "timestamp": "10:06:08",
+      "speaker": "Subject",
+      "content": "Look, I'm trying to be helpful here, but yesterday was busy and I had a lot on my mind. My contract is ending this week, so I've been stressed about finding new work. Maybe I'm not remembering everything perfectly."
+    },
+    {
+      "timestamp": "10:06:25",
+      "speaker": "Detective",
+      "content": "I understand you're under stress. But it's important that you're accurate about your whereabouts. Do you have any receipts, parking tickets, or other documentation from yesterday afternoon?"
+    },
+    {
+      "timestamp": "10:06:38",
+      "speaker": "Subject",
+      "content": "Documentation? I don't usually keep receipts for anything during work hours. I parked in the company garage, but I don't think they give tickets for that."
+    },
+    {
+      "timestamp": "10:06:55",
+      "speaker": "Detective",
+      "content": "Alex, is there anything else you want to tell me about yesterday? Anything you might have forgotten or want to clarify?"
+    },
+    {
+      "timestamp": "10:07:10",
+      "speaker": "Subject",
+      "content": "I just want to be clear that I had nothing to do with any theft. I'm an honest person, and I would never jeopardize my career over something like that. If my card shows I was on the 5th floor, then maybe I was, but I certainly didn't steal anything."
+    }
+  ],
+  "analysis_context": {
+    "deception_indicators_to_watch": [
+      "Uncertainty markers (I think, maybe, probably)",
+      "Memory gaps or claims of poor recall",
+      "Contradictions between statements",
+      "Defensive language and overemphasis",
+      "Evasive responses to direct questions",
+      "Changes in confidence level between statements"
+    ],
+    "key_verification_points": [
+      "Timeline consistency",
+      "Alibi verification possibilities",
+      "Explanation for key card access",
+      "Witness statement alignment",
+      "Behavioral consistency throughout interview"
+    ],
+    "investigation_priorities": [
+      "Verify supervisor and maintenance worker interactions",
+      "Review complete security footage from relevant times",
+      "Check if any network maintenance was actually scheduled",
+      "Examine subject's financial situation and job stress",
+      "Interview additional potential witnesses"
+    ]
+  }
+}
