@@ -1,0 +1,7 @@
+region,elevation,population_density,rainfall_current,rainfall_24h,water_level,water_level_change,wind_speed,severity_score
+Downtown Area,15,8500,23.66,567.8,4.24,3.24,19.3,0.242
+Riverside District,8,3200,22.13,531.0,4.34,3.34,20.1,0.369
+Industrial Zone,12,1200,21.74,521.8,3.9,2.9,21.7,0.25
+Residential Suburbs,22,2800,15.39,369.3,2.76,1.76,13.5,0.155
+Agricultural Valley,5,350,22.23,533.5,4.97,3.97,40.1,0.526
+Coastal Region,3,1800,16.04,384.8,4.26,3.26,28.7,0.369
