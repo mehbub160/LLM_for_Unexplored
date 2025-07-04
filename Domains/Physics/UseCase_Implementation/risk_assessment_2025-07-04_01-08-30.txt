@@ -1,0 +1,98 @@
+UNDERWATER LEAKAGE DETECTION AND RISK ASSESSMENT REPORT
+======================================================================
+
+Analysis Date: 2025-07-04 01:08:30
+Scenario: critical_leak
+LLM Model: rule_based
+Location: Mediterranean Coast
+System: Subsea water intake system
+
+ALGORITHM OUTPUTS:
+------------------------------
+Leakage Severity Score (λ): 0.968
+Risk Level (r): CRITICAL
+
+SENSOR DATA SUMMARY:
+------------------------------
+Total measurement points: 25
+Anomaly points detected: 20
+Maximum pressure deviation: 30079.3 Pa
+Maximum flow rate: 13.42 m³/s
+
+RISK ASSESSMENT AND RECOMMENDATIONS:
+------------------------------
+UNDERWATER LEAKAGE RISK ASSESSMENT REPORT
+
+EXECUTIVE SUMMARY:
+Leakage Severity Score: 0.968/1.0
+Risk Level: CRITICAL
+Action Timeline: immediate emergency response required
+
+TECHNICAL ANALYSIS:
+The physics-based assessment reveals a leakage severity score of 0.968, indicating critical risk conditions. 
+
+Pressure Analysis:
+• Maximum pressure deviation: 30079.3 Pa from hydrostatic baseline
+• Hydrostatic pressure validation shows significant deviations
+• Pressure anomalies detected at 20 measurement points
+
+Flow Dynamics:
+• Maximum flow rate: 13.42 m³/s
+• Flow anomalies strongly correlate with pressure deviations
+• Flow pattern suggests active leakage
+
+RISK ASSESSMENT:
+1. RISK LEVEL: CRITICAL
+   Justification: Severity score 0.968 combined with pressure deviations of 30079.3 Pa indicates critical risk to system integrity.
+
+2. IMMEDIATE ACTIONS:
+   • Emergency shutdown and isolation
+   • Deploy emergency repair team
+   • Notify all stakeholders immediately
+
+3. MONITORING REQUIREMENTS:
+   • Continuous real-time monitoring
+   • Pressure sensor calibration verification
+   • Flow rate measurement validation
+   • Temperature profile analysis
+
+4. POTENTIAL CONSEQUENCES:
+   • Catastrophic system failure possible
+   • Immediate environmental impact risk
+   • Significant economic impact
+
+5. MITIGATION STRATEGIES:
+   Primary Actions:
+   • Emergency isolation and containment
+   • Immediate repair mobilization
+   • Alternative system activation
+
+   Secondary Actions:
+   • Enhanced sensor network deployment
+   • Predictive maintenance algorithm implementation
+   • System redundancy evaluation
+
+PHYSICS-BASED RECOMMENDATIONS:
+Based on hydrostatic pressure analysis and flow dynamics:
+
+• Pressure Management: Critical pressure control required
+• Flow Control: Immediate flow restriction needed
+• System Integrity: Structural assessment mandatory
+
+TIMELINE FOR ACTION:
+• Emergency Response: immediate emergency response required
+• Detailed Assessment: Within 6 hours
+• Repair Implementation: Within 24 hours
+• System Validation: Before restart
+
+CONCLUSION:
+The underwater leakage detection system has identified critical risk conditions with severity score 0.968. 
+Immediate emergency response is required to prevent catastrophic failure.
+
+NEXT STEPS:
+1. Execute emergency response protocol
+2. Mobilize repair resources
+3. Conduct system shutdown procedures
+4. Notify regulatory authorities
+
+This assessment is based on physics-based analysis of hydrostatic pressure deviations, flow dynamics, and established risk assessment protocols for underwater pipeline systems.

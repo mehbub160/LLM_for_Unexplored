@@ -1,0 +1,400 @@
+{
+  "analysis_date": "2025-07-04 01:08:30",
+  "scenario": "critical_leak",
+  "llm_type": "rule_based",
+  "metadata": {
+    "system_type": "Subsea water intake system",
+    "location": "Mediterranean Coast",
+    "pipe_material": "Stainless steel",
+    "environment": "Coastal marine environment",
+    "depth_range": "5-30 meters",
+    "operational_pressure": "80 bar"
+  },
+  "sensor_data": [
+    {
+      "point_id": 1,
+      "depth": 5.06,
+      "pressure": 149554.2,
+      "temperature": 14.33,
+      "flow_rate": 2.338,
+      "expected_pressure": 151601.2,
+      "pressure_deviation": 2047.1
+    },
+    {
+      "point_id": 2,
+      "depth": 6.82,
+      "pressure": 163654.9,
+      "temperature": 13.92,
+      "flow_rate": 1.221,
+      "expected_pressure": 170454.8,
+      "pressure_deviation": 6800.0
+    },
+    {
+      "point_id": 3,
+      "depth": 8.79,
+      "pressure": 190089.8,
+      "temperature": 13.18,
+      "flow_rate": 2.0,
+      "expected_pressure": 189308.4,
+      "pressure_deviation": 781.4
+    },
+    {
+      "point_id": 4,
+      "depth": 10.69,
+      "pressure": 220727.8,
+      "temperature": 14.73,
+      "flow_rate": 1.063,
+      "expected_pressure": 208162.0,
+      "pressure_deviation": 12565.8
+    },
+    {
+      "point_id": 5,
+      "depth": 12.49,
+      "pressure": 232609.5,
+      "temperature": 13.62,
+      "flow_rate": 1.39,
+      "expected_pressure": 227015.6,
+      "pressure_deviation": 5593.8
+    },
+    {
+      "point_id": 6,
+      "depth": 14.39,
+      "pressure": 247338.1,
+      "temperature": 13.84,
+      "flow_rate": 1.984,
+      "expected_pressure": 245869.2,
+      "pressure_deviation": 1468.8
+    },
+    {
+      "point_id": 7,
+      "depth": 16.29,
+      "pressure": 264466.5,
+      "temperature": 11.77,
+      "flow_rate": 2.32,
+      "expected_pressure": 264722.8,
+      "pressure_deviation": 256.3
+    },
+    {
+      "point_id": 8,
+      "depth": 18.02,
+      "pressure": 283118.1,
+      "temperature": 12.41,
+      "flow_rate": 2.352,
+      "expected_pressure": 283576.4,
+      "pressure_deviation": 458.3
+    },
+    {
+      "point_id": 9,
+      "depth": 20.05,
+      "pressure": 303757.0,
+      "temperature": 12.81,
+      "flow_rate": 2.155,
+      "expected_pressure": 302430.0,
+      "pressure_deviation": 1327.0
+    },
+    {
+      "point_id": 10,
+      "depth": 21.97,
+      "pressure": 319656.4,
+      "temperature": 11.99,
+      "flow_rate": 1.631,
+      "expected_pressure": 321283.6,
+      "pressure_deviation": 1627.2
+    },
+    {
+      "point_id": 11,
+      "depth": 23.78,
+      "pressure": 334403.3,
+      "temperature": 12.27,
+      "flow_rate": 1.485,
+      "expected_pressure": 340137.2,
+      "pressure_deviation": 5733.8
+    },
+    {
+      "point_id": 12,
+      "depth": 25.48,
+      "pressure": 334952.3,
+      "temperature": 12.51,
+      "flow_rate": 13.42,
+      "expected_pressure": 358990.8,
+      "pressure_deviation": 24038.4
+    },
+    {
+      "point_id": 13,
+      "depth": 27.41,
+      "pressure": 366116.3,
+      "temperature": 12.1,
+      "flow_rate": 10.013,
+      "expected_pressure": 377844.4,
+      "pressure_deviation": 11728.1
+    },
+    {
+      "point_id": 14,
+      "depth": 29.3,
+      "pressure": 384825.5,
+      "temperature": 12.11,
+      "flow_rate": 9.651,
+      "expected_pressure": 396698.0,
+      "pressure_deviation": 11872.4
+    },
+    {
+      "point_id": 15,
+      "depth": 31.29,
+      "pressure": 413796.9,
+      "temperature": 12.22,
+      "flow_rate": 10.227,
+      "expected_pressure": 415551.6,
+      "pressure_deviation": 1754.7
+    },
+    {
+      "point_id": 16,
+      "depth": 33.14,
+      "pressure": 435189.0,
+      "temperature": 11.9,
+      "flow_rate": 11.607,
+      "expected_pressure": 434405.2,
+      "pressure_deviation": 783.9
+    },
+    {
+      "point_id": 17,
+      "depth": 35.07,
+      "pressure": 445159.1,
+      "temperature": 10.84,
+      "flow_rate": 11.54,
+      "expected_pressure": 453258.8,
+      "pressure_deviation": 8099.7
+    },
+    {
+      "point_id": 18,
+      "depth": 36.92,
+      "pressure": 442485.5,
+      "temperature": 11.29,
+      "flow_rate": 9.619,
+      "expected_pressure": 472112.3,
+      "pressure_deviation": 29626.8
+    },
+    {
+      "point_id": 19,
+      "depth": 38.66,
+      "pressure": 460347.9,
+      "temperature": 10.73,
+      "flow_rate": 10.087,
+      "expected_pressure": 490965.9,
+      "pressure_deviation": 30618.0
+    },
+    {
+      "point_id": 20,
+      "depth": 40.64,
+      "pressure": 514541.5,
+      "temperature": 10.8,
+      "flow_rate": 2.947,
+      "expected_pressure": 509819.5,
+      "pressure_deviation": 4722.0
+    },
+    {
+      "point_id": 21,
+      "depth": 42.55,
+      "pressure": 544108.9,
+      "temperature": 10.82,
+      "flow_rate": 1.292,
+      "expected_pressure": 528673.1,
+      "pressure_deviation": 15435.8
+    },
+    {
+      "point_id": 22,
+      "depth": 44.47,
+      "pressure": 535049.3,
+      "temperature": 10.25,
+      "flow_rate": 1.346,
+      "expected_pressure": 547526.7,
+      "pressure_deviation": 12477.4
+    },
+    {
+      "point_id": 23,
+      "depth": 46.22,
+      "pressure": 564796.5,
+      "temperature": 10.33,
+      "flow_rate": 2.232,
+      "expected_pressure": 566380.3,
+      "pressure_deviation": 1583.8
+    },
+    {
+      "point_id": 24,
+      "depth": 48.11,
+      "pressure": 576996.2,
+      "temperature": 9.64,
+      "flow_rate": 2.559,
+      "expected_pressure": 585233.9,
+      "pressure_deviation": 8237.7
+    },
+    {
+      "point_id": 25,
+      "depth": 49.83,
+      "pressure": 595076.9,
+      "temperature": 9.84,
+      "flow_rate": 2.14,
+      "expected_pressure": 604087.5,
+      "pressure_deviation": 9010.6
+    }
+  ],
+  "analysis_results": {
+    "total_points": 25,
+    "anomaly_points": 20,
+    "max_pressure_deviation": 30079.330000000016,
+    "max_flow_rate": 13.42,
+    "temperature_range": [
+      9.64,
+      14.73
+    ],
+    "anomaly_details": [
+      {
+        "point_id": 1,
+        "depth": 5.06,
+        "pressure_deviation": 2650.3649999999907,
+        "flow_rate": 2.338,
+        "anomaly_type": "minor_pressure_drop"
+      },
+      {
+        "point_id": 2,
+        "depth": 6.82,
+        "pressure_deviation": 6246.904999999999,
+        "flow_rate": 1.221,
+        "anomaly_type": "major_pressure_drop"
+      },
+      {
+        "point_id": 4,
+        "depth": 10.69,
+        "pressure_deviation": 11912.17749999999,
+        "flow_rate": 1.063,
+        "anomaly_type": "critical_pressure_drop"
+      },
+      {
+        "point_id": 5,
+        "depth": 12.49,
+        "pressure_deviation": 5694.427499999991,
+        "flow_rate": 1.39,
+        "anomaly_type": "major_pressure_drop"
+      },
+      {
+        "point_id": 6,
+        "depth": 14.39,
+        "pressure_deviation": 1318.0524999999907,
+        "flow_rate": 1.984,
+        "anomaly_type": "minor_pressure_drop"
+      },
+      {
+        "point_id": 10,
+        "depth": 21.97,
+        "pressure_deviation": 2582.4425000000047,
+        "flow_rate": 1.631,
+        "anomaly_type": "minor_pressure_drop"
+      },
+      {
+        "point_id": 11,
+        "depth": 23.78,
+        "pressure_deviation": 6035.544999999984,
+        "flow_rate": 1.485,
+        "anomaly_type": "major_pressure_drop"
+      },
+      {
+        "point_id": 12,
+        "depth": 25.48,
+        "pressure_deviation": 22580.47000000003,
+        "flow_rate": 13.42,
+        "anomaly_type": "critical_pressure_drop"
+      },
+      {
+        "point_id": 13,
+        "depth": 27.41,
+        "pressure_deviation": 10823.102500000037,
+        "flow_rate": 10.013,
+        "anomaly_type": "critical_pressure_drop"
+      },
+      {
+        "point_id": 14,
+        "depth": 29.3,
+        "pressure_deviation": 11118.325000000012,
+        "flow_rate": 9.651,
+        "anomaly_type": "critical_pressure_drop"
+      },
+      {
+        "point_id": 15,
+        "depth": 31.29,
+        "pressure_deviation": 2156.8724999999395,
+        "flow_rate": 10.227,
+        "anomaly_type": "minor_pressure_drop"
+      },
+      {
+        "point_id": 17,
+        "depth": 35.07,
+        "pressure_deviation": 8803.517500000016,
+        "flow_rate": 11.54,
+        "anomaly_type": "critical_pressure_drop"
+      },
+      {
+        "point_id": 18,
+        "depth": 36.92,
+        "pressure_deviation": 30079.330000000016,
+        "flow_rate": 9.619,
+        "anomaly_type": "critical_pressure_drop"
+      },
+      {
+        "point_id": 19,
+        "depth": 38.66,
+        "pressure_deviation": 29713.064999999944,
+        "flow_rate": 10.087,
+        "anomaly_type": "critical_pressure_drop"
+      },
+      {
+        "point_id": 20,
+        "depth": 40.64,
+        "pressure_deviation": 4571.140000000014,
+        "flow_rate": 2.947,
+        "anomaly_type": "major_pressure_drop"
+      },
+      {
+        "point_id": 21,
+        "depth": 42.55,
+        "pressure_deviation": 14933.01250000007,
+        "flow_rate": 1.292,
+        "anomaly_type": "critical_pressure_drop"
+      },
+      {
+        "point_id": 22,
+        "depth": 44.47,
+        "pressure_deviation": 13432.667499999981,
+        "flow_rate": 1.346,
+        "anomaly_type": "critical_pressure_drop"
+      },
+      {
+        "point_id": 23,
+        "depth": 46.22,
+        "pressure_deviation": 1282.155000000028,
+        "flow_rate": 2.232,
+        "anomaly_type": "minor_pressure_drop"
+      },
+      {
+        "point_id": 24,
+        "depth": 48.11,
+        "pressure_deviation": 8086.8775000000605,
+        "flow_rate": 2.559,
+        "anomaly_type": "critical_pressure_drop"
+      },
+      {
+        "point_id": 25,
+        "depth": 49.83,
+        "pressure_deviation": 7301.207499999902,
+        "flow_rate": 2.14,
+        "anomaly_type": "major_pressure_drop"
+      }
+    ]
+  },
+  "leakage_severity": 0.968,
+  "risk_level": "CRITICAL",
+  "risk_assessment": "UNDERWATER LEAKAGE RISK ASSESSMENT REPORT\n\nEXECUTIVE SUMMARY:\nLeakage Severity Score: 0.968/1.0\nRisk Level: CRITICAL\nAction Timeline: immediate emergency response required\n\nTECHNICAL ANALYSIS:\nThe physics-based assessment reveals a leakage severity score of 0.968, indicating critical risk conditions. \n\nPressure Analysis:\n\u2022 Maximum pressure deviation: 30079.3 Pa from hydrostatic baseline\n\u2022 Hydrostatic pressure validation shows significant deviations\n\u2022 Pressure anomalies detected at 20 measurement points\n\nFlow Dynamics:\n\u2022 Maximum flow rate: 13.42 m\u00b3/s\n\u2022 Flow anomalies strongly correlate with pressure deviations\n\u2022 Flow pattern suggests active leakage\n\nRISK ASSESSMENT:\n1. RISK LEVEL: CRITICAL\n   Justification: Severity score 0.968 combined with pressure deviations of 30079.3 Pa indicates critical risk to system integrity.\n\n2. IMMEDIATE ACTIONS:\n   \u2022 Emergency shutdown and isolation\n   \u2022 Deploy emergency repair team\n   \u2022 Notify all stakeholders immediately\n\n3. MONITORING REQUIREMENTS:\n   \u2022 Continuous real-time monitoring\n   \u2022 Pressure sensor calibration verification\n   \u2022 Flow rate measurement validation\n   \u2022 Temperature profile analysis\n\n4. POTENTIAL CONSEQUENCES:\n   \u2022 Catastrophic system failure possible\n   \u2022 Immediate environmental impact risk\n   \u2022 Significant economic impact\n\n5. MITIGATION STRATEGIES:\n   Primary Actions:\n   \u2022 Emergency isolation and containment\n   \u2022 Immediate repair mobilization\n   \u2022 Alternative system activation\n\n   Secondary Actions:\n   \u2022 Enhanced sensor network deployment\n   \u2022 Predictive maintenance algorithm implementation\n   \u2022 System redundancy evaluation\n\nPHYSICS-BASED RECOMMENDATIONS:\nBased on hydrostatic pressure analysis and flow dynamics:\n\n\u2022 Pressure Management: Critical pressure control required\n\u2022 Flow Control: Immediate flow restriction needed\n\u2022 System Integrity: Structural assessment mandatory\n\nTIMELINE FOR ACTION:\n\u2022 Emergency Response: immediate emergency response required\n\u2022 Detailed Assessment: Within 6 hours\n\u2022 Repair Implementation: Within 24 hours\n\u2022 System Validation: Before restart\n\nCONCLUSION:\nThe underwater leakage detection system has identified critical risk conditions with severity score 0.968. \nImmediate emergency response is required to prevent catastrophic failure.\n\nNEXT STEPS:\n1. Execute emergency response protocol\n2. Mobilize repair resources\n3. Conduct system shutdown procedures\n4. Notify regulatory authorities\n\nThis assessment is based on physics-based analysis of hydrostatic pressure deviations, flow dynamics, and established risk assessment protocols for underwater pipeline systems.",
+  "algorithm_outputs": {
+    "lambda": 0.968,
+    "r": "CRITICAL",
+    "R": "UNDERWATER LEAKAGE RISK ASSESSMENT REPORT\n\nEXECUTIVE SUMMARY:\nLeakage Severity Score: 0.968/1.0\nRisk Level: CRITICAL\nAction Timeline: immediate emergency response required\n\nTECHNICAL ANALYSIS:\nThe physics-based assessment reveals a leakage severity score of 0.968, indicating critical risk conditions. \n\nPressure Analysis:\n\u2022 Maximum pressure deviation: 30079.3 Pa from hydrostatic baseline\n\u2022 Hydrostatic pressure validation shows significant deviations\n\u2022 Pressure anomalies detected at 20 measurement points\n\nFlow Dynamics:\n\u2022 Maximum flow rate: 13.42 m\u00b3/s\n\u2022 Flow anomalies strongly correlate with pressure deviations\n\u2022 Flow pattern suggests active leakage\n\nRISK ASSESSMENT:\n1. RISK LEVEL: CRITICAL\n   Justification: Severity score 0.968 combined with pressure deviations of 30079.3 Pa indicates critical risk to system integrity.\n\n2. IMMEDIATE ACTIONS:\n   \u2022 Emergency shutdown and isolation\n   \u2022 Deploy emergency repair team\n   \u2022 Notify all stakeholders immediately\n\n3. MONITORING REQUIREMENTS:\n   \u2022 Continuous real-time monitoring\n   \u2022 Pressure sensor calibration verification\n   \u2022 Flow rate measurement validation\n   \u2022 Temperature profile analysis\n\n4. POTENTIAL CONSEQUENCES:\n   \u2022 Catastrophic system failure possible\n   \u2022 Immediate environmental impact risk\n   \u2022 Significant economic impact\n\n5. MITIGATION STRATEGIES:\n   Primary Actions:\n   \u2022 Emergency isolation and containment\n   \u2022 Immediate repair mobilization\n   \u2022 Alternative system activation\n\n   Secondary Actions:\n   \u2022 Enhanced sensor network deployment\n   \u2022 Predictive maintenance algorithm implementation\n   \u2022 System redundancy evaluation\n\nPHYSICS-BASED RECOMMENDATIONS:\nBased on hydrostatic pressure analysis and flow dynamics:\n\n\u2022 Pressure Management: Critical pressure control required\n\u2022 Flow Control: Immediate flow restriction needed\n\u2022 System Integrity: Structural assessment mandatory\n\nTIMELINE FOR ACTION:\n\u2022 Emergency Response: immediate emergency response required\n\u2022 Detailed Assessment: Within 6 hours\n\u2022 Repair Implementation: Within 24 hours\n\u2022 System Validation: Before restart\n\nCONCLUSION:\nThe underwater leakage detection system has identified critical risk conditions with severity score 0.968. \nImmediate emergency response is required to prevent catastrophic failure.\n\nNEXT STEPS:\n1. Execute emergency response protocol\n2. Mobilize repair resources\n3. Conduct system shutdown procedures\n4. Notify regulatory authorities\n\nThis assessment is based on physics-based analysis of hydrostatic pressure deviations, flow dynamics, and established risk assessment protocols for underwater pipeline systems."
+  }
+}
