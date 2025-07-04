@@ -1,0 +1,15 @@
+{
+  "analysis_date": "2025-07-03",
+  "ripeness_distribution": [
+    12.5,
+    23.0,
+    34.5,
+    26.5,
+    3.5
+  ],
+  "images_processed": 80,
+  "total_berries_detected": 31777,
+  "berries_per_image": 397,
+  "confidence_score": 0.9,
+  "field_coverage": "94%"
+}

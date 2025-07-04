@@ -1,0 +1,20 @@
+{
+  "analysis_date": "2025-07-04",
+  "cv_data": {
+    "analysis_date": "2025-07-04",
+    "ripeness_distribution": [
+      12.5,
+      23.0,
+      34.5,
+      26.5,
+      3.5
+    ],
+    "images_processed": 72,
+    "total_berries_detected": 19414,
+    "berries_per_image": 270,
+    "confidence_score": 0.89,
+    "field_coverage": "90%"
+  },
+  "llm_response": "HARVEST ANALYSIS REPORT:\n\n1. WORKFORCE PLANNING: Deploy 5 workers tomorrow\n2. HARVEST URGENCY: LOW priority\n3. YIELD ESTIMATION: Expected 662 lbs harvest\n4. QUALITY STRATEGY: Selective picking\n5. WASTE MANAGEMENT: 3.5% waste expected\n6. TIMING RECOMMENDATIONS: 2-3 day optimal window\n\nRECOMMENDATIONS:\n- monitor and prepare for harvest\n- Monitor R5 levels closely (currently 3.5%)\n- Focus on high-density R4 areas first\n- Standard harvest schedule recommended\n- Quality control: Maintain selective picking standards",
+  "model_used": "FreeLLMIntegration"
+}
