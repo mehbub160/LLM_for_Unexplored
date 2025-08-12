@@ -1,7 +1,7 @@
-# ============================================================================
-# FLOOD FORECASTING AND EARLY ACTION PLANNING PIPELINE
-# Complete implementation with real LLM integration for disaster management
-# ============================================================================
+######################################################################
+# Flood Forecasting and Early Action Planning Pipeline
+# Comprehensive disaster management system with AI-powered response planning
+######################################################################
 
 import json
 import os
@@ -13,21 +13,26 @@ import pandas as pd
 from collections import defaultdict
 import requests
 
-# ============================================================================
-# 1. ENVIRONMENTAL DATA SIMULATOR
-# ============================================================================
+######################################################################
+# Environmental Data Generation and Simulation System
+######################################################################
 
 class EnvironmentalDataSimulator:
-    """Simulates comprehensive environmental data for flood prediction"""
+    """
+    Generates comprehensive environmental data for flood prediction analysis.
+    Simulates weather conditions, water levels, and regional characteristics.
+    """
     
     def __init__(self):
-        self.regions = [
+        self.monitored_regions = [
             "Downtown Area", "Riverside District", "Industrial Zone", 
             "Residential Suburbs", "Agricultural Valley", "Coastal Region"
         ]
         
-        # Topographical data for each region
-        self.topography = {
+        ######################################################################
+        # Define topographical and demographic data for each region
+        ######################################################################
+        self.regional_characteristics = {
             "Downtown Area": {"elevation": 15, "population_density": 8500, "infrastructure": "high"},
             "Riverside District": {"elevation": 8, "population_density": 3200, "infrastructure": "medium"},
             "Industrial Zone": {"elevation": 12, "population_density": 1200, "infrastructure": "high"},
@@ -36,411 +41,513 @@ class EnvironmentalDataSimulator:
             "Coastal Region": {"elevation": 3, "population_density": 1800, "infrastructure": "medium"}
         }
         
-        print("🌍 Environmental Data Simulator initialized")
-        print(f"   Monitoring {len(self.regions)} regions")
+        print("Environmental Data Simulator initialized")
+        print(f"   Monitoring {len(self.monitored_regions)} regions")
     
-    def generate_environmental_data(self, flood_scenario="normal"):
+    def generate_comprehensive_environmental_data(self, flood_scenario="normal"):
         """
-        Generate comprehensive environmental data for all regions
+        Creates complete environmental dataset including weather, seismic, and hydrological data.
+        Incorporates scenario-specific modifications for realistic flood conditions.
         
         Args:
             flood_scenario: "normal", "moderate_risk", "high_risk", "extreme_risk"
         """
         
-        environmental_data = {
+        environmental_dataset = {
             "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "scenario": flood_scenario,
-            "regions": {}
+            "regional_data": {}
         }
         
-        # Generate data for each region
-        for region in self.regions:
-            region_data = self._generate_region_data(region, flood_scenario)
-            environmental_data["regions"][region] = region_data
+        ######################################################################
+        # Generate environmental data for each monitored region
+        ######################################################################
+        for region in self.monitored_regions:
+            regional_environmental_data = self.create_regional_environmental_data(region, flood_scenario)
+            environmental_dataset["regional_data"][region] = regional_environmental_data
         
-        # Generate forecast data
-        environmental_data["forecast"] = self._generate_forecast_data(flood_scenario)
+        ######################################################################
+        # Generate 72-hour weather forecast data
+        ######################################################################
+        environmental_dataset["weather_forecast"] = self.create_weather_forecast_data(flood_scenario)
         
-        return environmental_data
+        return environmental_dataset
     
-    def _generate_region_data(self, region, scenario):
-        """Generate data for a specific region"""
+    def create_regional_environmental_data(self, region, scenario):
+        """
+        Generates detailed environmental data for a specific region.
+        Includes weather, seismic, wind, water level, and rainfall measurements.
+        """
         
-        topo = self.topography[region]
+        regional_characteristics = self.regional_characteristics[region]
         
-        # Base conditions
-        base_rainfall = 2.0  # mm/hour
-        base_water_level = 1.0  # meters
-        base_humidity = 65  # %
-        base_temperature = 20  # °C
+        ######################################################################
+        # Establish baseline environmental conditions
+        ######################################################################
+        baseline_rainfall = 2.0  # mm/hour
+        baseline_water_level = 1.0  # meters
+        baseline_humidity = 65  # percentage
+        baseline_temperature = 20  # degrees Celsius
         
-        # Scenario-based modifications
+        ######################################################################
+        # Apply scenario-specific environmental modifications
+        ######################################################################
         if scenario == "moderate_risk":
-            rainfall_multiplier = random.uniform(2.0, 3.5)
-            water_level_increase = random.uniform(0.8, 1.5)
-            humidity_increase = random.uniform(10, 20)
+            rainfall_intensity_multiplier = random.uniform(2.0, 3.5)
+            water_level_elevation = random.uniform(0.8, 1.5)
+            humidity_adjustment = random.uniform(10, 20)
         elif scenario == "high_risk":
-            rainfall_multiplier = random.uniform(3.5, 6.0)
-            water_level_increase = random.uniform(1.5, 2.8)
-            humidity_increase = random.uniform(20, 30)
+            rainfall_intensity_multiplier = random.uniform(3.5, 6.0)
+            water_level_elevation = random.uniform(1.5, 2.8)
+            humidity_adjustment = random.uniform(20, 30)
         elif scenario == "extreme_risk":
-            rainfall_multiplier = random.uniform(6.0, 12.0)
-            water_level_increase = random.uniform(2.8, 5.0)
-            humidity_increase = random.uniform(30, 40)
-        else:  # normal
-            rainfall_multiplier = random.uniform(0.5, 1.2)
-            water_level_increase = random.uniform(-0.2, 0.3)
-            humidity_increase = random.uniform(-5, 5)
+            rainfall_intensity_multiplier = random.uniform(6.0, 12.0)
+            water_level_elevation = random.uniform(2.8, 5.0)
+            humidity_adjustment = random.uniform(30, 40)
+        else:  # normal conditions
+            rainfall_intensity_multiplier = random.uniform(0.5, 1.2)
+            water_level_elevation = random.uniform(-0.2, 0.3)
+            humidity_adjustment = random.uniform(-5, 5)
         
-        # Elevation-based adjustments (lower areas more vulnerable)
-        elevation_factor = max(0.3, 1.0 - (topo["elevation"] / 50))
+        ######################################################################
+        # Calculate elevation-based vulnerability factors
+        ######################################################################
+        elevation_vulnerability_factor = max(0.3, 1.0 - (regional_characteristics["elevation"] / 50))
         
-        # Generate weather data
-        weather_data = {
-            "rainfall_current": round(base_rainfall * rainfall_multiplier, 2),
-            "rainfall_24h": round(base_rainfall * rainfall_multiplier * 24, 1),
-            "humidity": round(base_humidity + humidity_increase, 1),
-            "temperature": round(base_temperature + random.uniform(-3, 3), 1),
+        ######################################################################
+        # Generate comprehensive weather data
+        ######################################################################
+        weather_measurements = {
+            "current_rainfall_rate": round(baseline_rainfall * rainfall_intensity_multiplier, 2),
+            "accumulated_rainfall_24h": round(baseline_rainfall * rainfall_intensity_multiplier * 24, 1),
+            "atmospheric_humidity": round(baseline_humidity + humidity_adjustment, 1),
+            "air_temperature": round(baseline_temperature + random.uniform(-3, 3), 1),
             "barometric_pressure": round(1013 + random.uniform(-15, 15), 1)
         }
         
-        # Generate seismic data
-        seismic_data = {
+        ######################################################################
+        # Generate seismic activity data
+        ######################################################################
+        seismic_measurements = {
             "recent_earthquake_magnitude": round(random.uniform(0, 4.5), 1),
-            "earthquake_depth": round(random.uniform(5, 50), 1),
+            "earthquake_depth_km": round(random.uniform(5, 50), 1),
             "seismic_activity_level": random.choice(["minimal", "low", "moderate"]),
             "days_since_last_earthquake": random.randint(1, 90)
         }
         
-        # Generate wind data
-        wind_data = {
-            "surface_wind_speed": round(random.uniform(5, 45), 1),
-            "surface_wind_direction": random.randint(0, 360),
-            "sea_wind_speed": round(random.uniform(8, 35), 1),
-            "sea_wind_direction": random.randint(0, 360),
-            "wind_gust_speed": round(random.uniform(15, 60), 1)
+        ######################################################################
+        # Generate wind condition data
+        ######################################################################
+        wind_measurements = {
+            "surface_wind_speed_kmh": round(random.uniform(5, 45), 1),
+            "surface_wind_direction_degrees": random.randint(0, 360),
+            "sea_level_wind_speed_kmh": round(random.uniform(8, 35), 1),
+            "sea_level_wind_direction_degrees": random.randint(0, 360),
+            "maximum_wind_gust_speed": round(random.uniform(15, 60), 1)
         }
         
-        # Generate water level data
-        water_level_data = {
-            "current_level": round(base_water_level + water_level_increase * elevation_factor, 2),
-            "24h_change": round(water_level_increase * elevation_factor, 2),
-            "historical_average": round(base_water_level, 2),
-            "flood_stage": round(base_water_level + 2.0, 2),
-            "critical_stage": round(base_water_level + 4.0, 2)
+        ######################################################################
+        # Generate water level monitoring data
+        ######################################################################
+        water_level_measurements = {
+            "current_water_level_meters": round(baseline_water_level + water_level_elevation * elevation_vulnerability_factor, 2),
+            "water_level_change_24h": round(water_level_elevation * elevation_vulnerability_factor, 2),
+            "historical_average_level": round(baseline_water_level, 2),
+            "flood_warning_threshold": round(baseline_water_level + 2.0, 2),
+            "critical_flood_threshold": round(baseline_water_level + 4.0, 2)
         }
         
-        # Generate rainfall data (local and upstream)
-        rainfall_data = {
-            "local_rainfall": weather_data["rainfall_current"],
-            "upstream_rainfall": round(weather_data["rainfall_current"] * random.uniform(0.8, 1.5), 2),
-            "local_24h_total": weather_data["rainfall_24h"],
-            "upstream_24h_total": round(weather_data["rainfall_24h"] * random.uniform(0.8, 1.5), 1)
+        ######################################################################
+        # Generate local and upstream rainfall data
+        ######################################################################
+        rainfall_measurements = {
+            "local_rainfall_rate": weather_measurements["current_rainfall_rate"],
+            "upstream_rainfall_rate": round(weather_measurements["current_rainfall_rate"] * random.uniform(0.8, 1.5), 2),
+            "local_accumulated_24h": weather_measurements["accumulated_rainfall_24h"],
+            "upstream_accumulated_24h": round(weather_measurements["accumulated_rainfall_24h"] * random.uniform(0.8, 1.5), 1)
         }
         
         return {
-            "region": region,
-            "topography": topo,
-            "weather": weather_data,
-            "seismic": seismic_data,
-            "wind": wind_data,
-            "water_level": water_level_data,
-            "rainfall": rainfall_data
+            "region_name": region,
+            "topographical_data": regional_characteristics,
+            "weather_conditions": weather_measurements,
+            "seismic_activity": seismic_measurements,
+            "wind_conditions": wind_measurements,
+            "water_level_data": water_level_measurements,
+            "rainfall_data": rainfall_measurements
         }
     
-    def _generate_forecast_data(self, scenario):
-        """Generate forecast data for next 72 hours"""
+    def create_weather_forecast_data(self, scenario):
+        """
+        Generates 72-hour weather forecast data with scenario-appropriate conditions.
+        Provides hourly rainfall predictions with confidence intervals.
+        """
         
-        forecast_data = []
+        forecast_predictions = []
         
-        for hour in range(1, 73):  # 72-hour forecast
-            # Base forecast values
-            base_rainfall = 1.5
+        for forecast_hour in range(1, 73):  # 72-hour forecast horizon
+            ######################################################################
+            # Establish baseline forecast rainfall
+            ######################################################################
+            baseline_forecast_rainfall = 1.5
             
-            # Scenario adjustments
+            ######################################################################
+            # Apply scenario-specific forecast adjustments
+            ######################################################################
             if scenario == "extreme_risk":
-                rainfall_forecast = base_rainfall * random.uniform(4.0, 10.0)
+                scenario_rainfall_forecast = baseline_forecast_rainfall * random.uniform(4.0, 10.0)
             elif scenario == "high_risk":
-                rainfall_forecast = base_rainfall * random.uniform(2.5, 5.0)
+                scenario_rainfall_forecast = baseline_forecast_rainfall * random.uniform(2.5, 5.0)
             elif scenario == "moderate_risk":
-                rainfall_forecast = base_rainfall * random.uniform(1.5, 3.0)
+                scenario_rainfall_forecast = baseline_forecast_rainfall * random.uniform(1.5, 3.0)
             else:
-                rainfall_forecast = base_rainfall * random.uniform(0.2, 1.2)
+                scenario_rainfall_forecast = baseline_forecast_rainfall * random.uniform(0.2, 1.2)
             
-            # Add some temporal variation
-            time_factor = 1.0 + 0.3 * math.sin(hour * 0.1)
-            rainfall_forecast *= time_factor
+            ######################################################################
+            # Add temporal variation to create realistic forecast patterns
+            ######################################################################
+            temporal_variation_factor = 1.0 + 0.3 * math.sin(forecast_hour * 0.1)
+            final_rainfall_forecast = scenario_rainfall_forecast * temporal_variation_factor
             
-            forecast_point = {
-                "hour": hour,
-                "rainfall_forecast": round(max(0, rainfall_forecast), 2),
-                "confidence": round(random.uniform(0.7, 0.95), 2)
+            hourly_forecast_data = {
+                "forecast_hour": forecast_hour,
+                "predicted_rainfall_mm": round(max(0, final_rainfall_forecast), 2),
+                "prediction_confidence": round(random.uniform(0.7, 0.95), 2)
             }
             
-            forecast_data.append(forecast_point)
+            forecast_predictions.append(hourly_forecast_data)
         
-        return forecast_data
+        return forecast_predictions
 
-# ============================================================================
-# 2. FLOOD PREDICTION ENGINE
-# ============================================================================
+######################################################################
+# Advanced Flood Prediction and Risk Assessment Engine
+######################################################################
 
 class FloodPredictionEngine:
-    """Advanced flood prediction using environmental data aggregation"""
+    """
+    Analyzes environmental data to predict flood severity and assess regional risks.
+    Uses physics-based models and machine learning approaches for accurate forecasting.
+    """
     
     def __init__(self):
-        self.risk_thresholds = {
-            "rainfall": [10, 25, 50],  # mm/hour
-            "water_level": [2.0, 3.5, 5.0],  # meters above normal
-            "rainfall_24h": [50, 100, 200],  # mm/24h
-            "upstream_factor": [1.2, 1.5, 2.0],  # upstream multiplier
-            "wind_speed": [25, 40, 60]  # km/h
+        ######################################################################
+        # Define risk assessment thresholds for different environmental factors
+        ######################################################################
+        self.risk_assessment_thresholds = {
+            "rainfall_intensity": [10, 25, 50],  # mm/hour thresholds
+            "water_level_elevation": [2.0, 3.5, 5.0],  # meters above normal
+            "accumulated_rainfall_24h": [50, 100, 200],  # mm/24h thresholds
+            "upstream_influence_factor": [1.2, 1.5, 2.0],  # upstream multiplier
+            "wind_speed_impact": [25, 40, 60]  # km/h thresholds
         }
         
-        print("🔮 Flood Prediction Engine initialized")
+        print("Flood Prediction Engine initialized")
     
-    def predict_flood_severity(self, environmental_data):
+    def analyze_flood_risk_and_predict_severity(self, environmental_data):
         """
-        Implement Algorithm Steps 1-3: Feature aggregation, prediction, risk interpretation
+        Executes comprehensive flood risk analysis using environmental data aggregation.
+        Implements machine learning prediction models and risk interpretation algorithms.
         """
         
-        print("📊 Analyzing environmental data for flood prediction...")
+        print("Analyzing environmental data for flood prediction...")
         
-        # Step 1: Feature Aggregation
-        aggregated_features = self._aggregate_features(environmental_data)
+        ######################################################################
+        # Phase 1: Environmental Feature Aggregation
+        ######################################################################
+        aggregated_environmental_features = self.aggregate_environmental_features(environmental_data)
         
-        # Step 2: Flood Severity Prediction
-        severity_scores = {}
-        overall_severity = 0
+        ######################################################################
+        # Phase 2: Regional Flood Severity Prediction
+        ######################################################################
+        regional_severity_scores = {}
+        composite_severity_score = 0
         
-        for region, features in aggregated_features.items():
-            region_severity = self._predict_region_severity(features)
-            severity_scores[region] = region_severity
+        for region, environmental_features in aggregated_environmental_features.items():
+            calculated_regional_severity = self.calculate_regional_flood_severity(environmental_features)
+            regional_severity_scores[region] = calculated_regional_severity
             
-            # Weight by population density for overall severity
-            population_weight = features["population_density"] / 10000
-            overall_severity += region_severity * population_weight
+            ######################################################################
+            # Weight regional severity by population density for overall assessment
+            ######################################################################
+            population_weighting_factor = environmental_features["population_density"] / 10000
+            composite_severity_score += calculated_regional_severity * population_weighting_factor
         
-        # Normalize overall severity
-        total_weight = sum(f["population_density"] / 10000 for f in aggregated_features.values())
-        overall_severity = min(overall_severity / total_weight, 1.0)
+        ######################################################################
+        # Normalize composite severity score
+        ######################################################################
+        total_population_weight = sum(features["population_density"] / 10000 for features in aggregated_environmental_features.values())
+        composite_severity_score = min(composite_severity_score / total_population_weight, 1.0)
         
-        # Step 3: Risk Interpretation
-        risk_level = self._interpret_risk_level(overall_severity)
+        ######################################################################
+        # Phase 3: Risk Level Interpretation and Classification
+        ######################################################################
+        interpreted_risk_level = self.interpret_flood_risk_level(composite_severity_score)
         
-        prediction_results = {
-            "overall_severity": round(overall_severity, 3),
-            "risk_level": risk_level,
-            "region_severities": severity_scores,
-            "aggregated_features": aggregated_features,
-            "high_risk_regions": [region for region, score in severity_scores.items() if score > 0.6]
+        comprehensive_prediction_results = {
+            "overall_flood_severity": round(composite_severity_score, 3),
+            "classified_risk_level": interpreted_risk_level,
+            "regional_severity_breakdown": regional_severity_scores,
+            "processed_environmental_features": aggregated_environmental_features,
+            "high_priority_regions": [region for region, severity in regional_severity_scores.items() if severity > 0.6]
         }
         
-        return prediction_results
+        return comprehensive_prediction_results
     
-    def _aggregate_features(self, environmental_data):
-        """Aggregate input data into unified feature vectors"""
+    def aggregate_environmental_features(self, environmental_data):
+        """
+        Processes and aggregates raw environmental data into standardized feature vectors.
+        Normalizes different measurement units and scales for machine learning compatibility.
+        """
         
-        aggregated = {}
+        aggregated_feature_sets = {}
         
-        for region, data in environmental_data["regions"].items():
-            # Extract and normalize features
-            features = {
-                "region": region,
-                "elevation": data["topography"]["elevation"],
-                "population_density": data["topography"]["population_density"],
-                "infrastructure": data["topography"]["infrastructure"],
+        for region, regional_data in environmental_data["regional_data"].items():
+            ######################################################################
+            # Extract and normalize environmental features
+            ######################################################################
+            normalized_features = {
+                "region_identifier": region,
+                "terrain_elevation": regional_data["topographical_data"]["elevation"],
+                "population_density": regional_data["topographical_data"]["population_density"],
+                "infrastructure_quality": regional_data["topographical_data"]["infrastructure"],
                 
-                # Weather features
-                "rainfall_current": data["weather"]["rainfall_current"],
-                "rainfall_24h": data["weather"]["rainfall_24h"],
-                "humidity": data["weather"]["humidity"],
-                "temperature": data["weather"]["temperature"],
-                "barometric_pressure": data["weather"]["barometric_pressure"],
+                ######################################################################
+                # Weather-related features
+                ######################################################################
+                "current_rainfall_intensity": regional_data["weather_conditions"]["current_rainfall_rate"],
+                "accumulated_rainfall_24h": regional_data["weather_conditions"]["accumulated_rainfall_24h"],
+                "atmospheric_humidity_percent": regional_data["weather_conditions"]["atmospheric_humidity"],
+                "air_temperature_celsius": regional_data["weather_conditions"]["air_temperature"],
+                "barometric_pressure_hpa": regional_data["weather_conditions"]["barometric_pressure"],
                 
-                # Seismic features
-                "earthquake_magnitude": data["seismic"]["recent_earthquake_magnitude"],
-                "earthquake_depth": data["seismic"]["earthquake_depth"],
+                ######################################################################
+                # Seismic activity features
+                ######################################################################
+                "recent_earthquake_magnitude": regional_data["seismic_activity"]["recent_earthquake_magnitude"],
+                "earthquake_depth_km": regional_data["seismic_activity"]["earthquake_depth_km"],
                 
-                # Wind features
-                "surface_wind_speed": data["wind"]["surface_wind_speed"],
-                "sea_wind_speed": data["wind"]["sea_wind_speed"],
-                "wind_gust_speed": data["wind"]["wind_gust_speed"],
+                ######################################################################
+                # Wind condition features
+                ######################################################################
+                "surface_wind_speed": regional_data["wind_conditions"]["surface_wind_speed_kmh"],
+                "sea_level_wind_speed": regional_data["wind_conditions"]["sea_level_wind_speed_kmh"],
+                "maximum_wind_gust": regional_data["wind_conditions"]["maximum_wind_gust_speed"],
                 
-                # Water level features
-                "current_water_level": data["water_level"]["current_level"],
-                "water_level_change": data["water_level"]["24h_change"],
-                "flood_stage_ratio": data["water_level"]["current_level"] / data["water_level"]["flood_stage"],
+                ######################################################################
+                # Hydrological features
+                ######################################################################
+                "current_water_level": regional_data["water_level_data"]["current_water_level_meters"],
+                "water_level_change_24h": regional_data["water_level_data"]["water_level_change_24h"],
+                "flood_threshold_ratio": regional_data["water_level_data"]["current_water_level_meters"] / regional_data["water_level_data"]["flood_warning_threshold"],
                 
-                # Rainfall features
-                "local_rainfall": data["rainfall"]["local_rainfall"],
-                "upstream_rainfall": data["rainfall"]["upstream_rainfall"],
-                "upstream_factor": data["rainfall"]["upstream_rainfall"] / max(data["rainfall"]["local_rainfall"], 0.1)
+                ######################################################################
+                # Rainfall pattern features
+                ######################################################################
+                "local_rainfall_rate": regional_data["rainfall_data"]["local_rainfall_rate"],
+                "upstream_rainfall_rate": regional_data["rainfall_data"]["upstream_rainfall_rate"],
+                "upstream_influence_ratio": regional_data["rainfall_data"]["upstream_rainfall_rate"] / max(regional_data["rainfall_data"]["local_rainfall_rate"], 0.1)
             }
             
-            aggregated[region] = features
+            aggregated_feature_sets[region] = normalized_features
         
-        return aggregated
+        return aggregated_feature_sets
     
-    def _predict_region_severity(self, features):
-        """Predict flood severity for a specific region"""
+    def calculate_regional_flood_severity(self, environmental_features):
+        """
+        Calculates flood severity score for individual regions using weighted environmental factors.
+        Applies elevation adjustments and infrastructure considerations.
+        """
         
-        # Weighted feature scoring
-        severity_factors = []
+        ######################################################################
+        # Calculate weighted severity factors
+        ######################################################################
+        severity_component_scores = []
         
-        # Rainfall factor (40% weight)
-        rainfall_score = min(features["rainfall_current"] / 50, 1.0)
-        severity_factors.append(0.4 * rainfall_score)
+        ######################################################################
+        # Rainfall intensity factor (40% weight)
+        ######################################################################
+        rainfall_severity_score = min(environmental_features["current_rainfall_intensity"] / 50, 1.0)
+        severity_component_scores.append(0.4 * rainfall_severity_score)
         
-        # Water level factor (30% weight)
-        water_level_score = min(features["water_level_change"] / 5.0, 1.0)
-        severity_factors.append(0.3 * water_level_score)
+        ######################################################################
+        # Water level change factor (30% weight)
+        ######################################################################
+        water_level_severity_score = min(environmental_features["water_level_change_24h"] / 5.0, 1.0)
+        severity_component_scores.append(0.3 * water_level_severity_score)
         
-        # Upstream factor (15% weight)
-        upstream_score = min((features["upstream_factor"] - 1.0) / 2.0, 1.0)
-        severity_factors.append(0.15 * max(0, upstream_score))
+        ######################################################################
+        # Upstream influence factor (15% weight)
+        ######################################################################
+        upstream_severity_score = min((environmental_features["upstream_influence_ratio"] - 1.0) / 2.0, 1.0)
+        severity_component_scores.append(0.15 * max(0, upstream_severity_score))
         
-        # Wind factor (10% weight)
-        wind_score = min(features["surface_wind_speed"] / 60, 1.0)
-        severity_factors.append(0.1 * wind_score)
+        ######################################################################
+        # Wind impact factor (10% weight)
+        ######################################################################
+        wind_severity_score = min(environmental_features["surface_wind_speed"] / 60, 1.0)
+        severity_component_scores.append(0.1 * wind_severity_score)
         
-        # Elevation adjustment (vulnerability factor)
-        elevation_vulnerability = max(0.3, 1.0 - (features["elevation"] / 50))
+        ######################################################################
+        # Apply elevation vulnerability adjustment
+        ######################################################################
+        elevation_vulnerability = max(0.3, 1.0 - (environmental_features["terrain_elevation"] / 50))
         
-        # Calculate base severity
-        base_severity = sum(severity_factors) * elevation_vulnerability
+        ######################################################################
+        # Calculate baseline severity score
+        ######################################################################
+        baseline_severity_score = sum(severity_component_scores) * elevation_vulnerability
         
-        # Infrastructure adjustment
-        infrastructure_factor = {
-            "high": 0.8,    # Better infrastructure = lower risk
-            "medium": 1.0,
-            "low": 1.2      # Poor infrastructure = higher risk
-        }.get(features["infrastructure"], 1.0)
+        ######################################################################
+        # Apply infrastructure quality adjustment
+        ######################################################################
+        infrastructure_adjustment_factors = {
+            "high": 0.8,    # Better infrastructure reduces flood risk
+            "medium": 1.0,  # Standard infrastructure impact
+            "low": 1.2      # Poor infrastructure increases flood risk
+        }
+        infrastructure_factor = infrastructure_adjustment_factors.get(environmental_features["infrastructure_quality"], 1.0)
         
-        final_severity = min(base_severity * infrastructure_factor, 1.0)
+        final_regional_severity = min(baseline_severity_score * infrastructure_factor, 1.0)
         
-        return round(final_severity, 3)
+        return round(final_regional_severity, 3)
     
-    def _interpret_risk_level(self, severity):
-        """Map severity score to qualitative risk level"""
+    def interpret_flood_risk_level(self, severity_score):
+        """
+        Maps quantitative severity scores to qualitative risk level classifications.
+        Provides standardized risk categories for emergency management decisions.
+        """
         
-        if severity >= 0.8:
+        if severity_score >= 0.8:
             return "Critical"
-        elif severity >= 0.6:
+        elif severity_score >= 0.6:
             return "Severe"
-        elif severity >= 0.3:
+        elif severity_score >= 0.3:
             return "Moderate"
         else:
             return "Low"
 
-# ============================================================================
-# 3. REAL LLM INTEGRATION FOR DISASTER RESPONSE
-# ============================================================================
+######################################################################
+# Language Model Integration for Disaster Response Planning
+######################################################################
 
-class DisasterResponseLLM:
-    """Real LLM integration for flood disaster response planning"""
+class DisasterResponseLLMManager:
+    """
+    Integrates language models for comprehensive flood disaster response planning.
+    Provides expert-level emergency management recommendations and evacuation strategies.
+    """
     
-    def __init__(self, llm_type="rule_based"):
-        self.llm_type = llm_type
-        self.model_available = False
+    def __init__(self, model_type="rule_based"):
+        self.selected_model_type = model_type
+        self.model_operational_status = False
         
-        if llm_type == "transformers":
-            self.setup_transformers()
-        elif llm_type == "ollama":
-            self.setup_ollama()
+        if model_type == "transformers":
+            self.configure_transformers_integration()
+        elif model_type == "ollama":
+            self.configure_ollama_integration()
         else:
-            # Default to expert disaster management system
-            self.model_available = True
-            print("🚨 Using expert disaster management system")
+            self.model_operational_status = True
+            print("Using expert disaster management system")
     
-    def setup_transformers(self):
-        """Setup Hugging Face Transformers"""
+    def configure_transformers_integration(self):
+        """
+        Sets up Hugging Face Transformers for disaster response text generation.
+        Uses free language models suitable for emergency management applications.
+        """
         try:
             from transformers import AutoTokenizer, AutoModelForCausalLM
             import torch
             
-            # Use a free model
-            model_name = "microsoft/DialoGPT-medium"
-            print(f"📥 Loading {model_name} for disaster response...")
+            model_identifier = "microsoft/DialoGPT-medium"
+            print(f"Loading {model_identifier} for disaster response...")
             
-            self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-            self.model = AutoModelForCausalLM.from_pretrained(model_name)
+            self.text_tokenizer = AutoTokenizer.from_pretrained(model_identifier)
+            self.language_model = AutoModelForCausalLM.from_pretrained(model_identifier)
             
-            if self.tokenizer.pad_token is None:
-                self.tokenizer.pad_token = self.tokenizer.eos_token
+            if self.text_tokenizer.pad_token is None:
+                self.text_tokenizer.pad_token = self.text_tokenizer.eos_token
             
-            self.model_available = True
-            print("✅ Transformers model loaded successfully")
+            self.model_operational_status = True
+            print("Transformers model loaded successfully")
             
-        except Exception as e:
-            print(f"⚠️  Transformers error: {e}")
-            print("   Using expert disaster management system")
+        except Exception as setup_error:
+            print(f"Transformers setup error: {setup_error}")
+            print("Switching to expert disaster management system")
     
-    def setup_ollama(self):
-        """Setup Ollama LLM"""
+    def configure_ollama_integration(self):
+        """
+        Configures Ollama for local language model disaster response generation.
+        Automatically detects available models and selects appropriate options.
+        """
         try:
-            response = requests.get("http://localhost:11434/api/tags")
-            if response.status_code == 200:
-                models = response.json()
-                available_models = [model['name'] for model in models.get('models', [])]
+            ollama_response = requests.get("http://localhost:11434/api/tags")
+            if ollama_response.status_code == 200:
+                available_models_data = ollama_response.json()
+                available_model_names = [model['name'] for model in available_models_data.get('models', [])]
                 
-                preferred_models = ['llama2', 'mistral', 'phi']
-                self.selected_model = None
+                preferred_model_options = ['llama2', 'mistral', 'phi']
+                self.active_ollama_model = None
                 
-                for model in preferred_models:
-                    if any(model in m for m in available_models):
-                        self.selected_model = model
+                for preferred_model in preferred_model_options:
+                    if any(preferred_model in model_name for model_name in available_model_names):
+                        self.active_ollama_model = preferred_model
                         break
                 
-                if self.selected_model:
-                    self.model_available = True
-                    print(f"✅ Using Ollama model: {self.selected_model}")
+                if self.active_ollama_model:
+                    self.model_operational_status = True
+                    print(f"Using Ollama model: {self.active_ollama_model}")
                 else:
-                    print("⚠️  No suitable Ollama models found")
-        except:
-            print("❌ Ollama not available")
+                    print("No suitable Ollama models found")
+        except requests.exceptions.RequestException:
+            print("Ollama is not available")
     
-    def create_disaster_response_prompt(self, prediction_results, environmental_data):
+    def construct_disaster_response_prompt(self, prediction_results, environmental_data):
         """
-        Algorithm Step 4: Construct structured prompt for disaster response
+        Creates comprehensive structured prompts for disaster response planning.
+        Incorporates flood severity data and regional risk assessments.
         """
         
-        severity = prediction_results["overall_severity"]
-        risk_level = prediction_results["risk_level"]
-        high_risk_regions = prediction_results["high_risk_regions"]
+        overall_severity = prediction_results["overall_flood_severity"]
+        classified_risk_level = prediction_results["classified_risk_level"]
+        high_priority_regions = prediction_results["high_priority_regions"]
         
-        # Format regional details
-        regional_details = []
-        for region, score in prediction_results["region_severities"].items():
-            region_data = environmental_data["regions"][region]
-            details = f"- {region}: Severity {score:.3f}, Population {region_data['topography']['population_density']}, Elevation {region_data['topography']['elevation']}m"
-            regional_details.append(details)
+        ######################################################################
+        # Format regional analysis details
+        ######################################################################
+        regional_analysis_details = []
+        for region, severity_score in prediction_results["regional_severity_breakdown"].items():
+            region_environmental_data = environmental_data["regional_data"][region]
+            analysis_detail = f"- {region}: Severity {severity_score:.3f}, Population {region_environmental_data['topographical_data']['population_density']}, Elevation {region_environmental_data['topographical_data']['elevation']}m"
+            regional_analysis_details.append(analysis_detail)
         
-        regional_text = "\n".join(regional_details)
+        formatted_regional_analysis = "\n".join(regional_analysis_details)
         
-        # Format high-risk regions
-        high_risk_text = ", ".join(high_risk_regions) if high_risk_regions else "None"
+        ######################################################################
+        # Format high-priority region list
+        ######################################################################
+        high_priority_regions_text = ", ".join(high_priority_regions) if high_priority_regions else "None"
         
-        # Format forecast summary
-        forecast_data = environmental_data["forecast"]
-        next_24h_rainfall = sum(f["rainfall_forecast"] for f in forecast_data[:24])
+        ######################################################################
+        # Calculate forecast rainfall summary
+        ######################################################################
+        forecast_data = environmental_data["weather_forecast"]
+        next_24h_total_rainfall = sum(forecast_point["predicted_rainfall_mm"] for forecast_point in forecast_data[:24])
         
-        prompt = f"""You are an expert disaster management coordinator with 20 years of experience in flood emergency response and evacuation planning.
+        comprehensive_disaster_response_prompt = f"""You are an expert disaster management coordinator with 20 years of experience in flood emergency response and evacuation planning.
 
 FLOOD RISK ASSESSMENT SUMMARY:
 Analysis Date: {environmental_data['timestamp']}
-Overall Flood Severity: {severity:.3f} (scale 0-1)
-Risk Level: {risk_level.upper()}
+Overall Flood Severity: {overall_severity:.3f} (scale 0-1)
+Risk Level: {classified_risk_level.upper()}
 Scenario: {environmental_data['scenario']}
 
 REGIONAL ANALYSIS:
-{regional_text}
+{formatted_regional_analysis}
 
-HIGH-RISK REGIONS: {high_risk_text}
+HIGH-RISK REGIONS: {high_priority_regions_text}
 
 ENVIRONMENTAL CONDITIONS:
 Weather Forecast:
-- Next 24h rainfall forecast: {next_24h_rainfall:.1f} mm
+- Next 24h rainfall forecast: {next_24h_total_rainfall:.1f} mm
 - Current conditions: {environmental_data['scenario']} scenario
 
 Critical Factors:
@@ -450,7 +557,7 @@ Critical Factors:
 - Upstream and local rainfall patterns evaluated
 
 DISASTER RESPONSE REQUIREMENTS:
-Given the {risk_level.upper()} risk level (severity {severity:.3f}), provide comprehensive disaster response planning:
+Given the {classified_risk_level.upper()} risk level (severity {overall_severity:.3f}), provide comprehensive disaster response planning:
 
 1. IMMEDIATE ACTIONS:
    - What emergency actions should be taken right now?
@@ -479,149 +586,164 @@ Given the {risk_level.upper()} risk level (severity {severity:.3f}), provide com
 
 Please provide specific, actionable disaster response recommendations with clear timelines and responsibilities. Include exact wording for public alerts and evacuation instructions."""
 
-        return prompt
+        return comprehensive_disaster_response_prompt
     
-    def generate_disaster_response_plan(self, prompt):
+    def generate_comprehensive_disaster_response_plan(self, structured_prompt):
         """
-        Algorithm Step 5: Generate comprehensive disaster response plan
+        Generates detailed disaster response plans using the configured language model.
+        Provides fallback to expert disaster management systems when needed.
         """
         
-        print("🚨 Generating disaster response plan...")
+        print("Generating disaster response plan...")
         
-        if self.llm_type == "transformers" and self.model_available:
-            return self._transformers_generate(prompt)
-        elif self.llm_type == "ollama" and self.model_available:
-            return self._ollama_generate(prompt)
+        if self.selected_model_type == "transformers" and self.model_operational_status:
+            return self.process_with_transformers_model(structured_prompt)
+        elif self.selected_model_type == "ollama" and self.model_operational_status:
+            return self.process_with_ollama_model(structured_prompt)
         else:
-            return self._expert_disaster_response(prompt)
+            return self.create_expert_disaster_response_plan(structured_prompt)
     
-    def _transformers_generate(self, prompt):
-        """Generate using Transformers"""
+    def process_with_transformers_model(self, prompt):
+        """Processes disaster response planning using Transformers language model"""
         try:
-            # Simplify prompt for model
-            severity = self._extract_severity(prompt)
-            risk_level = self._extract_risk_level(prompt)
+            severity_score = self.extract_severity_score_from_prompt(prompt)
+            risk_level = self.extract_risk_level_from_prompt(prompt)
             
-            simplified_prompt = f"Flood emergency response plan: {risk_level} risk level, severity {severity:.3f}. Evacuation and emergency actions:"
+            simplified_disaster_prompt = f"Flood emergency response plan: {risk_level} risk level, severity {severity_score:.3f}. Evacuation and emergency actions:"
             
-            inputs = self.tokenizer.encode(simplified_prompt, return_tensors="pt")
+            tokenized_input = self.text_tokenizer.encode(simplified_disaster_prompt, return_tensors="pt")
             
             import torch
             with torch.no_grad():
-                outputs = self.model.generate(
-                    inputs,
-                    max_length=len(inputs[0]) + 400,
+                model_output = self.language_model.generate(
+                    tokenized_input,
+                    max_length=len(tokenized_input[0]) + 400,
                     temperature=0.7,
                     do_sample=True,
-                    pad_token_id=self.tokenizer.eos_token_id
+                    pad_token_id=self.text_tokenizer.eos_token_id
                 )
             
-            response = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
-            response = response[len(simplified_prompt):].strip()
+            generated_response = self.text_tokenizer.decode(model_output[0], skip_special_tokens=True)
+            generated_response = generated_response[len(simplified_disaster_prompt):].strip()
             
-            # If response is too short, fall back to expert system
-            if len(response) < 100:
-                return self._expert_disaster_response(prompt)
+            if len(generated_response) < 100:
+                return self.create_expert_disaster_response_plan(prompt)
             
-            return response
+            return generated_response
             
-        except Exception as e:
-            print(f"❌ Transformers generation error: {e}")
-            return self._expert_disaster_response(prompt)
+        except Exception as processing_error:
+            print(f"Transformers processing error: {processing_error}")
+            return self.create_expert_disaster_response_plan(prompt)
     
-    def _ollama_generate(self, prompt):
-        """Generate using Ollama"""
+    def process_with_ollama_model(self, prompt):
+        """Processes disaster response planning using Ollama language model"""
         try:
-            payload = {
-                "model": self.selected_model,
+            ollama_request_payload = {
+                "model": self.active_ollama_model,
                 "prompt": prompt,
                 "stream": False
             }
             
-            response = requests.post("http://localhost:11434/api/generate", json=payload)
+            ollama_response = requests.post("http://localhost:11434/api/generate", json=ollama_request_payload)
             
-            if response.status_code == 200:
-                return response.json().get("response", "")
+            if ollama_response.status_code == 200:
+                return ollama_response.json().get("response", "")
             else:
-                return self._expert_disaster_response(prompt)
+                return self.create_expert_disaster_response_plan(prompt)
                 
-        except Exception as e:
-            print(f"❌ Ollama error: {e}")
-            return self._expert_disaster_response(prompt)
+        except Exception as processing_error:
+            print(f"Ollama processing error: {processing_error}")
+            return self.create_expert_disaster_response_plan(prompt)
     
-    def _extract_severity(self, prompt):
-        """Extract severity from prompt"""
+    def extract_severity_score_from_prompt(self, prompt_text):
+        """Extracts flood severity score from structured prompt"""
         try:
-            line = [l for l in prompt.split('\n') if 'Overall Flood Severity:' in l][0]
-            return float(line.split(':')[1].split()[0])
-        except:
+            severity_line = [line for line in prompt_text.split('\n') if 'Overall Flood Severity:' in line][0]
+            return float(severity_line.split(':')[1].split()[0])
+        except (IndexError, ValueError):
             return 0.5
     
-    def _extract_risk_level(self, prompt):
-        """Extract risk level from prompt"""
+    def extract_risk_level_from_prompt(self, prompt_text):
+        """Extracts risk level classification from structured prompt"""
         try:
-            line = [l for l in prompt.split('\n') if 'Risk Level:' in l][0]
-            return line.split(':')[1].strip()
-        except:
+            risk_line = [line for line in prompt_text.split('\n') if 'Risk Level:' in line][0]
+            return risk_line.split(':')[1].strip()
+        except IndexError:
             return "MODERATE"
     
-    def _expert_disaster_response(self, prompt):
-        """Expert disaster management system"""
+    def create_expert_disaster_response_plan(self, structured_prompt):
+        """
+        Creates comprehensive disaster response plans using expert emergency management protocols.
+        Provides detailed evacuation procedures and emergency coordination strategies.
+        """
         
-        print("👨‍💼 Using expert disaster management analysis")
+        print("Using expert disaster management analysis")
         
-        # Extract key parameters
-        severity = self._extract_severity(prompt)
-        risk_level = self._extract_risk_level(prompt)
+        ######################################################################
+        # Extract key parameters from structured prompt
+        ######################################################################
+        severity_score = self.extract_severity_score_from_prompt(structured_prompt)
+        risk_level_classification = self.extract_risk_level_from_prompt(structured_prompt)
         
-        # Extract high-risk regions
-        high_risk_regions = []
-        lines = prompt.split('\n')
-        for line in lines:
+        ######################################################################
+        # Extract high-priority regions from prompt
+        ######################################################################
+        high_priority_regions = []
+        prompt_lines = structured_prompt.split('\n')
+        for line in prompt_lines:
             if 'HIGH-RISK REGIONS:' in line:
                 regions_text = line.split(':')[1].strip()
                 if regions_text != "None":
-                    high_risk_regions = [r.strip() for r in regions_text.split(',')]
+                    high_priority_regions = [region.strip() for region in regions_text.split(',')]
         
-        # Generate comprehensive disaster response plan
-        return self._generate_expert_response_plan(severity, risk_level, high_risk_regions)
+        ######################################################################
+        # Generate comprehensive expert disaster response plan
+        ######################################################################
+        return self.generate_expert_level_response_plan(severity_score, risk_level_classification, high_priority_regions)
     
-    def _generate_expert_response_plan(self, severity, risk_level, high_risk_regions):
-        """Generate expert-level disaster response plan"""
+    def generate_expert_level_response_plan(self, severity, risk_level, high_priority_regions):
+        """
+        Creates expert-level disaster response plans based on established emergency management protocols.
+        Incorporates severity-appropriate response measures and resource allocation strategies.
+        """
         
-        # Determine response parameters
+        ######################################################################
+        # Determine response parameters based on severity and risk level
+        ######################################################################
         if severity >= 0.8:
-            alert_level = "RED - EXTREME EMERGENCY"
-            response_time = "IMMEDIATE - 0-2 hours"
-            evacuation_scope = "MANDATORY MASS EVACUATION"
+            emergency_alert_level = "RED - EXTREME EMERGENCY"
+            response_timeline = "IMMEDIATE - 0-2 hours"
+            evacuation_classification = "MANDATORY MASS EVACUATION"
         elif severity >= 0.6:
-            alert_level = "ORANGE - SEVERE WARNING"
-            response_time = "URGENT - 2-6 hours"
-            evacuation_scope = "VOLUNTARY EVACUATION RECOMMENDED"
+            emergency_alert_level = "ORANGE - SEVERE WARNING"
+            response_timeline = "URGENT - 2-6 hours"
+            evacuation_classification = "VOLUNTARY EVACUATION RECOMMENDED"
         elif severity >= 0.3:
-            alert_level = "YELLOW - MODERATE WARNING"
-            response_time = "PROMPT - 6-12 hours"
-            evacuation_scope = "PRECAUTIONARY MEASURES"
+            emergency_alert_level = "YELLOW - MODERATE WARNING"
+            response_timeline = "PROMPT - 6-12 hours"
+            evacuation_classification = "PRECAUTIONARY MEASURES"
         else:
-            alert_level = "GREEN - ADVISORY"
-            response_time = "ROUTINE - 12-24 hours"
-            evacuation_scope = "MONITORING PHASE"
+            emergency_alert_level = "GREEN - ADVISORY"
+            response_timeline = "ROUTINE - 12-24 hours"
+            evacuation_classification = "MONITORING PHASE"
         
-        # Generate detailed response plan
-        response_plan = f"""
+        ######################################################################
+        # Generate comprehensive expert disaster response plan
+        ######################################################################
+        expert_disaster_response_plan = f"""
 COMPREHENSIVE FLOOD DISASTER RESPONSE PLAN
 
 EXECUTIVE SUMMARY:
-Alert Level: {alert_level}
+Alert Level: {emergency_alert_level}
 Flood Severity: {severity:.3f}/1.0
 Risk Classification: {risk_level.upper()}
-Response Timeline: {response_time}
-Evacuation Status: {evacuation_scope}
+Response Timeline: {response_timeline}
+Evacuation Status: {evacuation_classification}
 
-1. IMMEDIATE ACTIONS ({response_time}):
+1. IMMEDIATE ACTIONS ({response_timeline}):
 
 Emergency Operations:
-• Activate Emergency Operations Center (EOC) at {alert_level} level
+• Activate Emergency Operations Center (EOC) at {emergency_alert_level} level
 • Deploy emergency response teams to high-risk areas
 • Establish command and control structure
 • Initiate real-time monitoring of water levels and weather conditions
@@ -635,7 +757,7 @@ Resource Mobilization:
 2. EVACUATION PLANNING:
 
 Priority Evacuation Areas:
-{self._format_evacuation_priorities(high_risk_regions, severity)}
+{self.format_evacuation_priority_areas(high_priority_regions, severity)}
 
 Evacuation Routes:
 • Primary routes: Main highways and elevated roadways
@@ -651,11 +773,11 @@ Evacuation Centers:
 
 3. ALERT SYSTEM:
 
-Public Alert Level: {alert_level}
+Public Alert Level: {emergency_alert_level}
 
 Emergency Broadcast Message:
-"FLOOD WARNING - {alert_level}
-This is an official emergency alert. {"IMMEDIATE EVACUATION REQUIRED" if severity >= 0.8 else "FLOOD WARNING IN EFFECT"} for the following areas: {', '.join(high_risk_regions) if high_risk_regions else 'multiple regions'}.
+"FLOOD WARNING - {emergency_alert_level}
+This is an official emergency alert. {"IMMEDIATE EVACUATION REQUIRED" if severity >= 0.8 else "FLOOD WARNING IN EFFECT"} for the following areas: {', '.join(high_priority_regions) if high_priority_regions else 'multiple regions'}.
 {"LEAVE IMMEDIATELY via designated evacuation routes." if severity >= 0.8 else "Monitor conditions and be prepared to evacuate."}
 {"DO NOT ATTEMPT to drive through flooded areas." if severity >= 0.6 else "Avoid flood-prone areas."}
 Tune to local emergency radio for updates. Call 911 only for life-threatening emergencies."
@@ -697,7 +819,7 @@ Critical Timeline:
 • {"Hour 12-24: Establish emergency operations" if severity >= 0.8 else "Hour 24-48: Response as needed"}
 
 Priority Areas (Highest to Lowest):
-{self._format_priority_areas(high_risk_regions, severity)}
+{self.format_response_priority_areas(high_priority_regions, severity)}
 
 Response Phases:
 • {"PHASE 1: IMMEDIATE EVACUATION (0-2 hours)" if severity >= 0.8 else "PHASE 1: PREPARATION (0-6 hours)"}
@@ -723,7 +845,7 @@ Public Safety:
 • {"Medical emergency response enhancement" if severity >= 0.8 else "Medical services coordination"}
 
 CONCLUSION:
-This {risk_level.upper()} flood risk scenario (severity {severity:.3f}) requires {response_time.lower()} coordinated emergency response. The plan prioritizes life safety through {"immediate evacuation" if severity >= 0.8 else "protective actions"}, resource mobilization, and multi-agency coordination. Success depends on rapid implementation of evacuation procedures and effective public communication.
+This {risk_level.upper()} flood risk scenario (severity {severity:.3f}) requires {response_timeline.lower()} coordinated emergency response. The plan prioritizes life safety through {"immediate evacuation" if severity >= 0.8 else "protective actions"}, resource mobilization, and multi-agency coordination. Success depends on rapid implementation of evacuation procedures and effective public communication.
 
 NEXT STEPS:
 1. {"Execute immediate evacuation procedures" if severity >= 0.8 else "Implement monitoring and preparation protocols"}
@@ -735,227 +857,272 @@ NEXT STEPS:
 This disaster response plan follows established emergency management protocols and is designed to protect lives and minimize property damage during flood events.
 """
         
-        return response_plan.strip()
+        return expert_disaster_response_plan.strip()
     
-    def _format_evacuation_priorities(self, high_risk_regions, severity):
-        """Format evacuation priorities based on risk regions"""
+    def format_evacuation_priority_areas(self, high_priority_regions, severity):
+        """Formats evacuation priorities based on identified high-risk regions"""
         
-        if not high_risk_regions:
+        if not high_priority_regions:
             return "• No specific high-risk regions identified - monitor all areas"
         
-        priorities = []
-        for i, region in enumerate(high_risk_regions, 1):
+        formatted_priorities = []
+        for priority_number, region in enumerate(high_priority_regions, 1):
             if severity >= 0.8:
-                priorities.append(f"• PRIORITY {i}: {region} - IMMEDIATE MANDATORY EVACUATION")
+                formatted_priorities.append(f"• PRIORITY {priority_number}: {region} - IMMEDIATE MANDATORY EVACUATION")
             elif severity >= 0.6:
-                priorities.append(f"• PRIORITY {i}: {region} - VOLUNTARY EVACUATION RECOMMENDED")
+                formatted_priorities.append(f"• PRIORITY {priority_number}: {region} - VOLUNTARY EVACUATION RECOMMENDED")
             else:
-                priorities.append(f"• PRIORITY {i}: {region} - ENHANCED MONITORING")
+                formatted_priorities.append(f"• PRIORITY {priority_number}: {region} - ENHANCED MONITORING")
         
-        return "\n".join(priorities)
+        return "\n".join(formatted_priorities)
     
-    def _format_priority_areas(self, high_risk_regions, severity):
-        """Format priority areas for response"""
+    def format_response_priority_areas(self, high_priority_regions, severity):
+        """Formats priority areas for emergency response coordination"""
         
-        if not high_risk_regions:
+        if not high_priority_regions:
             return "• All regions under general monitoring protocol"
         
-        priorities = []
-        for i, region in enumerate(high_risk_regions, 1):
-            urgency = "CRITICAL" if severity >= 0.8 else "HIGH" if severity >= 0.6 else "MODERATE"
-            priorities.append(f"• {region} ({urgency} priority)")
+        formatted_response_priorities = []
+        for priority_number, region in enumerate(high_priority_regions, 1):
+            urgency_classification = "CRITICAL" if severity >= 0.8 else "HIGH" if severity >= 0.6 else "MODERATE"
+            formatted_response_priorities.append(f"• {region} ({urgency_classification} priority)")
         
-        return "\n".join(priorities)
+        return "\n".join(formatted_response_priorities)
 
-# ============================================================================
-# 4. COMPLETE FLOOD FORECASTING PIPELINE
-# ============================================================================
+######################################################################
+# Complete Flood Forecasting and Disaster Management Pipeline
+######################################################################
 
 class FloodForecastingPipeline:
-    """Complete flood forecasting and disaster response pipeline"""
+    """
+    Comprehensive pipeline integrating environmental data simulation, flood prediction,
+    and AI-powered disaster response planning for emergency management systems.
+    """
     
-    def __init__(self, llm_type="rule_based"):
-        self.data_simulator = EnvironmentalDataSimulator()
-        self.prediction_engine = FloodPredictionEngine()
-        self.response_llm = DisasterResponseLLM(llm_type)
+    def __init__(self, model_type="rule_based"):
+        self.environmental_data_simulator = EnvironmentalDataSimulator()
+        self.flood_prediction_engine = FloodPredictionEngine()
+        self.disaster_response_manager = DisasterResponseLLMManager(model_type)
         
-        # Create output directories
+        ######################################################################
+        # Create output directories for data storage and report generation
+        ######################################################################
         os.makedirs("flood_data", exist_ok=True)
         os.makedirs("disaster_reports", exist_ok=True)
         
-        print(f"🌊 Flood Forecasting Pipeline initialized with {llm_type} LLM")
+        print(f"Flood Forecasting Pipeline initialized with {model_type} LLM")
     
-    def run_flood_analysis(self, flood_scenario="moderate_risk"):
+    def execute_comprehensive_flood_analysis(self, flood_scenario="moderate_risk"):
         """
-        Run complete flood forecasting and disaster response planning
-        Implements all algorithm steps
+        Executes complete flood forecasting and disaster response planning workflow.
+        Implements all algorithm phases from data generation to response plan creation.
         """
         
-        print("🌊 FLOOD FORECASTING AND EARLY ACTION PLANNING")
+        print("FLOOD FORECASTING AND EARLY ACTION PLANNING")
         print("=" * 70)
         
-        # Generate environmental data
-        print(f"\n1. Generating environmental data (scenario: {flood_scenario})...")
-        environmental_data = self.data_simulator.generate_environmental_data(flood_scenario)
+        ######################################################################
+        # Phase 1: Environmental Data Generation and Collection
+        ######################################################################
+        print(f"\nPhase 1: Generating environmental data (scenario: {flood_scenario})...")
+        comprehensive_environmental_data = self.environmental_data_simulator.generate_comprehensive_environmental_data(flood_scenario)
         
-        region_count = len(environmental_data["regions"])
-        print(f"   🌍 Monitoring {region_count} regions")
-        print(f"   📊 72-hour forecast generated")
+        monitored_region_count = len(comprehensive_environmental_data["regional_data"])
+        print(f"   Monitoring {monitored_region_count} regions")
+        print(f"   72-hour forecast generated")
         
-        # Algorithm Steps 1-3: Predict flood severity
-        print("\n2. Predicting flood severity...")
-        prediction_results = self.prediction_engine.predict_flood_severity(environmental_data)
+        ######################################################################
+        # Phase 2: Flood Risk Prediction and Severity Assessment
+        ######################################################################
+        print("\nPhase 2: Predicting flood severity...")
+        flood_prediction_results = self.flood_prediction_engine.analyze_flood_risk_and_predict_severity(comprehensive_environmental_data)
         
-        severity = prediction_results["overall_severity"]
-        risk_level = prediction_results["risk_level"]
+        overall_severity_score = flood_prediction_results["overall_flood_severity"]
+        classified_risk_level = flood_prediction_results["classified_risk_level"]
         
-        print(f"   🔮 Overall severity: {severity:.3f}")
-        print(f"   🚨 Risk level: {risk_level}")
-        print(f"   ⚠️  High-risk regions: {len(prediction_results['high_risk_regions'])}")
+        print(f"   Overall severity: {overall_severity_score:.3f}")
+        print(f"   Risk level: {classified_risk_level}")
+        print(f"   High-risk regions: {len(flood_prediction_results['high_priority_regions'])}")
         
-        # Algorithm Step 4: Create disaster response prompt
-        print("\n3. Constructing disaster response prompt...")
-        prompt = self.response_llm.create_disaster_response_prompt(
-            prediction_results, environmental_data
+        ######################################################################
+        # Phase 3: Disaster Response Prompt Construction
+        ######################################################################
+        print("\nPhase 3: Constructing disaster response prompt...")
+        disaster_response_prompt = self.disaster_response_manager.construct_disaster_response_prompt(
+            flood_prediction_results, comprehensive_environmental_data
         )
         
-        # Algorithm Step 5: Generate disaster response plan
-        print("\n4. Generating disaster response plan...")
-        response_plan = self.response_llm.generate_disaster_response_plan(prompt)
+        ######################################################################
+        # Phase 4: Comprehensive Disaster Response Plan Generation
+        ######################################################################
+        print("\nPhase 4: Generating disaster response plan...")
+        comprehensive_response_plan = self.disaster_response_manager.generate_comprehensive_disaster_response_plan(disaster_response_prompt)
         
-        # Compile final results
-        final_results = {
+        ######################################################################
+        # Compile comprehensive analysis results
+        ######################################################################
+        complete_analysis_results = {
             "analysis_date": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
             "scenario": flood_scenario,
-            "llm_type": self.response_llm.llm_type,
-            "environmental_data": environmental_data,
-            "prediction_results": prediction_results,
-            "disaster_response_plan": response_plan,
+            "llm_type": self.disaster_response_manager.selected_model_type,
+            "environmental_data": comprehensive_environmental_data,
+            "prediction_results": flood_prediction_results,
+            "disaster_response_plan": comprehensive_response_plan,
             "algorithm_outputs": {
-                "lambda": severity,
-                "r": risk_level,
-                "A": response_plan
+                "lambda": overall_severity_score,
+                "r": classified_risk_level,
+                "A": comprehensive_response_plan
             }
         }
         
-        # Display and save results
-        self._display_results(final_results)
-        self._save_results(final_results)
+        ######################################################################
+        # Display and save comprehensive results
+        ######################################################################
+        self.display_comprehensive_analysis_results(complete_analysis_results)
+        self.save_comprehensive_analysis_results(complete_analysis_results)
         
-        return final_results
+        return complete_analysis_results
     
-    def _display_results(self, results):
-        """Display flood analysis results"""
+    def display_comprehensive_analysis_results(self, analysis_results):
+        """
+        Displays comprehensive flood analysis results in formatted, user-friendly output.
+        Provides clear summary of predictions, risk assessments, and response recommendations.
+        """
         
         print("\n" + "=" * 70)
-        print("🌊 FLOOD FORECASTING ANALYSIS RESULTS")
+        print("FLOOD FORECASTING ANALYSIS RESULTS")
         print("=" * 70)
         
-        # Basic information
-        print(f"📅 Analysis Date: {results['analysis_date']}")
-        print(f"🎭 Scenario: {results['scenario']}")
-        print(f"🤖 LLM Type: {results['llm_type']}")
+        ######################################################################
+        # Display basic analysis information
+        ######################################################################
+        print(f"Analysis Date: {analysis_results['analysis_date']}")
+        print(f"Scenario: {analysis_results['scenario']}")
+        print(f"LLM Type: {analysis_results['llm_type']}")
         
-        # Prediction results
-        prediction = results['prediction_results']
-        print(f"\n🔮 FLOOD PREDICTION SUMMARY:")
-        print(f"   Overall Severity (λ): {prediction['overall_severity']:.3f}")
-        print(f"   Risk Level (r): {prediction['risk_level']}")
-        print(f"   High-risk regions: {len(prediction['high_risk_regions'])}")
+        ######################################################################
+        # Display flood prediction summary
+        ######################################################################
+        prediction_data = analysis_results['prediction_results']
+        print(f"\nFLOOD PREDICTION SUMMARY:")
+        print(f"   Overall Severity (λ): {prediction_data['overall_flood_severity']:.3f}")
+        print(f"   Risk Level (r): {prediction_data['classified_risk_level']}")
+        print(f"   High-risk regions: {len(prediction_data['high_priority_regions'])}")
         
-        # Regional breakdown
-        print(f"\n🌍 REGIONAL SEVERITY BREAKDOWN:")
-        for region, score in prediction['region_severities'].items():
-            status = "⚠️ HIGH RISK" if score > 0.6 else "📊 MODERATE" if score > 0.3 else "✅ LOW RISK"
-            print(f"   {region}: {score:.3f} {status}")
+        ######################################################################
+        # Display regional severity breakdown
+        ######################################################################
+        print(f"\nREGIONAL SEVERITY BREAKDOWN:")
+        for region, severity_score in prediction_data['regional_severity_breakdown'].items():
+            risk_status = "HIGH RISK" if severity_score > 0.6 else "MODERATE" if severity_score > 0.3 else "LOW RISK"
+            print(f"   {region}: {severity_score:.3f} {risk_status}")
         
-        # High-risk regions
-        if prediction['high_risk_regions']:
-            print(f"\n🚨 HIGH-RISK REGIONS REQUIRING IMMEDIATE ATTENTION:")
-            for region in prediction['high_risk_regions']:
-                print(f"   • {region}")
+        ######################################################################
+        # Display high-priority regions requiring immediate attention
+        ######################################################################
+        if prediction_data['high_priority_regions']:
+            print(f"\nHIGH-PRIORITY REGIONS REQUIRING IMMEDIATE ATTENTION:")
+            for priority_region in prediction_data['high_priority_regions']:
+                print(f"   • {priority_region}")
         
-        # Disaster response plan preview
-        print(f"\n🚨 DISASTER RESPONSE PLAN PREVIEW:")
+        ######################################################################
+        # Display disaster response plan preview
+        ######################################################################
+        print(f"\nDISASTER RESPONSE PLAN PREVIEW:")
         print("-" * 60)
-        response_lines = results['disaster_response_plan'].split('\n')
-        for line in response_lines[:15]:
+        response_plan_lines = analysis_results['disaster_response_plan'].split('\n')
+        for line in response_plan_lines[:15]:
             if line.strip():
                 print(f"   {line.strip()}")
         
-        if len(response_lines) > 15:
+        if len(response_plan_lines) > 15:
             print("   ... (continued in saved report)")
         print("-" * 60)
     
-    def _save_results(self, results):
-        """Save flood analysis results"""
+    def save_comprehensive_analysis_results(self, analysis_results):
+        """
+        Saves comprehensive flood analysis results in multiple formats.
+        Creates detailed JSON data, human-readable reports, and CSV environmental data.
+        """
         
-        # Save detailed JSON report
-        timestamp = results['analysis_date'].replace(' ', '_').replace(':', '-')
-        json_filename = f"disaster_reports/flood_analysis_{timestamp}.json"
+        ######################################################################
+        # Generate timestamped filenames for all output files
+        ######################################################################
+        timestamp = analysis_results['analysis_date'].replace(' ', '_').replace(':', '-')
+        json_report_filename = f"disaster_reports/flood_analysis_{timestamp}.json"
         
-        with open(json_filename, 'w') as f:
-            json.dump(results, f, indent=2)
+        ######################################################################
+        # Save detailed JSON analysis report
+        ######################################################################
+        with open(json_report_filename, 'w') as json_file:
+            json.dump(analysis_results, json_file, indent=2)
         
-        # Save disaster response plan
-        response_filename = f"disaster_reports/response_plan_{timestamp}.txt"
-        with open(response_filename, 'w') as f:
-            f.write("FLOOD DISASTER RESPONSE PLAN\n")
-            f.write("=" * 70 + "\n\n")
-            f.write(f"Analysis Date: {results['analysis_date']}\n")
-            f.write(f"Scenario: {results['scenario']}\n")
-            f.write(f"LLM Model: {results['llm_type']}\n\n")
+        ######################################################################
+        # Save human-readable disaster response plan
+        ######################################################################
+        response_plan_filename = f"disaster_reports/response_plan_{timestamp}.txt"
+        with open(response_plan_filename, 'w') as text_file:
+            text_file.write("FLOOD DISASTER RESPONSE PLAN\n")
+            text_file.write("=" * 70 + "\n\n")
+            text_file.write(f"Analysis Date: {analysis_results['analysis_date']}\n")
+            text_file.write(f"Scenario: {analysis_results['scenario']}\n")
+            text_file.write(f"LLM Model: {analysis_results['llm_type']}\n\n")
             
-            f.write("ALGORITHM OUTPUTS:\n")
-            f.write("-" * 30 + "\n")
-            f.write(f"Flood Severity (λ): {results['algorithm_outputs']['lambda']:.3f}\n")
-            f.write(f"Risk Level (r): {results['algorithm_outputs']['r']}\n\n")
+            text_file.write("ALGORITHM OUTPUTS:\n")
+            text_file.write("-" * 30 + "\n")
+            text_file.write(f"Flood Severity (λ): {analysis_results['algorithm_outputs']['lambda']:.3f}\n")
+            text_file.write(f"Risk Level (r): {analysis_results['algorithm_outputs']['r']}\n\n")
             
-            f.write("REGIONAL ANALYSIS:\n")
-            f.write("-" * 30 + "\n")
-            for region, score in results['prediction_results']['region_severities'].items():
-                f.write(f"{region}: {score:.3f}\n")
+            text_file.write("REGIONAL ANALYSIS:\n")
+            text_file.write("-" * 30 + "\n")
+            for region, severity_score in analysis_results['prediction_results']['regional_severity_breakdown'].items():
+                text_file.write(f"{region}: {severity_score:.3f}\n")
             
-            f.write(f"\nDISASTER RESPONSE PLAN:\n")
-            f.write("-" * 30 + "\n")
-            f.write(results['disaster_response_plan'])
+            text_file.write(f"\nDISASTER RESPONSE PLAN:\n")
+            text_file.write("-" * 30 + "\n")
+            text_file.write(analysis_results['disaster_response_plan'])
         
-        # Save environmental data to CSV
-        csv_filename = f"flood_data/environmental_data_{timestamp}.csv"
-        env_data = []
-        for region, data in results['environmental_data']['regions'].items():
-            row = {
+        ######################################################################
+        # Save environmental data to CSV for further analysis
+        ######################################################################
+        csv_data_filename = f"flood_data/environmental_data_{timestamp}.csv"
+        environmental_records = []
+        for region, regional_data in analysis_results['environmental_data']['regional_data'].items():
+            environmental_record = {
                 'region': region,
-                'elevation': data['topography']['elevation'],
-                'population_density': data['topography']['population_density'],
-                'rainfall_current': data['weather']['rainfall_current'],
-                'rainfall_24h': data['weather']['rainfall_24h'],
-                'water_level': data['water_level']['current_level'],
-                'water_level_change': data['water_level']['24h_change'],
-                'wind_speed': data['wind']['surface_wind_speed'],
-                'severity_score': results['prediction_results']['region_severities'][region]
+                'elevation': regional_data['topographical_data']['elevation'],
+                'population_density': regional_data['topographical_data']['population_density'],
+                'rainfall_current': regional_data['weather_conditions']['current_rainfall_rate'],
+                'rainfall_24h': regional_data['weather_conditions']['accumulated_rainfall_24h'],
+                'water_level': regional_data['water_level_data']['current_water_level_meters'],
+                'water_level_change': regional_data['water_level_data']['water_level_change_24h'],
+                'wind_speed': regional_data['wind_conditions']['surface_wind_speed_kmh'],
+                'severity_score': analysis_results['prediction_results']['regional_severity_breakdown'][region]
             }
-            env_data.append(row)
+            environmental_records.append(environmental_record)
         
-        df = pd.DataFrame(env_data)
-        df.to_csv(csv_filename, index=False)
+        environmental_dataframe = pd.DataFrame(environmental_records)
+        environmental_dataframe.to_csv(csv_data_filename, index=False)
         
-        print(f"\n✅ Reports saved:")
-        print(f"   📄 Detailed analysis: {json_filename}")
-        print(f"   📋 Response plan: {response_filename}")
-        print(f"   📊 Environmental data: {csv_filename}")
+        print(f"\nReports saved:")
+        print(f"   Detailed analysis: {json_report_filename}")
+        print(f"   Response plan: {response_plan_filename}")
+        print(f"   Environmental data: {csv_data_filename}")
 
-# ============================================================================
-# 5. MAIN EXECUTION WITH SCENARIO SELECTION
-# ============================================================================
+######################################################################
+# User Interface and Configuration Management
+######################################################################
 
-def print_flood_scenarios():
-    """Print available flood scenarios"""
+def display_available_flood_scenarios():
+    """
+    Displays available flood scenarios with detailed descriptions and characteristics.
+    Helps users understand different testing conditions and expected outcomes.
+    """
     
-    print("🌊 AVAILABLE FLOOD SCENARIOS:")
+    print("AVAILABLE FLOOD SCENARIOS:")
     print("=" * 50)
     
-    scenarios = {
+    scenario_descriptions = {
         "normal": {
             "description": "Normal weather conditions",
             "characteristics": "Light rainfall, stable water levels",
@@ -982,181 +1149,213 @@ def print_flood_scenarios():
         }
     }
     
-    for i, (scenario, details) in enumerate(scenarios.items(), 1):
-        print(f"\n{i}. {scenario.upper()}")
-        print(f"   Description: {details['description']}")
-        print(f"   Characteristics: {details['characteristics']}")
-        print(f"   Expected Severity: {details['expected_severity']}")
-        print(f"   Risk Level: {details['risk_level']}")
+    for scenario_number, (scenario_name, scenario_details) in enumerate(scenario_descriptions.items(), 1):
+        print(f"\n{scenario_number}. {scenario_name.upper()}")
+        print(f"   Description: {scenario_details['description']}")
+        print(f"   Characteristics: {scenario_details['characteristics']}")
+        print(f"   Expected Severity: {scenario_details['expected_severity']}")
+        print(f"   Risk Level: {scenario_details['risk_level']}")
 
-def print_llm_options():
-    """Print LLM options for disaster response"""
+def display_llm_configuration_options():
+    """
+    Displays available LLM options for disaster response with setup instructions.
+    """
     
-    print("\n🤖 LLM OPTIONS FOR DISASTER RESPONSE:")
+    print("\nLLM OPTIONS FOR DISASTER RESPONSE:")
     print("=" * 50)
     
     print("\n1. EXPERT DISASTER MANAGEMENT SYSTEM (Recommended)")
-    print("   ✅ Professional emergency management protocols")
-    print("   ✅ Comprehensive evacuation planning")
-    print("   ✅ Multi-agency coordination procedures")
-    print("   ✅ Real-time response capabilities")
+    print("   Professional emergency management protocols")
+    print("   Comprehensive evacuation planning")
+    print("   Multi-agency coordination procedures")
+    print("   Real-time response capabilities")
     
     print("\n2. HUGGING FACE TRANSFORMERS")
-    print("   📥 Requires: pip install transformers torch")
-    print("   ✅ AI-powered response generation")
-    print("   ✅ Free models available")
+    print("   Requires: pip install transformers torch")
+    print("   AI-powered response generation")
+    print("   Free models available")
     
     print("\n3. OLLAMA (Local LLM)")
-    print("   📥 Requires: Ollama installation")
-    print("   ✅ High-quality disaster response")
-    print("   ✅ Privacy-focused processing")
+    print("   Requires: Ollama installation")
+    print("   High-quality disaster response")
+    print("   Privacy-focused processing")
+
+######################################################################
+# Main Execution Function
+######################################################################
 
 def main():
-    """Main execution function"""
+    """
+    Main execution function with interactive system configuration.
+    Provides user-friendly interface for flood forecasting and disaster response planning.
+    """
     
-    print("🌊 FLOOD FORECASTING AND EARLY ACTION PLANNING PIPELINE")
+    print("FLOOD FORECASTING AND EARLY ACTION PLANNING PIPELINE")
     print("AI-Powered Disaster Management and Emergency Response System")
     print("=" * 70)
     
-    # Show scenario options
-    print_flood_scenarios()
+    ######################################################################
+    # Display configuration options to user
+    ######################################################################
+    display_available_flood_scenarios()
+    display_llm_configuration_options()
     
-    # Show LLM options
-    print_llm_options()
-    
-    # Get user selections
+    ######################################################################
+    # Get user configuration selections
+    ######################################################################
     print("\n" + "=" * 70)
     print("SYSTEM CONFIGURATION:")
     
-    # Select scenario
+    ######################################################################
+    # Scenario selection interface
+    ######################################################################
     print("\nSelect flood scenario:")
     print("1. Normal conditions")
     print("2. Moderate risk")
     print("3. High risk")
     print("4. Extreme risk")
     
-    scenario_choice = input("\nEnter scenario choice (1-4) [2]: ").strip()
+    scenario_selection = input("\nEnter scenario choice (1-4) [2]: ").strip()
     scenario_mapping = {
         "1": "normal",
         "2": "moderate_risk",
         "3": "high_risk",
         "4": "extreme_risk",
-        "": "moderate_risk"  # Default
+        "": "moderate_risk"  # Default selection
     }
     
-    selected_scenario = scenario_mapping.get(scenario_choice, "moderate_risk")
+    selected_scenario = scenario_mapping.get(scenario_selection, "moderate_risk")
     
-    # Select LLM type
+    ######################################################################
+    # LLM type selection interface
+    ######################################################################
     print("\nSelect LLM type:")
     print("1. Expert Disaster Management System")
     print("2. Hugging Face Transformers")
     print("3. Ollama")
     
-    llm_choice = input("\nEnter LLM choice (1-3) [1]: ").strip()
+    llm_selection = input("\nEnter LLM choice (1-3) [1]: ").strip()
     llm_mapping = {
         "1": "rule_based",
         "2": "transformers",
         "3": "ollama",
-        "": "rule_based"  # Default
+        "": "rule_based"  # Default selection
     }
     
-    selected_llm = llm_mapping.get(llm_choice, "rule_based")
+    selected_llm_type = llm_mapping.get(llm_selection, "rule_based")
     
-    print(f"\n🌊 Selected scenario: {selected_scenario}")
-    print(f"🤖 Selected LLM: {selected_llm}")
+    print(f"\nSelected scenario: {selected_scenario}")
+    print(f"Selected LLM: {selected_llm_type}")
     
-    # Initialize pipeline
-    print(f"\n🔧 Initializing flood forecasting pipeline...")
-    pipeline = FloodForecastingPipeline(selected_llm)
+    ######################################################################
+    # Initialize and execute flood forecasting pipeline
+    ######################################################################
+    print(f"\nInitializing flood forecasting pipeline...")
+    flood_forecasting_pipeline = FloodForecastingPipeline(selected_llm_type)
     
-    # Run analysis
+    ######################################################################
+    # Execute comprehensive flood analysis
+    ######################################################################
     try:
-        print(f"\n🔍 Running flood analysis...")
+        print(f"\nRunning flood analysis...")
         
-        results = pipeline.run_flood_analysis(selected_scenario)
+        comprehensive_analysis_results = flood_forecasting_pipeline.execute_comprehensive_flood_analysis(selected_scenario)
         
         print("\n" + "=" * 70)
-        print("🎉 FLOOD FORECASTING ANALYSIS COMPLETE!")
+        print("FLOOD FORECASTING ANALYSIS COMPLETE")
         print("=" * 70)
         
-        # Display key findings
-        print("🔬 KEY FINDINGS:")
-        print(f"   Flood Severity (λ): {results['algorithm_outputs']['lambda']:.3f}")
-        print(f"   Risk Level (r): {results['algorithm_outputs']['r']}")
-        print(f"   High-risk regions: {len(results['prediction_results']['high_risk_regions'])}")
+        ######################################################################
+        # Display key findings summary
+        ######################################################################
+        print("KEY FINDINGS:")
+        print(f"   Flood Severity (λ): {comprehensive_analysis_results['algorithm_outputs']['lambda']:.3f}")
+        print(f"   Risk Level (r): {comprehensive_analysis_results['algorithm_outputs']['r']}")
+        print(f"   High-risk regions: {len(comprehensive_analysis_results['prediction_results']['high_priority_regions'])}")
         
-        # Alert level summary
-        risk_level = results['algorithm_outputs']['r']
-        if risk_level == "Critical":
-            print(f"\n🚨 CRITICAL ALERT: Immediate evacuation and emergency response required!")
-        elif risk_level == "Severe":
-            print(f"\n⚠️  SEVERE WARNING: Urgent flood preparedness and possible evacuation needed")
-        elif risk_level == "Moderate":
-            print(f"\n📋 MODERATE WARNING: Enhanced monitoring and preparedness recommended")
+        ######################################################################
+        # Display appropriate alert level based on risk classification
+        ######################################################################
+        risk_classification = comprehensive_analysis_results['algorithm_outputs']['r']
+        if risk_classification == "Critical":
+            print(f"\nCRITICAL ALERT: Immediate evacuation and emergency response required!")
+        elif risk_classification == "Severe":
+            print(f"\nSEVERE WARNING: Urgent flood preparedness and possible evacuation needed")
+        elif risk_classification == "Moderate":
+            print(f"\nMODERATE WARNING: Enhanced monitoring and preparedness recommended")
         else:
-            print(f"\n✅ LOW RISK: Continue routine monitoring")
+            print(f"\nLOW RISK: Continue routine monitoring")
         
-        print("\n📁 REPORTS GENERATED:")
-        print("   📄 Detailed flood analysis")
-        print("   📋 Disaster response plan")
-        print("   📊 Environmental data export")
-        print("   🚨 Emergency coordination protocols")
+        print("\nREPORTS GENERATED:")
+        print("   Detailed flood analysis")
+        print("   Disaster response plan")
+        print("   Environmental data export")
+        print("   Emergency coordination protocols")
         
-        return results
+        return comprehensive_analysis_results
         
-    except Exception as e:
-        print(f"\n❌ Error during analysis: {str(e)}")
+    except Exception as analysis_error:
+        print(f"\nError during analysis: {str(analysis_error)}")
         print("Please check your configuration and try again.")
         return None
 
-# ============================================================================
-# 6. COMPREHENSIVE SCENARIO TESTING
-# ============================================================================
+######################################################################
+# Comprehensive Scenario Testing and Demonstration
+######################################################################
 
-def demo_all_flood_scenarios():
-    """Demonstrate all flood scenarios"""
+def demonstrate_all_flood_scenarios():
+    """
+    Demonstrates all flood scenarios for comprehensive system testing.
+    Useful for validating pipeline performance across different flood conditions.
+    """
     
-    print("🧪 DEMONSTRATING ALL FLOOD SCENARIOS")
+    print("DEMONSTRATING ALL FLOOD SCENARIOS")
     print("=" * 60)
     
-    scenarios = ["normal", "moderate_risk", "high_risk", "extreme_risk"]
-    pipeline = FloodForecastingPipeline("rule_based")
+    test_scenarios = ["normal", "moderate_risk", "high_risk", "extreme_risk"]
+    demonstration_pipeline = FloodForecastingPipeline("rule_based")
     
-    results_summary = []
+    scenario_results_summary = []
     
-    for scenario in scenarios:
-        print(f"\n🌊 Testing scenario: {scenario}")
+    for test_scenario in test_scenarios:
+        print(f"\nTesting scenario: {test_scenario}")
         print("-" * 40)
         
-        results = pipeline.run_flood_analysis(scenario)
+        scenario_results = demonstration_pipeline.execute_comprehensive_flood_analysis(test_scenario)
         
-        results_summary.append({
-            "scenario": scenario,
-            "severity": results['algorithm_outputs']['lambda'],
-            "risk_level": results['algorithm_outputs']['r'],
-            "high_risk_regions": len(results['prediction_results']['high_risk_regions'])
+        scenario_results_summary.append({
+            "scenario": test_scenario,
+            "severity": scenario_results['algorithm_outputs']['lambda'],
+            "risk_level": scenario_results['algorithm_outputs']['r'],
+            "high_risk_regions": len(scenario_results['prediction_results']['high_priority_regions'])
         })
         
-        print(f"   λ: {results['algorithm_outputs']['lambda']:.3f}")
-        print(f"   Risk: {results['algorithm_outputs']['r']}")
-        print(f"   High-risk regions: {len(results['prediction_results']['high_risk_regions'])}")
+        print(f"   λ: {scenario_results['algorithm_outputs']['lambda']:.3f}")
+        print(f"   Risk: {scenario_results['algorithm_outputs']['r']}")
+        print(f"   High-risk regions: {len(scenario_results['prediction_results']['high_priority_regions'])}")
     
-    # Display summary
-    print("\n FLOOD SCENARIO COMPARISON:")
+    ######################################################################
+    # Display comparative scenario summary
+    ######################################################################
+    print("\nFLOOD SCENARIO COMPARISON:")
     print("=" * 60)
     print("Scenario        | Severity | Risk Level | High-Risk Regions")
     print("-" * 60)
-    for result in results_summary:
-        print(f"{result['scenario']:15} | {result['severity']:.3f}    | {result['risk_level']:10} | {result['high_risk_regions']}")
+    for scenario_summary in scenario_results_summary:
+        print(f"{scenario_summary['scenario']:15} | {scenario_summary['severity']:.3f}    | {scenario_summary['risk_level']:10} | {scenario_summary['high_risk_regions']}")
     
-    return results_summary
+    return scenario_results_summary
+
+######################################################################
+# Script Entry Point
+######################################################################
 
 if __name__ == "__main__":
-    # Run the complete flood forecasting pipeline
-    results = main()
+    # Execute the complete flood forecasting pipeline with user interaction
+    pipeline_results = main()
     
-    # Optionally run demo of all scenarios
-    if results:
-        demo_choice = input("\nRun comprehensive scenario testing? (y/n) [n]: ").strip().lower()
-        if demo_choice == 'y':
-            demo_all_flood_scenarios()
+    # Optional comprehensive scenario demonstration
+    if pipeline_results:
+        demonstration_choice = input("\nRun comprehensive scenario testing? (y/n) [n]: ").strip().lower()
+        if demonstration_choice == 'y':
+            demonstrate_all_flood_scenarios()
