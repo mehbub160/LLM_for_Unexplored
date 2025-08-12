@@ -1,423 +1,482 @@
-# ============================================================================
-# FREE LLM ALTERNATIVES - NO AUTHENTICATION REQUIRED
-# Using Microsoft DialoGPT, Google Flan-T5, or Ollama alternatives
-# ============================================================================
+######################################################################
+# Free LLM Integration for Blueberry Harvest Analysis
+# Supports multiple free LLM options without requiring paid API keys
+######################################################################
 
 import json
 import requests
 from datetime import datetime
 
-# ============================================================================
-# 1. MICROSOFT DIALOGPT (FREE, NO AUTH)
-# ============================================================================
+######################################################################
+# Local Model Integration using Transformers Library
+######################################################################
 
-class FreeLLMIntegration:
-    """Free LLM integration using publicly available models"""
+class LocalLLMProcessor:
+    """
+    Handles local language model processing using free transformer models.
+    Falls back to rule-based analysis if models are unavailable.
+    """
     
     def __init__(self):
-        self.model_loaded = False
+        self.is_model_ready = False
         self.tokenizer = None
-        self.model = None
-        self.load_free_model()
+        self.language_model = None
+        self.initialize_local_model()
     
-    def load_free_model(self):
-        """Load a free model that doesn't require authentication"""
+    def initialize_local_model(self):
+        """
+        Attempts to load a free language model that doesn't require authentication.
+        Uses Google Flan-T5 as the primary choice due to its instruction-following capabilities.
+        """
         try:
             from transformers import AutoTokenizer, AutoModelForCausalLM
             import torch
             
-            # Try Google Flan-T5 first (text-to-text, good for instructions)
-            model_name = "google/flan-t5-base"
+            model_identifier = "google/flan-t5-base"
             
-            print(f"📥 Loading {model_name} (free, no auth required)...")
+            print(f"Loading {model_identifier} model (no authentication required)...")
             
-            self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-            self.model = AutoModelForCausalLM.from_pretrained(model_name)
+            self.tokenizer = AutoTokenizer.from_pretrained(model_identifier)
+            self.language_model = AutoModelForCausalLM.from_pretrained(model_identifier)
             
-            self.model_loaded = True
-            print("✅ Free model loaded successfully!")
+            self.is_model_ready = True
+            print("Local model loaded successfully")
             
-        except Exception as e:
-            print(f"⚠️  Transformers error: {e}")
-            print("   Falling back to rule-based analysis...")
-            self.model_loaded = False
+        except Exception as error:
+            print(f"Could not load transformer model: {error}")
+            print("Switching to rule-based analysis instead")
+            self.is_model_ready = False
     
-    def generate_response(self, prompt, max_tokens=200):
-        """Generate response using free model"""
-        if not self.model_loaded:
-            return self.rule_based_analysis(prompt)
+    def create_analysis_response(self, input_prompt, token_limit=200):
+        """
+        Generates harvest analysis response using either the loaded model or rule-based logic.
+        """
+        if not self.is_model_ready:
+            return self.perform_rule_based_analysis(input_prompt)
         
         try:
-            # Simplify prompt for T5 model
-            simplified_prompt = self.create_simple_prompt(prompt)
+            simplified_input = self.prepare_model_prompt(input_prompt)
             
-            inputs = self.tokenizer(simplified_prompt, return_tensors="pt", max_length=512, truncation=True)
+            model_inputs = self.tokenizer(simplified_input, return_tensors="pt", 
+                                        max_length=512, truncation=True)
             
             with torch.no_grad():
-                outputs = self.model.generate(
-                    **inputs,
-                    max_length=max_tokens,
+                model_outputs = self.language_model.generate(
+                    **model_inputs,
+                    max_length=token_limit,
                     temperature=0.7,
                     do_sample=True,
                     pad_token_id=self.tokenizer.eos_token_id
                 )
             
-            response = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
-            return response
+            generated_text = self.tokenizer.decode(model_outputs[0], skip_special_tokens=True)
+            return generated_text
             
-        except Exception as e:
-            print(f"⚠️  Model generation error: {e}")
-            return self.rule_based_analysis(prompt)
+        except Exception as error:
+            print(f"Model generation failed: {error}")
+            return self.perform_rule_based_analysis(input_prompt)
     
-    def create_simple_prompt(self, original_prompt):
-        """Create simplified prompt for T5 model"""
-        # Extract key information from original prompt
-        lines = original_prompt.split('\n')
+    def prepare_model_prompt(self, original_input):
+        """
+        Simplifies the input prompt for better compatibility with T5 model architecture.
+        Extracts key ripeness data and creates focused instructions.
+        """
+        prompt_lines = original_input.split('\n')
         
-        r4_current = 26.5  # Default
-        r5_current = 3.5   # Default
+        ready_percentage = 26.5  # Default value
+        overripe_percentage = 3.5  # Default value
         
-        for line in lines:
+        for line in prompt_lines:
             if 'Ready to harvest (R4):' in line:
                 try:
-                    r4_current = float(line.split(':')[1].strip().rstrip('%'))
-                except:
-                    pass
+                    ready_percentage = float(line.split(':')[1].strip().rstrip('%'))
+                except ValueError:
+                    continue
             elif 'Overripe berries (R5):' in line:
                 try:
-                    r5_current = float(line.split(':')[1].strip().rstrip('%'))
-                except:
-                    pass
+                    overripe_percentage = float(line.split(':')[1].strip().rstrip('%'))
+                except ValueError:
+                    continue
         
-        # Create simple instruction for T5
-        simple_prompt = f"Analyze blueberry harvest: {r4_current}% ready, {r5_current}% overripe. Recommend workers and strategy."
-        return simple_prompt
+        optimized_prompt = f"Analyze blueberry harvest with {ready_percentage}% ready berries and {overripe_percentage}% overripe. Recommend workforce and harvesting strategy."
+        return optimized_prompt
     
-    def rule_based_analysis(self, prompt):
-        """Fallback rule-based analysis if models fail"""
-        print("🤖 Using rule-based analysis (no LLM required)")
+    def perform_rule_based_analysis(self, input_prompt):
+        """
+        Provides intelligent harvest recommendations using algorithmic analysis
+        when language models are not available.
+        """
+        print("Using algorithmic analysis for harvest recommendations")
         
-        # Extract ripeness data from prompt
-        lines = prompt.split('\n')
-        r4_current = 26.5  # Default
-        r5_current = 3.5   # Default
+        ######################################################################
+        # Extract ripeness data from the input prompt
+        ######################################################################
+        prompt_lines = input_prompt.split('\n')
+        ready_berries_percent = 26.5
+        overripe_berries_percent = 3.5
         
-        for line in lines:
+        for line in prompt_lines:
             if 'Ready to harvest (R4):' in line:
                 try:
-                    r4_current = float(line.split(':')[1].strip().rstrip('%'))
-                except:
-                    pass
+                    ready_berries_percent = float(line.split(':')[1].strip().rstrip('%'))
+                except ValueError:
+                    continue
             elif 'Overripe berries (R5):' in line:
                 try:
-                    r5_current = float(line.split(':')[1].strip().rstrip('%'))
-                except:
-                    pass
+                    overripe_berries_percent = float(line.split(':')[1].strip().rstrip('%'))
+                except ValueError:
+                    continue
         
-        # Rule-based recommendations
-        if r5_current > 10:
-            urgency = "high"
-            workers = max(6, int(r4_current / 3))
-            strategy = "immediate harvest to minimize waste"
-        elif r4_current > 30:
-            urgency = "medium"
-            workers = max(4, int(r4_current / 4))
-            strategy = "begin systematic harvest"
+        ######################################################################
+        # Apply harvest decision logic based on ripeness levels
+        ######################################################################
+        if overripe_berries_percent > 10:
+            harvest_urgency = "high"
+            recommended_workers = max(6, int(ready_berries_percent / 3))
+            harvest_strategy = "immediate harvest to minimize waste"
+        elif ready_berries_percent > 30:
+            harvest_urgency = "medium"
+            recommended_workers = max(4, int(ready_berries_percent / 4))
+            harvest_strategy = "begin systematic harvest"
         else:
-            urgency = "low"
-            workers = max(2, int(r4_current / 5))
-            strategy = "monitor and prepare for harvest"
+            harvest_urgency = "low"
+            recommended_workers = max(2, int(ready_berries_percent / 5))
+            harvest_strategy = "monitor and prepare for harvest"
         
-        # Calculate yield estimate
-        yield_estimate = int(r4_current * 25)  # Rough estimate
+        ######################################################################
+        # Calculate expected yield and quality metrics
+        ######################################################################
+        estimated_yield = int(ready_berries_percent * 25)
         
-        # Generate structured response
-        response = f"""
-HARVEST ANALYSIS REPORT:
+        analysis_report = f"""
+HARVEST ANALYSIS REPORT
 
-1. WORKFORCE PLANNING: Deploy {workers} workers tomorrow
-2. HARVEST URGENCY: {urgency.upper()} priority
-3. YIELD ESTIMATION: Expected {yield_estimate} lbs harvest
-4. QUALITY STRATEGY: {"Speed-focused" if urgency == "high" else "Selective picking"}
-5. WASTE MANAGEMENT: {r5_current}% waste expected
-6. TIMING RECOMMENDATIONS: {"Immediate action" if urgency == "high" else "2-3 day optimal window"}
+WORKFORCE PLANNING: Deploy {recommended_workers} workers tomorrow
+HARVEST URGENCY: {harvest_urgency.upper()} priority
+YIELD ESTIMATION: Expected {estimated_yield} lbs harvest
+QUALITY STRATEGY: {"Speed-focused harvesting" if harvest_urgency == "high" else "Selective picking approach"}
+WASTE MANAGEMENT: {overripe_berries_percent}% waste expected
+TIMING RECOMMENDATIONS: {"Immediate action required" if harvest_urgency == "high" else "2-3 day optimal window"}
 
 RECOMMENDATIONS:
-- {strategy}
-- Monitor R5 levels closely (currently {r5_current}%)
-- Focus on high-density R4 areas first
-- {"Weather permitting, extend harvest hours" if urgency == "high" else "Standard harvest schedule recommended"}
-- Quality control: {"Prioritize speed over perfection" if urgency == "high" else "Maintain selective picking standards"}
+- {harvest_strategy}
+- Monitor overripe levels closely (currently {overripe_berries_percent}%)
+- Focus on high-density ready berry areas first
+- {"Weather permitting, extend harvest hours" if harvest_urgency == "high" else "Standard harvest schedule recommended"}
+- Quality control: {"Prioritize speed over perfection" if harvest_urgency == "high" else "Maintain selective picking standards"}
 """
         
-        return response.strip()
+        return analysis_report.strip()
 
-# ============================================================================
-# 2. OLLAMA WITH ALTERNATIVE MODELS (FREE)
-# ============================================================================
+######################################################################
+# Ollama Integration for Local Model Serving
+######################################################################
 
-class OllamaFreeModels:
-    """Ollama with free alternative models"""
+class OllamaModelManager:
+    """
+    Manages Ollama-served models for local LLM processing.
+    Handles model selection and installation automatically.
+    """
     
     def __init__(self):
-        self.base_url = "http://localhost:11434"
-        self.available_models = [
-            "phi",           # Microsoft's Phi model - small and fast
-            "mistral",       # Mistral 7B - open source
-            "codellama",     # Code Llama - free variant
-            "orca-mini",     # Orca Mini - lightweight
-            "vicuna"         # Vicuna - open source
+        self.ollama_endpoint = "http://localhost:11434"
+        self.supported_models = [
+            "phi",           # Microsoft Phi - compact and efficient
+            "mistral",       # Mistral 7B - open source general model
+            "codellama",     # Code Llama - good for technical analysis
+            "orca-mini",     # Orca Mini - lightweight alternative
+            "vicuna"         # Vicuna - community-trained model
         ]
-        self.selected_model = None
-        self.check_available_models()
+        self.active_model = None
+        self.find_available_model()
     
-    def check_available_models(self):
-        """Check which models are available"""
+    def find_available_model(self):
+        """
+        Checks which supported models are already installed and ready to use.
+        """
         try:
-            response = requests.get(f"{self.base_url}/api/tags")
-            if response.status_code == 200:
-                installed = response.json()
-                installed_names = [model['name'].split(':')[0] for model in installed.get('models', [])]
+            model_list_response = requests.get(f"{self.ollama_endpoint}/api/tags")
+            if model_list_response.status_code == 200:
+                installed_models = model_list_response.json()
+                installed_model_names = [model['name'].split(':')[0] 
+                                       for model in installed_models.get('models', [])]
                 
-                # Find first available model
-                for model in self.available_models:
-                    if model in installed_names:
-                        self.selected_model = model
-                        print(f"✅ Using {model} model")
+                for model in self.supported_models:
+                    if model in installed_model_names:
+                        self.active_model = model
+                        print(f"Using {model} model for analysis")
                         return
                 
-                print("⚠️  No suitable models found. Installing phi (lightweight)...")
-                self.install_model("phi")
+                print("No suitable models found. Installing Phi model (lightweight option)...")
+                self.setup_model("phi")
             else:
-                print("❌ Ollama not running")
+                print("Ollama service is not running")
                 
         except requests.exceptions.ConnectionError:
-            print("❌ Ollama not available")
+            print("Ollama is not available on this system")
     
-    def install_model(self, model_name):
-        """Install a free model"""
+    def setup_model(self, model_name):
+        """
+        Downloads and installs a specified model through Ollama.
+        """
         try:
-            print(f"📥 Installing {model_name}...")
-            response = requests.post(f"{self.base_url}/api/pull", 
-                                   json={"name": model_name})
-            if response.status_code == 200:
-                self.selected_model = model_name
-                print(f"✅ {model_name} installed")
+            print(f"Installing {model_name} model...")
+            install_response = requests.post(f"{self.ollama_endpoint}/api/pull", 
+                                           json={"name": model_name})
+            if install_response.status_code == 200:
+                self.active_model = model_name
+                print(f"{model_name} model installed successfully")
             else:
-                print(f"❌ Failed to install {model_name}")
-        except Exception as e:
-            print(f"❌ Installation error: {e}")
+                print(f"Failed to install {model_name} model")
+        except Exception as error:
+            print(f"Model installation error: {error}")
     
-    def generate_response(self, prompt):
-        """Generate response using free Ollama model"""
-        if not self.selected_model:
+    def generate_analysis(self, prompt_text):
+        """
+        Generates harvest analysis using the active Ollama model.
+        """
+        if not self.active_model:
             return None
         
         try:
-            payload = {
-                "model": self.selected_model,
-                "prompt": prompt,
+            request_payload = {
+                "model": self.active_model,
+                "prompt": prompt_text,
                 "stream": False
             }
             
-            response = requests.post(f"{self.base_url}/api/generate", json=payload)
+            generation_response = requests.post(f"{self.ollama_endpoint}/api/generate", 
+                                              json=request_payload)
             
-            if response.status_code == 200:
-                return response.json().get("response", "")
+            if generation_response.status_code == 200:
+                return generation_response.json().get("response", "")
             else:
                 return None
                 
-        except Exception as e:
-            print(f"❌ Generation error: {e}")
+        except Exception as error:
+            print(f"Response generation error: {error}")
             return None
 
-# ============================================================================
-# 3. GROQ API (FREE TIER)
-# ============================================================================
+######################################################################
+# Groq API Integration with Free Tier Support
+######################################################################
 
-class GroqAPI:
-    """Groq API with free tier"""
+class GroqAPIClient:
+    """
+    Handles Groq API integration with support for free tier usage.
+    Provides access to fast inference with daily token limits.
+    """
     
     def __init__(self, api_key=None):
-        self.api_key = api_key
-        self.base_url = "https://api.groq.com/openai/v1"
+        self.groq_api_key = api_key
+        self.api_endpoint = "https://api.groq.com/openai/v1"
         
         if not api_key:
-            print("⚠️  No Groq API key provided")
-            print("   Get free API key at: https://console.groq.com/")
-            print("   Free tier: 14,400 tokens/day")
+            print("No Groq API key provided")
+            print("Free API key available at: https://console.groq.com/")
+            print("Free tier includes 14,400 tokens per day")
     
-    def generate_response(self, prompt):
-        """Generate response using Groq API"""
-        if not self.api_key:
+    def generate_analysis(self, prompt_text):
+        """
+        Generates harvest analysis using Groq's API with free tier models.
+        """
+        if not self.groq_api_key:
             return None
         
         try:
-            headers = {
-                "Authorization": f"Bearer {self.api_key}",
+            request_headers = {
+                "Authorization": f"Bearer {self.groq_api_key}",
                 "Content-Type": "application/json"
             }
             
-            payload = {
+            request_data = {
                 "model": "llama2-70b-4096",
-                "messages": [{"role": "user", "content": prompt}],
+                "messages": [{"role": "user", "content": prompt_text}],
                 "temperature": 0.7,
                 "max_tokens": 500
             }
             
-            response = requests.post(f"{self.base_url}/chat/completions", 
-                                   headers=headers, json=payload)
+            api_response = requests.post(f"{self.api_endpoint}/chat/completions", 
+                                       headers=request_headers, json=request_data)
             
-            if response.status_code == 200:
-                result = response.json()
-                return result["choices"][0]["message"]["content"]
+            if api_response.status_code == 200:
+                response_data = api_response.json()
+                return response_data["choices"][0]["message"]["content"]
             else:
-                print(f"❌ Groq API error: {response.status_code}")
+                print(f"Groq API returned error: {api_response.status_code}")
                 return None
                 
-        except Exception as e:
-            print(f"❌ Groq error: {e}")
+        except Exception as error:
+            print(f"Groq API error: {error}")
             return None
 
-# ============================================================================
-# 4. INTEGRATED PIPELINE WITH FREE ALTERNATIVES
-# ============================================================================
+######################################################################
+# Main Pipeline Integration
+######################################################################
 
-def run_pipeline_with_free_llm():
-    """Run pipeline with free LLM alternatives"""
+def execute_harvest_analysis_pipeline():
+    """
+    Runs the complete harvest analysis pipeline using available LLM options.
+    Tries multiple LLM services in order of preference and falls back as needed.
+    """
     
-    print("🫐 BLUEBERRY HARVEST PLANNING WITH FREE LLM")
+    print("BLUEBERRY HARVEST PLANNING WITH FREE LLM INTEGRATION")
     print("=" * 60)
     
-    # Try different LLM options in order of preference
-    llm_options = [
-        ("Rule-based Analysis", FreeLLMIntegration()),
-        ("Ollama Free Models", OllamaFreeModels()),
-        ("Groq API (if key available)", GroqAPI())
+    ######################################################################
+    # Initialize available LLM services in order of preference
+    ######################################################################
+    llm_services = [
+        ("Local Transformer Models", LocalLLMProcessor()),
+        ("Ollama Local Models", OllamaModelManager()),
+        ("Groq API Service", GroqAPIClient())
     ]
     
-    selected_llm = None
+    selected_service = None
     
-    print("\n1. Checking available LLM options...")
-    for name, llm in llm_options:
-        if isinstance(llm, FreeLLMIntegration):
-            selected_llm = llm
-            print(f"✅ Using {name}")
+    print("\nChecking available LLM services...")
+    for service_name, service_instance in llm_services:
+        if isinstance(service_instance, LocalLLMProcessor):
+            selected_service = service_instance
+            print(f"Using {service_name}")
             break
-        elif isinstance(llm, OllamaFreeModels) and llm.selected_model:
-            selected_llm = llm
-            print(f"✅ Using {name} - {llm.selected_model}")
+        elif isinstance(service_instance, OllamaModelManager) and service_instance.active_model:
+            selected_service = service_instance
+            print(f"Using {service_name} - {service_instance.active_model}")
             break
     
-    if not selected_llm:
-        print("Using rule-based analysis as fallback...")
-        selected_llm = FreeLLMIntegration()
+    if not selected_service:
+        print("Using rule-based analysis as fallback option...")
+        selected_service = LocalLLMProcessor()
     
-    # Load CV data
-    print("\n2. Loading CV analysis data...")
+    ######################################################################
+    # Load computer vision analysis data
+    ######################################################################
+    print("\nLoading computer vision analysis data...")
     try:
-        with open('cv_dummy_output.json', 'r') as f:
-            cv_data = json.load(f)
-        print(f"✅ Loaded: {cv_data['total_berries_detected']:,} berries")
+        with open('cv_dummy_output.json', 'r') as data_file:
+            cv_analysis_data = json.load(data_file)
+        print(f"Loaded analysis for {cv_analysis_data['total_berries_detected']:,} berries")
     except FileNotFoundError:
-        print("❌ cv_dummy_output.json not found!")
+        print("Error: cv_dummy_output.json file not found")
         return
     
-    # Generate forecast
-    print("\n3. Generating forecast...")
-    current_ripeness = cv_data['ripeness_distribution']
-    forecast = [r + (r * 0.1) for r in current_ripeness]
-    total = sum(forecast)
-    forecast = [round(f/total * 100, 1) for f in forecast]
+    ######################################################################
+    # Generate ripeness forecast for tomorrow
+    ######################################################################
+    print("\nGenerating ripeness forecast...")
+    current_distribution = cv_analysis_data['ripeness_distribution']
     
-    # Create prompt
-    prompt = f"""You are a blueberry harvest consultant. Analyze this data:
+    # Apply simple growth model for next day prediction
+    forecasted_distribution = [percentage + (percentage * 0.1) for percentage in current_distribution]
+    distribution_total = sum(forecasted_distribution)
+    forecasted_distribution = [round(forecast/distribution_total * 100, 1) 
+                             for forecast in forecasted_distribution]
+    
+    ######################################################################
+    # Create comprehensive analysis prompt
+    ######################################################################
+    analysis_prompt = f"""You are a professional blueberry harvest consultant. Analyze this field data:
 
-CURRENT RIPENESS:
-- Ready to harvest (R4): {current_ripeness[3]}%
-- Overripe berries (R5): {current_ripeness[4]}%
+CURRENT RIPENESS DISTRIBUTION:
+- Ready to harvest (R4): {current_distribution[3]}%
+- Overripe berries (R5): {current_distribution[4]}%
 
 TOMORROW'S FORECAST:
-- Ready to harvest (R4): {forecast[3]}%
-- Overripe berries (R5): {forecast[4]}%
+- Ready to harvest (R4): {forecasted_distribution[3]}%
+- Overripe berries (R5): {forecasted_distribution[4]}%
 
-FARM: 15,000 plants, 8 workers available, 200 lbs/worker/day capacity
+FARM SPECIFICATIONS: 15,000 blueberry plants, 8 workers available, 200 lbs per worker per day capacity
 
-Provide specific recommendations for harvest planning."""
+Provide specific recommendations for harvest planning including workforce allocation and timing strategy."""
     
-    # Get LLM response
-    print("\n4. Getting LLM analysis...")
-    response = selected_llm.generate_response(prompt)
+    ######################################################################
+    # Generate LLM analysis response
+    ######################################################################
+    print("\nGenerating LLM analysis...")
     
-    if response:
+    if isinstance(selected_service, LocalLLMProcessor):
+        analysis_response = selected_service.create_analysis_response(analysis_prompt)
+    elif isinstance(selected_service, OllamaModelManager):
+        analysis_response = selected_service.generate_analysis(analysis_prompt)
+    elif isinstance(selected_service, GroqAPIClient):
+        analysis_response = selected_service.generate_analysis(analysis_prompt)
+    else:
+        analysis_response = None
+    
+    if analysis_response:
         print("\n" + "=" * 60)
-        print("🤖 LLM HARVEST ANALYSIS")
+        print("LLM HARVEST ANALYSIS RESULTS")
         print("=" * 60)
         
-        print(f"📅 Date: {cv_data['analysis_date']}")
-        print(f"🫐 Berries: {cv_data['total_berries_detected']:,}")
-        print(f"📊 R4 (Ready): {current_ripeness[3]}%")
-        print(f"📊 R5 (Overripe): {current_ripeness[4]}%")
+        print(f"Analysis Date: {cv_analysis_data['analysis_date']}")
+        print(f"Total Berries: {cv_analysis_data['total_berries_detected']:,}")
+        print(f"Ready for Harvest: {current_distribution[3]}%")
+        print(f"Overripe Berries: {current_distribution[4]}%")
         
-        print(f"\n🤖 LLM RECOMMENDATIONS:")
+        print(f"\nLLM RECOMMENDATIONS:")
         print("-" * 40)
-        print(response)
+        print(analysis_response)
         print("-" * 40)
         
-        # Save results
-        results = {
-            "analysis_date": cv_data['analysis_date'],
-            "cv_data": cv_data,
-            "llm_response": response,
-            "model_used": type(selected_llm).__name__
+        ######################################################################
+        # Save complete analysis results
+        ######################################################################
+        complete_results = {
+            "analysis_date": cv_analysis_data['analysis_date'],
+            "cv_data": cv_analysis_data,
+            "llm_response": analysis_response,
+            "model_used": type(selected_service).__name__
         }
         
-        with open('free_llm_analysis.json', 'w') as f:
-            json.dump(results, f, indent=2)
+        with open('free_llm_analysis.json', 'w') as results_file:
+            json.dump(complete_results, results_file, indent=2)
         
-        print(f"\n✅ Results saved to: free_llm_analysis.json")
+        print(f"\nAnalysis results saved to: free_llm_analysis.json")
         
     else:
-        print("❌ No LLM response available")
+        print("No LLM response could be generated")
 
-# ============================================================================
-# 5. SIMPLE SETUP INSTRUCTIONS
-# ============================================================================
+######################################################################
+# Setup and Configuration Information
+######################################################################
 
-def print_free_options():
-    """Print free LLM options"""
+def display_free_llm_options():
+    """
+    Displays available free LLM options and setup instructions for users.
+    """
     
-    print("🆓 FREE LLM OPTIONS")
+    print("FREE LLM OPTIONS FOR BLUEBERRY ANALYSIS")
     print("=" * 40)
     
-    print("\n✅ OPTION 1: RULE-BASED (NO SETUP)")
-    print("   • Works immediately")
-    print("   • Smart algorithms")
-    print("   • No internet required")
+    print("\nOPTION 1: RULE-BASED ANALYSIS (IMMEDIATE USE)")
+    print("   - Works without any setup")
+    print("   - Intelligent algorithmic recommendations")
+    print("   - No internet connection required")
     
-    print("\n✅ OPTION 2: OLLAMA FREE MODELS")
-    print("   • Install: https://ollama.ai/download")
-    print("   • Run: ollama serve")
-    print("   • Install: ollama pull phi")
+    print("\nOPTION 2: OLLAMA LOCAL MODELS")
+    print("   - Download from: https://ollama.ai/download")
+    print("   - Start service: ollama serve")
+    print("   - Install model: ollama pull phi")
     
-    print("\n✅ OPTION 3: GROQ API (FREE TIER)")
-    print("   • Sign up: https://console.groq.com/")
-    print("   • Get API key (free 14,400 tokens/day)")
-    print("   • Add key to script")
+    print("\nOPTION 3: GROQ API (FREE TIER)")
+    print("   - Register at: https://console.groq.com/")
+    print("   - Obtain free API key (14,400 tokens daily)")
+    print("   - Add API key to configuration")
     
-    print("\n🚀 RECOMMENDED: Start with Option 1 (works immediately)")
+    print("\nRECOMMENDATION: Start with Option 1 for immediate results")
 
-# ============================================================================
-# 6. MAIN EXECUTION
-# ============================================================================
+######################################################################
+# Main Execution
+######################################################################
 
 if __name__ == "__main__":
-    print_free_options()
+    display_free_llm_options()
     
     print("\n" + "="*60)
-    response = input("Run the pipeline now? (y/n): ")
+    user_choice = input("Would you like to run the harvest analysis pipeline? (y/n): ")
     
-    if response.lower() == 'y':
-        run_pipeline_with_free_llm()
+    if user_choice.lower() == 'y':
+        execute_harvest_analysis_pipeline()
     else:
-        print("Ready when you are!")
+        print("Pipeline ready to run when needed")
