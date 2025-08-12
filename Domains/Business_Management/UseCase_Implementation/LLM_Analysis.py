@@ -1,6 +1,6 @@
 # ============================================================================
 # LLM-ASSISTED INVESTMENT DECISION SUPPORT IN GOLD FOREX TRADING
-# Complete implementation with news validation and market analysis
+# Professional implementation with news validation and market analysis
 # ============================================================================
 
 import json
@@ -35,7 +35,7 @@ class FinancialDataSimulator:
         # Gold price parameters
         self.gold_base_price = 2000  # USD per ounce
         
-        print("💰 Financial Data Simulator initialized")
+        print("Financial Data Simulator initialized")
         print(f"   Current gold base price: ${self.gold_base_price}/oz")
     
     def generate_historical_gold_prices(self, days=365):
@@ -159,13 +159,14 @@ class NewsAnalysisEngine:
                 "Analysts divided on gold price direction amid conflicting indicators",
                 "Trading volumes remain moderate in gold futures markets",
                 "Market participants await key economic announcements this week"
-            ],    "volatile": [  # ADD THIS
-        "Market volatility spikes as conflicting economic data creates uncertainty",
-        "Gold prices swing wildly amid mixed signals from central banks",
-        "Precious metals see increased trading volumes during market turbulence",
-        "Investors seek clarity as gold experiences heightened price swings",
-        "Market participants brace for continued volatility in precious metals"
-    ]
+            ],
+            "volatile": [
+                "Market volatility spikes as conflicting economic data creates uncertainty",
+                "Gold prices swing wildly amid mixed signals from central banks",
+                "Precious metals see increased trading volumes during market turbulence",
+                "Investors seek clarity as gold experiences heightened price swings",
+                "Market participants brace for continued volatility in precious metals"
+            ]
         }
         
         # Fake news patterns (to be filtered out)
@@ -188,7 +189,7 @@ class NewsAnalysisEngine:
             "CryptoGoldRevolution", "UndergroundTrading.org"
         ]
         
-        print("📰 News Analysis Engine initialized")
+        print("News Analysis Engine initialized")
         print(f"   Monitoring {len(self.credible_sources)} credible sources")
     
     def generate_news_articles(self, market_scenario="neutral", num_articles=10):
@@ -312,7 +313,7 @@ class NewsAnalysisEngine:
         Algorithm Step 1: Classify each news article as real or fake
         """
         
-        print("📰 Classifying news articles for authenticity...")
+        print("Classifying news articles for authenticity...")
         
         real_articles = []
         fake_articles = []
@@ -326,8 +327,8 @@ class NewsAnalysisEngine:
             else:
                 fake_articles.append(article)
         
-        print(f"   ✅ Real articles: {len(real_articles)}")
-        print(f"   ❌ Fake articles filtered: {len(fake_articles)}")
+        print(f"   Real articles: {len(real_articles)}")
+        print(f"   Fake articles filtered: {len(fake_articles)}")
         
         return real_articles, fake_articles
     
@@ -371,7 +372,7 @@ class NewsImpactAnalyzer:
         else:
             # Default to financial expert system
             self.model_available = True
-            print("💼 Using financial markets expert analysis system")
+            print("Using financial markets expert analysis system")
     
     def setup_transformers(self):
         """Setup Hugging Face Transformers"""
@@ -380,7 +381,7 @@ class NewsImpactAnalyzer:
             import torch
             
             model_name = "microsoft/DialoGPT-medium"
-            print(f"📥 Loading {model_name} for financial analysis...")
+            print(f"Loading {model_name} for financial analysis...")
             
             self.tokenizer = AutoTokenizer.from_pretrained(model_name)
             self.model = AutoModelForCausalLM.from_pretrained(model_name)
@@ -389,11 +390,11 @@ class NewsImpactAnalyzer:
                 self.tokenizer.pad_token = self.tokenizer.eos_token
             
             self.model_available = True
-            print("✅ Transformers model loaded successfully")
+            print("Transformers model loaded successfully")
             
         except Exception as e:
-            print(f"⚠️  Transformers error: {e}")
-            print("   Using financial expert system")
+            print(f"Transformers error: {e}")
+            print("Using financial expert system")
     
     def setup_ollama(self):
         """Setup Ollama LLM"""
@@ -413,18 +414,18 @@ class NewsImpactAnalyzer:
                 
                 if self.selected_model:
                     self.model_available = True
-                    print(f"✅ Using Ollama model: {self.selected_model}")
+                    print(f"Using Ollama model: {self.selected_model}")
                 else:
-                    print("⚠️  No suitable Ollama models found")
+                    print("No suitable Ollama models found")
         except:
-            print("❌ Ollama not available")
+            print("Ollama not available")
     
     def analyze_news_impact(self, real_articles):
         """
         Algorithm Step 2: Use LLM to analyze real news and extract influencing factors
         """
         
-        print("📊 Analyzing news impact on gold markets...")
+        print("Analyzing news impact on gold markets...")
         
         # Create comprehensive news analysis prompt
         prompt = self._create_news_analysis_prompt(real_articles)
@@ -513,7 +514,7 @@ Please provide specific, actionable insights based on the news content."""
             return response
             
         except Exception as e:
-            print(f"❌ Transformers error: {e}")
+            print(f"Transformers error: {e}")
             return self._expert_financial_analysis([])
     
     def _ollama_analyze(self, prompt):
@@ -533,13 +534,13 @@ Please provide specific, actionable insights based on the news content."""
                 return self._expert_financial_analysis([])
                 
         except Exception as e:
-            print(f"❌ Ollama error: {e}")
+            print(f"Ollama error: {e}")
             return self._expert_financial_analysis([])
     
     def _expert_financial_analysis(self, articles):
         """Expert financial analysis system"""
         
-        print("💼 Using financial markets expert analysis")
+        print("Using financial markets expert analysis")
         
         # Analyze articles for sentiment and impact
         bullish_count = 0
@@ -692,14 +693,14 @@ class GoldPricePredictionEngine:
             "bollinger_upper", "bollinger_lower", "volume_trend"
         ]
         
-        print("📈 Gold Price Prediction Engine initialized")
+        print("Gold Price Prediction Engine initialized")
     
     def predict_gold_prices(self, historical_prices, market_indicators, news_factors):
         """
         Algorithm Steps 3-4: Feature aggregation and price forecasting
         """
         
-        print("🔮 Predicting short-term and long-term gold prices...")
+        print("Predicting short-term and long-term gold prices...")
         
         # Step 3: Feature Aggregation
         features = self._aggregate_features(historical_prices, market_indicators, news_factors)
@@ -1015,7 +1016,7 @@ class InvestmentRecommendationEngine:
             self.setup_ollama()
         else:
             self.model_available = True
-            print("💡 Using expert investment recommendation system")
+            print("Using expert investment recommendation system")
     
     def setup_transformers(self):
         """Setup Hugging Face Transformers for recommendations"""
@@ -1024,7 +1025,7 @@ class InvestmentRecommendationEngine:
             import torch
             
             model_name = "microsoft/DialoGPT-medium"
-            print(f"📥 Loading {model_name} for investment recommendations...")
+            print(f"Loading {model_name} for investment recommendations...")
             
             self.tokenizer = AutoTokenizer.from_pretrained(model_name)
             self.model = AutoModelForCausalLM.from_pretrained(model_name)
@@ -1033,10 +1034,10 @@ class InvestmentRecommendationEngine:
                 self.tokenizer.pad_token = self.tokenizer.eos_token
             
             self.model_available = True
-            print("✅ Transformers recommendation model loaded")
+            print("Transformers recommendation model loaded")
             
         except Exception as e:
-            print(f"⚠️  Transformers error: {e}")
+            print(f"Transformers error: {e}")
             print("   Using expert recommendation system")
     
     def setup_ollama(self):
@@ -1057,18 +1058,18 @@ class InvestmentRecommendationEngine:
                 
                 if self.selected_model:
                     self.model_available = True
-                    print(f"✅ Using Ollama model for recommendations: {self.selected_model}")
+                    print(f"Using Ollama model for recommendations: {self.selected_model}")
                 else:
-                    print("⚠️  No suitable Ollama models found")
+                    print("No suitable Ollama models found")
         except:
-            print("❌ Ollama not available for recommendations")
+            print("Ollama not available for recommendations")
     
     def generate_investment_recommendation(self, news_factors, price_predictions, market_indicators):
         """
         Algorithm Step 5: Generate comprehensive investment recommendation
         """
         
-        print("💰 Generating investment recommendation...")
+        print("Generating investment recommendation...")
         
         # Create structured prompt
         prompt = self._format_recommendation_prompt(news_factors, price_predictions, market_indicators)
@@ -1164,7 +1165,7 @@ Provide specific, actionable guidance suitable for both institutional and retail
             return response
             
         except Exception as e:
-            print(f"❌ Transformers recommendation error: {e}")
+            print(f"Transformers recommendation error: {e}")
             return self._expert_investment_analysis({}, {}, {})
     
     def _ollama_recommend(self, prompt):
@@ -1184,13 +1185,13 @@ Provide specific, actionable guidance suitable for both institutional and retail
                 return self._expert_investment_analysis({}, {}, {})
                 
         except Exception as e:
-            print(f"❌ Ollama recommendation error: {e}")
+            print(f"Ollama recommendation error: {e}")
             return self._expert_investment_analysis({}, {}, {})
     
     def _expert_investment_analysis(self, news_factors, price_predictions, market_indicators):
         """Expert investment recommendation system"""
         
-        print("💡 Using expert investment recommendation system")
+        print("Using expert investment recommendation system")
         
         # Determine primary recommendation
         recommendation_score = self._calculate_recommendation_score(news_factors, price_predictions, market_indicators)
@@ -1527,7 +1528,7 @@ class GoldTradingAlgorithm:
     """Main orchestrator for the complete gold trading algorithm"""
     
     def __init__(self, llm_type="rule_based"):
-        print("🚀 Initializing LLM-Assisted Gold Trading Algorithm...")
+        print("Initializing LLM-Assisted Gold Trading Algorithm...")
         print("=" * 60)
         
         # Initialize all components
@@ -1538,21 +1539,21 @@ class GoldTradingAlgorithm:
         self.recommendation_engine = InvestmentRecommendationEngine(llm_type)
         
         print("=" * 60)
-        print("✅ All components initialized successfully!")
+        print("All components initialized successfully!")
     
     def run_complete_analysis(self, market_scenario="neutral", num_articles=12, days_history=90):
         """
         Execute the complete 5-step algorithm for gold trading analysis
         """
         
-        print(f"\n🔄 Starting complete gold market analysis...")
+        print(f"\nStarting complete gold market analysis...")
         print(f"   Market scenario: {market_scenario}")
         print(f"   News articles: {num_articles}")
         print(f"   Historical data: {days_history} days")
         print("=" * 60)
         
         # Generate market data
-        print("\n📊 STEP 0: Generating Market Data")
+        print("\nSTEP 0: Generating Market Data")
         historical_prices = self.data_simulator.generate_historical_gold_prices(days_history)
         market_indicators = self.data_simulator.generate_current_market_indicators(market_scenario)
         news_articles = self.news_engine.generate_news_articles(market_scenario, num_articles)
@@ -1562,21 +1563,21 @@ class GoldTradingAlgorithm:
         print(f"   Generated {len(news_articles)} news articles")
         
         # STEP 1: News Validation
-        print("\n📰 STEP 1: News Validation")
+        print("\nSTEP 1: News Validation")
         real_articles, fake_articles = self.news_engine.classify_news_authenticity(news_articles)
         
         # STEP 2: News Impact Analysis
-        print("\n📊 STEP 2: News Impact Analysis")
+        print("\nSTEP 2: News Impact Analysis")
         news_factors = self.news_analyzer.analyze_news_impact(real_articles)
         
         # STEPS 3-4: Feature Aggregation and Price Forecasting
-        print("\n🔮 STEPS 3-4: Feature Aggregation and Price Forecasting")
+        print("\nSTEPS 3-4: Feature Aggregation and Price Forecasting")
         price_predictions = self.price_predictor.predict_gold_prices(
             historical_prices, market_indicators, news_factors
         )
         
         # STEP 5: Investment Feasibility via LLM
-        print("\n💰 STEP 5: Investment Recommendation Generation")
+        print("\nSTEP 5: Investment Recommendation Generation")
         investment_recommendation = self.recommendation_engine.generate_investment_recommendation(
             news_factors, price_predictions, market_indicators
         )
@@ -1601,11 +1602,11 @@ class GoldTradingAlgorithm:
             "price_predictions": price_predictions,
             "investment_recommendation": investment_recommendation,
             "algorithm_steps_completed": [
-                "✅ Step 1: News Validation",
-                "✅ Step 2: News Impact Analysis", 
-                "✅ Step 3: Feature Aggregation",
-                "✅ Step 4: Price Forecasting",
-                "✅ Step 5: Investment Recommendation"
+                "Step 1: News Validation",
+                "Step 2: News Impact Analysis", 
+                "Step 3: Feature Aggregation",
+                "Step 4: Price Forecasting",
+                "Step 5: Investment Recommendation"
             ]
         }
         
@@ -1618,45 +1619,45 @@ class GoldTradingAlgorithm:
         """Print a comprehensive summary of the analysis"""
         
         print("\n" + "=" * 60)
-        print("📋 ANALYSIS SUMMARY")
+        print("ANALYSIS SUMMARY")
         print("=" * 60)
         
         # Market Overview
         market_data = analysis["market_data"]
-        print(f"💰 Current Gold Price: ${market_data['current_price']}/oz")
-        print(f"📈 24h Change: ${market_data['price_change_24h']:+.2f}")
+        print(f"Current Gold Price: ${market_data['current_price']}/oz")
+        print(f"24h Change: ${market_data['price_change_24h']:+.2f}")
         
         # Price Predictions
         predictions = analysis["price_predictions"]
-        print(f"\n🔮 PRICE FORECASTS:")
+        print(f"\nPRICE FORECASTS:")
         print(f"   Short-term (1-7 days): ${predictions['short_term_prediction']}/oz ({predictions['short_term_change_percent']:+.1f}%)")
         print(f"   Long-term (1-3 months): ${predictions['long_term_prediction']}/oz ({predictions['long_term_change_percent']:+.1f}%)")
         print(f"   Prediction confidence: {predictions['prediction_confidence']:.1%}")
         
         # News Analysis
         news = analysis["news_analysis"]
-        print(f"\n📰 NEWS SENTIMENT:")
+        print(f"\nNEWS SENTIMENT:")
         print(f"   Overall sentiment: {news['overall_sentiment'].upper()}")
         print(f"   Confidence: {news['sentiment_confidence']:.1%}")
         print(f"   Risk factors: {len(news.get('risk_factors', []))}")
         
         # Investment Recommendation
         recommendation = analysis["investment_recommendation"]["recommendation_summary"]
-        print(f"\n💡 INVESTMENT RECOMMENDATION:")
+        print(f"\nINVESTMENT RECOMMENDATION:")
         print(f"   Action: {recommendation['action_strength']} {recommendation['primary_action']}")
         print(f"   Confidence: {recommendation['confidence_score']}/10")
         print(f"   Suggested allocation: {analysis['investment_recommendation']['position_details']['suggested_allocation']}")
         
         # Market Indicators
         indicators = market_data["market_indicators"]
-        print(f"\n📊 KEY MARKET INDICATORS:")
+        print(f"\nKEY MARKET INDICATORS:")
         print(f"   USD Strength: {indicators.get('dollar_strength_index', 'N/A')}")
         print(f"   Inflation Rate: {indicators.get('inflation_rate', 'N/A')}%")
         print(f"   Interest Rate: {indicators.get('interest_rate', 'N/A')}%")
         print(f"   Market Stress: {indicators.get('market_stress_level', 'N/A')}")
         
         print("\n" + "=" * 60)
-        print("✅ Complete analysis finished successfully!")
+        print("Complete analysis finished successfully!")
         print("=" * 60)
 
 # ============================================================================
@@ -1666,14 +1667,14 @@ class GoldTradingAlgorithm:
 def run_algorithm_demo():
     """Run a complete demonstration of the algorithm"""
     
-    print("🎯 GOLD TRADING ALGORITHM DEMONSTRATION")
+    print("GOLD TRADING ALGORITHM DEMONSTRATION")
     print("=" * 80)
     
     # Test different market scenarios
     scenarios = ["bullish", "bearish", "neutral", "volatile"]
     
     for scenario in scenarios:
-        print(f"\n🧪 Testing scenario: {scenario.upper()}")
+        print(f"\nTesting scenario: {scenario.upper()}")
         print("-" * 40)
         
         # Initialize algorithm
@@ -1690,13 +1691,13 @@ def run_algorithm_demo():
         rec = results["investment_recommendation"]["recommendation_summary"]
         pred = results["price_predictions"]
         
-        print(f"📊 Result: {rec['action_strength']} {rec['primary_action']}")
-        print(f"💰 Price forecast: ${pred['short_term_prediction']}/oz ({pred['short_term_change_percent']:+.1f}%)")
-        print(f"🎯 Confidence: {rec['confidence_score']}/10")
+        print(f"Result: {rec['action_strength']} {rec['primary_action']}")
+        print(f"Price forecast: ${pred['short_term_prediction']}/oz ({pred['short_term_change_percent']:+.1f}%)")
+        print(f"Confidence: {rec['confidence_score']}/10")
         
         print("-" * 40)
     
-    print("\n✅ Algorithm demonstration completed!")
+    print("\nAlgorithm demonstration completed!")
 
 def save_analysis_results(analysis_results, filename=None):
     """Save analysis results to JSON file"""
@@ -1709,11 +1710,11 @@ def save_analysis_results(analysis_results, filename=None):
         with open(filename, 'w') as f:
             json.dump(analysis_results, f, indent=2, default=str)
         
-        print(f"💾 Analysis results saved to: {filename}")
+        print(f"Analysis results saved to: {filename}")
         return filename
         
     except Exception as e:
-        print(f"❌ Error saving results: {e}")
+        print(f"Error saving results: {e}")
         return None
 
 # ============================================================================
@@ -1726,7 +1727,7 @@ if __name__ == "__main__":
         run_algorithm_demo()
         
         # Run a detailed analysis
-        print(f"\n🎯 RUNNING DETAILED ANALYSIS")
+        print(f"\nRUNNING DETAILED ANALYSIS")
         print("=" * 80)
         
         algorithm = GoldTradingAlgorithm(llm_type="rule_based")
@@ -1741,15 +1742,15 @@ if __name__ == "__main__":
         save_analysis_results(detailed_results)
         
         # Print detailed recommendation
-        print(f"\n📋 DETAILED INVESTMENT RECOMMENDATION:")
+        print(f"\nDETAILED INVESTMENT RECOMMENDATION:")
         print("=" * 80)
         print(detailed_results["investment_recommendation"]["detailed_analysis"])
         
     except Exception as e:
-        print(f"❌ Error in main execution: {e}")
+        print(f"Error in main execution: {e}")
         import traceback
         traceback.print_exc()
     
     finally:
-        print(f"\n🎉 Algorithm execution completed!")
+        print(f"\nAlgorithm execution completed!")
         print("=" * 80)
