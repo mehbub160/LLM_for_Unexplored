@@ -1,7 +1,7 @@
-# ============================================================================
-# MARINE SPECIES DETECTION AND CONSERVATION PLANNING PIPELINE
-# Complete implementation with REAL LLM integration
-# ============================================================================
+######################################################################
+# Marine Species Detection and Conservation Planning Pipeline
+# Integrated system for underwater species analysis and conservation planning
+######################################################################
 
 import json
 import os
@@ -12,108 +12,116 @@ from collections import defaultdict
 import random
 import requests
 
-# ============================================================================
-# 1. REAL LLM INTEGRATION (FREE OPTIONS)
-# ============================================================================
+######################################################################
+# Language Model Integration for Conservation Analysis
+######################################################################
 
-class RealLLMIntegration:
-    """Real LLM integration using free alternatives"""
+class MarineLLMProcessor:
+    """
+    Handles language model integration for marine conservation analysis.
+    Supports multiple LLM backends with intelligent fallback to rule-based analysis.
+    """
     
-    def __init__(self, llm_type="rule_based"):
-        self.llm_type = llm_type
-        self.model_available = False
+    def __init__(self, model_type="rule_based"):
+        self.model_type = model_type
+        self.model_ready = False
         
-        if llm_type == "ollama":
-            self.setup_ollama()
-        elif llm_type == "transformers":
-            self.setup_transformers()
+        if model_type == "ollama":
+            self.configure_ollama_integration()
+        elif model_type == "transformers":
+            self.configure_transformers_integration()
         else:
-            # Default to rule-based (always available)
-            self.model_available = True
-            print("🤖 Using intelligent rule-based LLM (no setup required)")
+            self.model_ready = True
+            print("Using intelligent rule-based conservation analysis (no setup required)")
     
-    def setup_ollama(self):
-        """Setup Ollama LLM"""
+    def configure_ollama_integration(self):
+        """
+        Sets up Ollama LLM integration for local model processing.
+        Automatically detects and selects available models.
+        """
         try:
-            response = requests.get("http://localhost:11434/api/tags")
-            if response.status_code == 200:
-                models = response.json()
-                available_models = [model['name'] for model in models.get('models', [])]
+            ollama_response = requests.get("http://localhost:11434/api/tags")
+            if ollama_response.status_code == 200:
+                available_models = ollama_response.json()
+                model_names = [model['name'] for model in available_models.get('models', [])]
                 
-                # Try to find a suitable model
                 preferred_models = ['llama2', 'mistral', 'phi', 'orca-mini']
-                self.selected_model = None
+                self.active_model = None
                 
-                for model in preferred_models:
-                    if any(model in m for m in available_models):
-                        self.selected_model = model
+                for preferred in preferred_models:
+                    if any(preferred in name for name in model_names):
+                        self.active_model = preferred
                         break
                 
-                if self.selected_model:
-                    self.model_available = True
-                    print(f"✅ Using Ollama model: {self.selected_model}")
+                if self.active_model:
+                    self.model_ready = True
+                    print(f"Using Ollama model: {self.active_model}")
                 else:
-                    print("⚠️  No suitable Ollama models found. Installing phi...")
+                    print("No suitable Ollama models found. Installing phi model...")
                     self.install_ollama_model("phi")
             else:
-                print("❌ Ollama not responding")
-        except:
-            print("❌ Ollama not available. Using rule-based analysis.")
+                print("Ollama service is not responding")
+        except requests.exceptions.RequestException:
+            print("Ollama is not available. Switching to rule-based analysis.")
     
-    def setup_transformers(self):
-        """Setup Hugging Face Transformers"""
+    def configure_transformers_integration(self):
+        """
+        Sets up Hugging Face Transformers integration using free models.
+        Uses DialoGPT as the primary model choice.
+        """
         try:
             from transformers import AutoTokenizer, AutoModelForCausalLM
             
-            # Use a free model that doesn't require authentication
             model_name = "microsoft/DialoGPT-medium"
-            print(f"📥 Loading {model_name}...")
+            print(f"Loading {model_name} model...")
             
-            self.tokenizer = AutoTokenizer.from_pretrained(model_name)
-            self.model = AutoModelForCausalLM.from_pretrained(model_name)
+            self.text_tokenizer = AutoTokenizer.from_pretrained(model_name)
+            self.language_model = AutoModelForCausalLM.from_pretrained(model_name)
             
-            # Add padding token
-            if self.tokenizer.pad_token is None:
-                self.tokenizer.pad_token = self.tokenizer.eos_token
+            if self.text_tokenizer.pad_token is None:
+                self.text_tokenizer.pad_token = self.text_tokenizer.eos_token
             
-            self.model_available = True
-            print("✅ Transformers model loaded successfully")
+            self.model_ready = True
+            print("Transformers model loaded successfully")
             
-        except Exception as e:
-            print(f"⚠️  Transformers error: {e}")
-            print("   Using rule-based analysis instead")
+        except Exception as setup_error:
+            print(f"Transformers setup error: {setup_error}")
+            print("Switching to rule-based analysis")
     
     def install_ollama_model(self, model_name):
-        """Install Ollama model"""
+        """Downloads and installs specified Ollama model"""
         try:
-            print(f"📥 Installing {model_name}...")
-            response = requests.post("http://localhost:11434/api/pull", 
-                                   json={"name": model_name})
-            if response.status_code == 200:
-                self.selected_model = model_name
-                self.model_available = True
-                print(f"✅ {model_name} installed successfully")
-        except Exception as e:
-            print(f"❌ Failed to install {model_name}: {e}")
+            print(f"Installing {model_name} model...")
+            install_response = requests.post("http://localhost:11434/api/pull", 
+                                           json={"name": model_name})
+            if install_response.status_code == 200:
+                self.active_model = model_name
+                self.model_ready = True
+                print(f"{model_name} installed successfully")
+        except Exception as install_error:
+            print(f"Failed to install {model_name}: {install_error}")
     
-    def generate_response(self, prompt, max_tokens=500):
-        """Generate response using available LLM"""
+    def generate_conservation_analysis(self, analysis_prompt, max_response_tokens=500):
+        """
+        Generates conservation analysis using the available language model.
+        Falls back to rule-based analysis if model processing fails.
+        """
         
-        if not self.model_available:
-            return self.rule_based_analysis(prompt)
+        if not self.model_ready:
+            return self.create_rule_based_conservation_analysis(analysis_prompt)
         
-        if self.llm_type == "ollama":
-            return self.ollama_generate(prompt, max_tokens)
-        elif self.llm_type == "transformers":
-            return self.transformers_generate(prompt, max_tokens)
+        if self.model_type == "ollama":
+            return self.process_with_ollama(analysis_prompt, max_response_tokens)
+        elif self.model_type == "transformers":
+            return self.process_with_transformers(analysis_prompt, max_response_tokens)
         else:
-            return self.rule_based_analysis(prompt)
+            return self.create_rule_based_conservation_analysis(analysis_prompt)
     
-    def ollama_generate(self, prompt, max_tokens):
-        """Generate response using Ollama"""
+    def process_with_ollama(self, prompt, max_tokens):
+        """Processes conservation analysis using Ollama models"""
         try:
-            payload = {
-                "model": self.selected_model,
+            request_payload = {
+                "model": self.active_model,
                 "prompt": prompt,
                 "stream": False,
                 "options": {
@@ -122,203 +130,222 @@ class RealLLMIntegration:
                 }
             }
             
-            response = requests.post("http://localhost:11434/api/generate", json=payload)
+            ollama_response = requests.post("http://localhost:11434/api/generate", 
+                                          json=request_payload)
             
-            if response.status_code == 200:
-                return response.json().get("response", "")
+            if ollama_response.status_code == 200:
+                return ollama_response.json().get("response", "")
             else:
-                print(f"❌ Ollama API error: {response.status_code}")
-                return self.rule_based_analysis(prompt)
+                print(f"Ollama API error: {ollama_response.status_code}")
+                return self.create_rule_based_conservation_analysis(prompt)
                 
-        except Exception as e:
-            print(f"❌ Ollama generation error: {e}")
-            return self.rule_based_analysis(prompt)
+        except Exception as processing_error:
+            print(f"Ollama processing error: {processing_error}")
+            return self.create_rule_based_conservation_analysis(prompt)
     
-    def transformers_generate(self, prompt, max_tokens):
-        """Generate response using Transformers"""
+    def process_with_transformers(self, prompt, max_tokens):
+        """Processes conservation analysis using Transformers models"""
         try:
-            # Simplify prompt for DialoGPT
-            simplified_prompt = self.simplify_prompt_for_dialogpt(prompt)
+            simplified_prompt = self.simplify_prompt_for_dialog_model(prompt)
             
-            inputs = self.tokenizer.encode(simplified_prompt, return_tensors="pt")
+            model_inputs = self.text_tokenizer.encode(simplified_prompt, return_tensors="pt")
             
+            import torch
             with torch.no_grad():
-                outputs = self.model.generate(
-                    inputs,
-                    max_length=min(len(inputs[0]) + max_tokens, 1024),
+                model_outputs = self.language_model.generate(
+                    model_inputs,
+                    max_length=min(len(model_inputs[0]) + max_tokens, 1024),
                     temperature=0.7,
                     do_sample=True,
-                    pad_token_id=self.tokenizer.eos_token_id
+                    pad_token_id=self.text_tokenizer.eos_token_id
                 )
             
-            response = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
-            # Remove the input prompt from response
-            response = response[len(simplified_prompt):].strip()
+            generated_response = self.text_tokenizer.decode(model_outputs[0], skip_special_tokens=True)
+            generated_response = generated_response[len(simplified_prompt):].strip()
             
-            # If response is too short, fall back to rule-based
-            if len(response) < 50:
-                return self.rule_based_analysis(prompt)
+            if len(generated_response) < 50:
+                return self.create_rule_based_conservation_analysis(prompt)
             
-            return response
+            return generated_response
             
-        except Exception as e:
-            print(f"❌ Transformers generation error: {e}")
-            return self.rule_based_analysis(prompt)
+        except Exception as processing_error:
+            print(f"Transformers processing error: {processing_error}")
+            return self.create_rule_based_conservation_analysis(prompt)
     
-    def simplify_prompt_for_dialogpt(self, prompt):
-        """Simplify prompt for DialoGPT"""
-        # Extract key information
-        lines = prompt.split('\n')
+    def simplify_prompt_for_dialog_model(self, original_prompt):
+        """
+        Simplifies complex conservation prompts for DialoGPT compatibility.
+        Extracts key information and creates focused questions.
+        """
+        prompt_lines = original_prompt.split('\n')
         species_of_concern = "Unknown"
-        percentage = 0.0
+        population_percentage = 0.0
         
-        for line in lines:
+        for line in prompt_lines:
             if "SPECIES OF GREATEST CONCERN:" in line:
-                next_line_idx = lines.index(line) + 1
-                if next_line_idx < len(lines):
-                    concern_line = lines[next_line_idx]
+                next_line_index = prompt_lines.index(line) + 1
+                if next_line_index < len(prompt_lines):
+                    concern_line = prompt_lines[next_line_index]
                     if ":" in concern_line:
                         species_of_concern = concern_line.split(":")[0].strip("- ")
                         if "%" in concern_line:
                             try:
-                                percentage = float(concern_line.split("%")[0].split()[-1])
-                            except:
-                                percentage = 1.0
+                                population_percentage = float(concern_line.split("%")[0].split()[-1])
+                            except ValueError:
+                                population_percentage = 1.0
         
-        simplified = f"Marine conservation analysis: {species_of_concern} population is {percentage}%. What conservation actions are needed?"
-        return simplified
+        simplified_question = f"Marine conservation analysis: {species_of_concern} population is {population_percentage}%. What conservation actions are needed?"
+        return simplified_question
     
-    def rule_based_analysis(self, prompt):
-        """Enhanced rule-based analysis as fallback"""
-        print("🤖 Using intelligent rule-based analysis")
+    def create_rule_based_conservation_analysis(self, analysis_prompt):
+        """
+        Creates comprehensive conservation analysis using expert knowledge systems.
+        Provides detailed, scientifically-grounded recommendations when LLMs are unavailable.
+        """
+        print("Using intelligent rule-based conservation analysis")
         
-        # Extract key information from prompt
-        lines = prompt.split('\n')
+        ######################################################################
+        # Extract key data from the analysis prompt
+        ######################################################################
+        prompt_lines = analysis_prompt.split('\n')
         species_of_concern = "Unknown"
-        percentage = 0.0
-        location = "Unknown"
+        population_percentage = 0.0
+        survey_location = "Unknown"
         
-        for line in lines:
+        for line in prompt_lines:
             if "SPECIES OF GREATEST CONCERN:" in line:
-                next_line_idx = lines.index(line) + 1
-                if next_line_idx < len(lines):
-                    concern_line = lines[next_line_idx]
+                next_line_index = prompt_lines.index(line) + 1
+                if next_line_index < len(prompt_lines):
+                    concern_line = prompt_lines[next_line_index]
                     if ":" in concern_line:
                         species_of_concern = concern_line.split(":")[0].strip("- ")
                         if "%" in concern_line:
                             try:
-                                percentage = float(concern_line.split("%")[0].split()[-1])
-                            except:
-                                percentage = 1.0
+                                population_percentage = float(concern_line.split("%")[0].split()[-1])
+                            except ValueError:
+                                population_percentage = 1.0
             elif "Location:" in line:
-                location = line.split("Location:")[1].strip()
+                survey_location = line.split("Location:")[1].strip()
         
-        # Generate comprehensive analysis
-        return self._generate_expert_analysis(species_of_concern, percentage, location, prompt)
+        return self.generate_expert_conservation_recommendations(
+            species_of_concern, population_percentage, survey_location, analysis_prompt)
     
-    def _generate_expert_analysis(self, species, percentage, location, full_prompt):
-        """Generate expert-level conservation analysis"""
+    def generate_expert_conservation_recommendations(self, species, percentage, location, full_prompt):
+        """
+        Generates expert-level conservation analysis using comprehensive marine biology knowledge.
+        Provides actionable recommendations based on species ecology and conservation status.
+        """
         
-        # Determine urgency and timeline
+        ######################################################################
+        # Determine conservation urgency based on population percentage
+        ######################################################################
         if percentage < 1.0:
-            urgency = "CRITICAL"
-            timeline = "immediate action required"
-            priority_level = "EMERGENCY"
+            urgency_level = "CRITICAL"
+            action_timeline = "immediate action required"
+            priority_classification = "EMERGENCY"
         elif percentage < 2.0:
-            urgency = "HIGH"
-            timeline = "action needed within 1-2 weeks"
-            priority_level = "URGENT"
+            urgency_level = "HIGH"
+            action_timeline = "action needed within 1-2 weeks"
+            priority_classification = "URGENT"
         elif percentage < 5.0:
-            urgency = "MEDIUM"
-            timeline = "action needed within 1-3 months"
-            priority_level = "IMPORTANT"
+            urgency_level = "MEDIUM"
+            action_timeline = "action needed within 1-3 months"
+            priority_classification = "IMPORTANT"
         else:
-            urgency = "LOW"
-            timeline = "standard monitoring protocols"
-            priority_level = "ROUTINE"
+            urgency_level = "LOW"
+            action_timeline = "standard monitoring protocols"
+            priority_classification = "ROUTINE"
         
-        # Species-specific conservation database
-        conservation_database = {
+        ######################################################################
+        # Species-specific conservation knowledge database
+        ######################################################################
+        conservation_knowledge_base = {
             "Sea Turtle": {
-                "threats": ["plastic pollution", "coastal development", "fishing bycatch", "climate change"],
-                "actions": ["beach nesting site protection", "plastic waste reduction programs", "turtle-safe fishing gear", "temperature monitoring"],
-                "monitoring": ["nesting site surveys", "migration tracking", "population genetics", "beach temperature monitoring"],
-                "ecological_role": "Ecosystem Engineer - maintains seagrass beds and coral reef health",
+                "primary_threats": ["plastic pollution", "coastal development", "fishing bycatch", "climate change"],
+                "conservation_actions": ["beach nesting site protection", "plastic waste reduction programs", "turtle-safe fishing gear", "temperature monitoring"],
+                "monitoring_protocols": ["nesting site surveys", "migration tracking", "population genetics", "beach temperature monitoring"],
+                "ecological_function": "Ecosystem Engineer - maintains seagrass beds and coral reef health",
                 "conservation_status": "Endangered/Vulnerable (species dependent)",
-                "recovery_time": "20-50 years with protection"
+                "recovery_timeline": "20-50 years with protection"
             },
             "Whale Shark": {
-                "threats": ["boat strikes", "fishing pressure", "habitat loss", "tourism impact"],
-                "actions": ["boat speed restrictions", "protected marine areas", "sustainable tourism", "fishing regulations"],
-                "monitoring": ["satellite tracking", "population genetics", "feeding ground mapping", "tourism impact assessment"],
-                "ecological_role": "Plankton Control - regulates plankton populations",
+                "primary_threats": ["boat strikes", "fishing pressure", "habitat loss", "tourism impact"],
+                "conservation_actions": ["boat speed restrictions", "protected marine areas", "sustainable tourism", "fishing regulations"],
+                "monitoring_protocols": ["satellite tracking", "population genetics", "feeding ground mapping", "tourism impact assessment"],
+                "ecological_function": "Plankton Control - regulates plankton populations",
                 "conservation_status": "Vulnerable",
-                "recovery_time": "30-100 years with protection"
+                "recovery_timeline": "30-100 years with protection"
             },
             "Shark": {
-                "threats": ["overfishing", "shark finning", "habitat degradation", "climate change"],
-                "actions": ["fishing quotas", "finning bans", "shark sanctuaries", "habitat restoration"],
-                "monitoring": ["population surveys", "fishing mortality tracking", "habitat assessment", "genetic diversity"],
-                "ecological_role": "Apex Predator - maintains marine food web balance",
+                "primary_threats": ["overfishing", "shark finning", "habitat degradation", "climate change"],
+                "conservation_actions": ["fishing quotas", "finning bans", "shark sanctuaries", "habitat restoration"],
+                "monitoring_protocols": ["population surveys", "fishing mortality tracking", "habitat assessment", "genetic diversity"],
+                "ecological_function": "Apex Predator - maintains marine food web balance",
                 "conservation_status": "Various (Near Threatened to Critically Endangered)",
-                "recovery_time": "15-30 years with protection"
+                "recovery_timeline": "15-30 years with protection"
             },
             "Manta Ray": {
-                "threats": ["fishing pressure", "marine debris", "boat strikes", "climate change"],
-                "actions": ["fishing restrictions", "cleaning station protection", "marine debris reduction", "boat traffic management"],
-                "monitoring": ["population counts", "feeding behavior studies", "habitat mapping", "tourism impact"],
-                "ecological_role": "Filter Feeder - maintains plankton balance",
+                "primary_threats": ["fishing pressure", "marine debris", "boat strikes", "climate change"],
+                "conservation_actions": ["fishing restrictions", "cleaning station protection", "marine debris reduction", "boat traffic management"],
+                "monitoring_protocols": ["population counts", "feeding behavior studies", "habitat mapping", "tourism impact"],
+                "ecological_function": "Filter Feeder - maintains plankton balance",
                 "conservation_status": "Vulnerable",
-                "recovery_time": "20-40 years with protection"
+                "recovery_timeline": "20-40 years with protection"
             },
             "Grouper": {
-                "threats": ["overfishing", "habitat destruction", "pollution", "climate change"],
-                "actions": ["fishing moratoriums", "habitat protection", "pollution control", "spawning aggregation protection"],
-                "monitoring": ["population surveys", "spawning site monitoring", "habitat quality assessment", "fishing pressure tracking"],
-                "ecological_role": "Keystone Species - maintains reef ecosystem balance",
+                "primary_threats": ["overfishing", "habitat destruction", "pollution", "climate change"],
+                "conservation_actions": ["fishing moratoriums", "habitat protection", "pollution control", "spawning aggregation protection"],
+                "monitoring_protocols": ["population surveys", "spawning site monitoring", "habitat quality assessment", "fishing pressure tracking"],
+                "ecological_function": "Keystone Species - maintains reef ecosystem balance",
                 "conservation_status": "Vulnerable",
-                "recovery_time": "10-20 years with protection"
+                "recovery_timeline": "10-20 years with protection"
             }
         }
         
-        # Get species-specific information
-        species_info = conservation_database.get(species, {
-            "threats": ["habitat loss", "pollution", "climate change", "human activities"],
-            "actions": ["habitat protection", "pollution reduction", "monitoring programs", "community engagement"],
-            "monitoring": ["population surveys", "habitat assessment", "water quality monitoring", "threat evaluation"],
-            "ecological_role": "Important marine species maintaining ecosystem balance",
+        ######################################################################
+        # Retrieve species-specific conservation information
+        ######################################################################
+        species_data = conservation_knowledge_base.get(species, {
+            "primary_threats": ["habitat loss", "pollution", "climate change", "human activities"],
+            "conservation_actions": ["habitat protection", "pollution reduction", "monitoring programs", "community engagement"],
+            "monitoring_protocols": ["population surveys", "habitat assessment", "water quality monitoring", "threat evaluation"],
+            "ecological_function": "Important marine species maintaining ecosystem balance",
             "conservation_status": "Requires assessment",
-            "recovery_time": "Variable with protection measures"
+            "recovery_timeline": "Variable with protection measures"
         })
         
-        # Generate location-specific insights
-        location_insights = self._get_location_insights(location)
+        ######################################################################
+        # Generate location-specific conservation insights
+        ######################################################################
+        location_specific_recommendations = self.create_location_specific_recommendations(location)
         
-        # Create comprehensive analysis
-        analysis = f"""
+        ######################################################################
+        # Compile comprehensive conservation analysis report
+        ######################################################################
+        conservation_analysis_report = f"""
 MARINE CONSERVATION ANALYSIS REPORT
 
 EXECUTIVE SUMMARY:
 Species of Concern: {species}
 Population Representation: {percentage}%
-Conservation Priority: {urgency}
-Action Timeline: {timeline}
-Priority Level: {priority_level}
+Conservation Priority: {urgency_level}
+Action Timeline: {action_timeline}
+Priority Level: {priority_classification}
 
 ECOLOGICAL SIGNIFICANCE:
-{species} represents only {percentage}% of the surveyed marine population in {location}. This critically low percentage indicates severe population stress and potential ecosystem imbalance. The species serves as a {species_info['ecological_role']}, making its decline particularly concerning for overall marine ecosystem health.
+{species} represents only {percentage}% of the surveyed marine population in {location}. This critically low percentage indicates severe population stress and potential ecosystem imbalance. The species serves as a {species_data['ecological_function']}, making its decline particularly concerning for overall marine ecosystem health.
 
 CONSERVATION STATUS:
-Current Status: {species_info['conservation_status']}
-Recovery Timeline: {species_info['recovery_time']}
-Threat Level: {urgency}
+Current Status: {species_data['conservation_status']}
+Recovery Timeline: {species_data['recovery_timeline']}
+Threat Level: {urgency_level}
 
 THREAT ANALYSIS:
 Primary Threats Identified:
-1. {species_info['threats'][0].title()} - Major impact on population
-2. {species_info['threats'][1].title()} - Significant ecosystem pressure
-3. {species_info['threats'][2].title()} - Long-term population impact
-4. {species_info['threats'][3].title()} - Climate-related stressor
+1. {species_data['primary_threats'][0].title()} - Major impact on population
+2. {species_data['primary_threats'][1].title()} - Significant ecosystem pressure
+3. {species_data['primary_threats'][2].title()} - Long-term population impact
+4. {species_data['primary_threats'][3].title()} - Climate-related stressor
 
 ECOSYSTEM IMPACT ASSESSMENT:
 The critically low representation of {species} ({percentage}%) indicates:
@@ -330,24 +357,24 @@ The critically low representation of {species} ({percentage}%) indicates:
 
 CONSERVATION STRATEGIES:
 Immediate Actions Required:
-1. {species_info['actions'][0].title()}
-2. {species_info['actions'][1].title()}
-3. {species_info['actions'][2].title()}
-4. {species_info['actions'][3].title()}
+1. {species_data['conservation_actions'][0].title()}
+2. {species_data['conservation_actions'][1].title()}
+3. {species_data['conservation_actions'][2].title()}
+4. {species_data['conservation_actions'][3].title()}
 
 MONITORING PROTOCOL:
 Essential Monitoring Activities:
-• {species_info['monitoring'][0].title()} - Monthly frequency
-• {species_info['monitoring'][1].title()} - Quarterly assessment
-• {species_info['monitoring'][2].title()} - Annual evaluation
-• {species_info['monitoring'][3].title()} - Continuous monitoring
+• {species_data['monitoring_protocols'][0].title()} - Monthly frequency
+• {species_data['monitoring_protocols'][1].title()} - Quarterly assessment
+• {species_data['monitoring_protocols'][2].title()} - Annual evaluation
+• {species_data['monitoring_protocols'][3].title()} - Continuous monitoring
 
 LOCATION-SPECIFIC RECOMMENDATIONS:
-{location_insights}
+{location_specific_recommendations}
 
 PRIORITY ASSESSMENT:
-Conservation Urgency: {urgency}
-Justification: With only {percentage}% population representation, {species} requires {timeline}. The species' ecological role as {species_info['ecological_role'].lower()} makes this decline critical for ecosystem stability.
+Conservation Urgency: {urgency_level}
+Justification: With only {percentage}% population representation, {species} requires {action_timeline}. The species' ecological role as {species_data['ecological_function'].lower()} makes this decline critical for ecosystem stability.
 
 RESOURCE ALLOCATION:
 • Emergency funding: Required for immediate threat mitigation
@@ -381,15 +408,17 @@ NEXT STEPS:
 4. Engage local communities and stakeholders
 5. Secure funding for long-term conservation program
 
-This analysis indicates {priority_level} conservation priority requiring {timeline}.
+This analysis indicates {priority_classification} conservation priority requiring {action_timeline}.
 """
         
-        return analysis.strip()
+        return conservation_analysis_report.strip()
     
-    def _get_location_insights(self, location):
-        """Generate location-specific conservation insights"""
+    def create_location_specific_recommendations(self, location):
+        """
+        Generates location-specific conservation recommendations based on regional characteristics.
+        """
         
-        location_data = {
+        regional_conservation_data = {
             "Great Barrier Reef": "Focus on coral bleaching mitigation, water quality improvement, and crown-of-thorns starfish control. Coordinate with Australian Marine Park Authority.",
             "Maldives": "Emphasize climate change adaptation, sustainable tourism practices, and ocean acidification monitoring. Work with local island communities.",
             "Caribbean": "Address pollution from land-based sources, overfishing pressure, and hurricane damage recovery. Engage regional fisheries organizations.",
@@ -397,73 +426,81 @@ This analysis indicates {priority_level} conservation priority requiring {timeli
             "Pacific Ocean": "Address plastic pollution, illegal fishing, and climate change impacts. Coordinate with Pacific Island nations."
         }
         
-        for region, insights in location_data.items():
+        for region, recommendations in regional_conservation_data.items():
             if region.lower() in location.lower():
-                return insights
+                return recommendations
         
         return "Implement region-specific conservation measures based on local ecosystem conditions and human pressures."
 
-# ============================================================================
-# 2. UPDATED CONSERVATION LLM CLASS
-# ============================================================================
+######################################################################
+# Conservation Language Model Integration
+######################################################################
 
-class ConservationLLM:
-    """Enhanced LLM integration for marine conservation recommendations"""
+class ConservationLLMManager:
+    """
+    Manages language model integration specifically for marine conservation analysis.
+    Handles prompt creation and response processing for conservation recommendations.
+    """
     
-    def __init__(self, llm_type="rule_based"):
+    def __init__(self, model_type="rule_based"):
         """
-        Initialize with LLM type options:
-        - "ollama": Use Ollama (requires installation)
-        - "transformers": Use Hugging Face Transformers
-        - "rule_based": Use intelligent rule-based analysis (default)
+        Initializes conservation LLM with specified model type.
+        Options: "ollama", "transformers", "rule_based"
         """
-        self.llm = RealLLMIntegration(llm_type)
-        print(f"🤖 Conservation LLM initialized with {llm_type} backend")
+        self.llm_processor = MarineLLMProcessor(model_type)
+        print(f"Conservation LLM initialized with {model_type} backend")
     
-    def create_conservation_prompt(self, analysis_result, metadata):
-        """Create structured prompt for LLM analysis"""
+    def create_structured_conservation_prompt(self, analysis_results, survey_metadata):
+        """
+        Creates comprehensive, structured prompts for LLM-based conservation analysis.
+        Incorporates species distribution data and conservation priorities.
+        """
         
-        species_dist = analysis_result["species_distribution"]
-        species_of_concern = analysis_result["species_of_concern"]
-        conservation_species = analysis_result["conservation_priority_species"]
+        species_distribution = analysis_results["species_distribution"]
+        species_concern = analysis_results["species_of_concern"]
+        conservation_priority_species = analysis_results["conservation_priority_species"]
         
-        # Format species distribution
-        distribution_text = "\n".join([
+        ######################################################################
+        # Format species distribution information
+        ######################################################################
+        distribution_summary = "\n".join([
             f"- {species}: {data['percentage']}% ({data['count']} individuals)"
-            for species, data in sorted(species_dist.items(), 
+            for species, data in sorted(species_distribution.items(), 
                                       key=lambda x: x[1]["percentage"], reverse=True)
         ])
         
-        # Format conservation concerns
-        conservation_text = "\n".join([
+        ######################################################################
+        # Format conservation priority species information
+        ######################################################################
+        conservation_summary = "\n".join([
             f"- {item['species']}: {item['percentage']}% (Status: {item['status']}, Role: {item['ecological_role']})"
-            for item in conservation_species
+            for item in conservation_priority_species
         ])
         
-        prompt = f"""You are a leading marine conservation expert with 20 years of experience in ecosystem protection and species recovery programs.
+        comprehensive_prompt = f"""You are a leading marine conservation expert with 20 years of experience in ecosystem protection and species recovery programs.
 
 SURVEY LOCATION AND ENVIRONMENT:
-- Location: {metadata.get('location', 'Unknown marine area')}
-- Depth: {metadata.get('depth', 'Mixed depths')}
-- Survey Time: {metadata.get('time', 'Daytime survey')}
-- Environmental Context: {metadata.get('environmental_context', 'Healthy reef ecosystem')}
+- Location: {survey_metadata.get('location', 'Unknown marine area')}
+- Depth: {survey_metadata.get('depth', 'Mixed depths')}
+- Survey Time: {survey_metadata.get('time', 'Daytime survey')}
+- Environmental Context: {survey_metadata.get('environmental_context', 'Healthy reef ecosystem')}
 
 SPECIES DISTRIBUTION ANALYSIS:
-Total marine life surveyed: {analysis_result['total_population']} individuals
+Total marine life surveyed: {analysis_results['total_population']} individuals
 Complete species distribution:
-{distribution_text}
+{distribution_summary}
 
 SPECIES OF GREATEST CONCERN:
-- {species_of_concern['species']}: {species_of_concern['percentage']}% ({species_of_concern['count']} individuals)
+- {species_concern['species']}: {species_concern['percentage']}% ({species_concern['count']} individuals)
 This species shows the lowest population percentage in the surveyed marine area.
 
 CONSERVATION STATUS SPECIES DETECTED:
-{conservation_text if conservation_species else "No known conservation status species detected in this survey."}
+{conservation_summary if conservation_priority_species else "No known conservation status species detected in this survey."}
 
 EXPERT CONSERVATION ANALYSIS REQUIRED:
 Please provide a comprehensive conservation assessment addressing:
 
-1. ECOLOGICAL SIGNIFICANCE: Why is the {species_of_concern['percentage']}% representation of {species_of_concern['species']} ecologically concerning?
+1. ECOLOGICAL SIGNIFICANCE: Why is the {species_concern['percentage']}% representation of {species_concern['species']} ecologically concerning?
 
 2. ECOSYSTEM IMPACT: How does this population distribution affect marine ecosystem balance and stability?
 
@@ -477,118 +514,142 @@ Please provide a comprehensive conservation assessment addressing:
 
 Please provide detailed, scientifically-grounded conservation recommendations with specific action steps and timelines."""
 
-        return prompt
+        return comprehensive_prompt
     
-    def generate_conservation_recommendations(self, prompt):
-        """Generate conservation recommendations using real LLM"""
+    def generate_conservation_recommendations(self, structured_prompt):
+        """
+        Generates comprehensive conservation recommendations using the available language model.
+        Provides detailed analysis with fallback to rule-based systems.
+        """
         
-        print("🤖 Generating expert conservation analysis...")
-        print("   This may take 30-60 seconds for detailed analysis...")
+        print("Generating expert conservation analysis...")
+        print("This may take 30-60 seconds for detailed analysis...")
         
-        # Generate response using selected LLM
-        response = self.llm.generate_response(prompt, max_tokens=800)
+        analysis_response = self.llm_processor.generate_conservation_analysis(structured_prompt, max_response_tokens=800)
         
-        if response and len(response) > 100:
-            print("✅ Conservation analysis completed")
-            return response
+        if analysis_response and len(analysis_response) > 100:
+            print("Conservation analysis completed")
+            return analysis_response
         else:
-            print("⚠️  LLM response was brief, using enhanced rule-based analysis")
-            return self.llm.rule_based_analysis(prompt)
+            print("LLM response was brief, using enhanced rule-based analysis")
+            return self.llm_processor.create_rule_based_conservation_analysis(structured_prompt)
 
-# ============================================================================
-# 3. UPDATED MARINE CONSERVATION PIPELINE
-# ============================================================================
+######################################################################
+# Marine Species Classification System
+######################################################################
 
-# [Keep all the existing classes: MarineSpeciesClassifier, ConservationAnalyzer]
-# [Just replace the ConservationLLM class and update the pipeline]
-
-# Copy the existing MarineSpeciesClassifier and ConservationAnalyzer classes here
-# (They remain unchanged from your original code)
-
-class MarineSpeciesClassifier:
-    """Simulates marine species detection from underwater images"""
+class MarineSpeciesDetector:
+    """
+    Simulates advanced marine species detection from underwater survey images.
+    Provides realistic species distribution data for conservation analysis.
+    """
     
     def __init__(self):
-        self.species_list = [
+        self.known_marine_species = [
             "Clownfish", "Angelfish", "Parrotfish", "Grouper", "Wrasse",
             "Butterflyfish", "Surgeonfish", "Triggerfish", "Damselfish",
             "Moray Eel", "Sea Turtle", "Shark", "Ray", "Octopus",
             "Coral Trout", "Snapper", "Barracuda", "Tuna", "Dolphin",
             "Whale Shark", "Manta Ray", "Seahorse", "Pufferfish", "Lobster"
         ]
-        print(f"🐠 Marine Species Classifier initialized with {len(self.species_list)} species")
+        print(f"Marine Species Detector initialized with {len(self.known_marine_species)} species")
     
-    def classify_images(self, image_folder, metadata):
-        """Simulate species detection from underwater images"""
-        image_files = self._get_image_files(image_folder)
+    def analyze_underwater_images(self, image_directory, survey_metadata):
+        """
+        Analyzes underwater survey images to detect and count marine species.
+        Returns comprehensive detection results with confidence metrics.
+        """
+        image_files = self.get_underwater_image_files(image_directory)
         
         if not image_files:
-            raise ValueError(f"No images found in {image_folder}")
+            raise ValueError(f"No images found in {image_directory}")
         
-        print(f"🖼️  Analyzing {len(image_files)} underwater images...")
-        species_counts = self._simulate_marine_detection(len(image_files), metadata)
+        print(f"Analyzing {len(image_files)} underwater images...")
+        species_detection_counts = self.simulate_realistic_marine_detection(len(image_files), survey_metadata)
         
         return {
             "images_analyzed": len(image_files),
-            "total_species_detected": len(species_counts),
-            "species_counts": species_counts,
+            "total_species_detected": len(species_detection_counts),
+            "species_counts": species_detection_counts,
             "detection_confidence": round(random.uniform(0.82, 0.94), 2),
             "analysis_metadata": {
-                "location": metadata.get("location", "Unknown"),
-                "depth": metadata.get("depth", "Mixed depths"),
-                "time": metadata.get("time", "Daytime"),
-                "environmental_context": metadata.get("environmental_context", "Healthy reef")
+                "location": survey_metadata.get("location", "Unknown"),
+                "depth": survey_metadata.get("depth", "Mixed depths"),
+                "time": survey_metadata.get("time", "Daytime"),
+                "environmental_context": survey_metadata.get("environmental_context", "Healthy reef")
             }
         }
     
-    def _get_image_files(self, folder_path):
-        """Get underwater image files from folder"""
-        if not os.path.exists(folder_path):
+    def get_underwater_image_files(self, directory_path):
+        """
+        Retrieves underwater image files from the specified directory.
+        Supports common image formats used in marine surveys.
+        """
+        if not os.path.exists(directory_path):
             return []
         
-        image_extensions = ['.jpg', '.jpeg', '.png', '.bmp', '.tiff']
-        return [f for f in os.listdir(folder_path) 
-                if any(f.lower().endswith(ext) for ext in image_extensions)]
+        supported_image_formats = ['.jpg', '.jpeg', '.png', '.bmp', '.tiff']
+        return [filename for filename in os.listdir(directory_path) 
+                if any(filename.lower().endswith(format) for format in supported_image_formats)]
     
-    def _simulate_marine_detection(self, num_images, metadata):
-        """Simulate realistic marine species detection"""
-        location = metadata.get("location", "tropical_reef")
+    def simulate_realistic_marine_detection(self, image_count, survey_metadata):
+        """
+        Simulates realistic marine species detection based on survey location and conditions.
+        Generates ecologically appropriate species distributions.
+        """
+        survey_location = survey_metadata.get("location", "tropical_reef")
         
-        if "coral" in location.lower() or "reef" in location.lower():
-            primary_species = ["Clownfish", "Angelfish", "Parrotfish", "Butterflyfish", "Wrasse"]
-        elif "open_ocean" in location.lower():
-            primary_species = ["Tuna", "Shark", "Dolphin", "Manta Ray", "Barracuda"]
+        ######################################################################
+        # Determine primary species based on survey location
+        ######################################################################
+        if "coral" in survey_location.lower() or "reef" in survey_location.lower():
+            dominant_species = ["Clownfish", "Angelfish", "Parrotfish", "Butterflyfish", "Wrasse"]
+        elif "open_ocean" in survey_location.lower():
+            dominant_species = ["Tuna", "Shark", "Dolphin", "Manta Ray", "Barracuda"]
         else:
-            primary_species = ["Grouper", "Snapper", "Surgeonfish", "Triggerfish", "Damselfish"]
+            dominant_species = ["Grouper", "Snapper", "Surgeonfish", "Triggerfish", "Damselfish"]
         
-        species_counts = {}
+        species_detection_counts = {}
         
-        # Primary species (abundant)
-        for species in primary_species:
-            species_counts[species] = random.randint(15, 45) * num_images // 10
+        ######################################################################
+        # Generate counts for dominant species (high abundance)
+        ######################################################################
+        for species in dominant_species:
+            species_detection_counts[species] = random.randint(15, 45) * image_count // 10
         
-        # Secondary species (moderate)
-        secondary_species = [s for s in self.species_list if s not in primary_species]
-        selected_secondary = random.sample(secondary_species, min(8, len(secondary_species)))
+        ######################################################################
+        # Generate counts for secondary species (moderate abundance)
+        ######################################################################
+        secondary_species_pool = [species for species in self.known_marine_species if species not in dominant_species]
+        selected_secondary_species = random.sample(secondary_species_pool, min(8, len(secondary_species_pool)))
         
-        for species in selected_secondary:
-            species_counts[species] = random.randint(5, 20) * num_images // 10
+        for species in selected_secondary_species:
+            species_detection_counts[species] = random.randint(5, 20) * image_count // 10
         
-        # Rare species (conservation concern)
-        rare_species = ["Sea Turtle", "Whale Shark", "Manta Ray", "Seahorse"]
-        selected_rare = random.sample(rare_species, random.randint(1, 3))
+        ######################################################################
+        # Generate counts for rare species (conservation concern)
+        ######################################################################
+        rare_conservation_species = ["Sea Turtle", "Whale Shark", "Manta Ray", "Seahorse"]
+        selected_rare_species = random.sample(rare_conservation_species, random.randint(1, 3))
         
-        for species in selected_rare:
-            if species not in species_counts:
-                species_counts[species] = random.randint(1, 5)
+        for species in selected_rare_species:
+            if species not in species_detection_counts:
+                species_detection_counts[species] = random.randint(1, 5)
         
-        return species_counts
+        return species_detection_counts
 
-class ConservationAnalyzer:
-    """Analyzes marine species distribution for conservation planning"""
+######################################################################
+# Conservation Analysis System
+######################################################################
+
+class MarineConservationAnalyzer:
+    """
+    Analyzes marine species distribution patterns for conservation planning.
+    Identifies species of concern and conservation priority species.
+    """
     
     def __init__(self):
-        self.conservation_status = {
+        self.species_conservation_status = {
             "Sea Turtle": "Endangered",
             "Whale Shark": "Vulnerable", 
             "Manta Ray": "Vulnerable",
@@ -599,7 +660,7 @@ class ConservationAnalyzer:
             "Coral Trout": "Vulnerable"
         }
         
-        self.ecological_importance = {
+        self.species_ecological_roles = {
             "Shark": "Apex Predator",
             "Grouper": "Keystone Species", 
             "Parrotfish": "Reef Maintainer",
@@ -608,253 +669,320 @@ class ConservationAnalyzer:
             "Whale Shark": "Plankton Control"
         }
     
-    def analyze_species_distribution(self, species_counts):
-        """Calculate percentages and identify species of concern"""
-        total_population = sum(species_counts.values())
+    def analyze_species_population_distribution(self, species_detection_counts):
+        """
+        Analyzes species population distribution to identify conservation concerns.
+        Calculates percentages and identifies species requiring immediate attention.
+        """
+        total_marine_population = sum(species_detection_counts.values())
         
-        species_distribution = {}
-        for species, count in species_counts.items():
-            percentage = (count / total_population) * 100
-            species_distribution[species] = {
-                "count": count,
-                "percentage": round(percentage, 2)
+        species_distribution_analysis = {}
+        for species, individual_count in species_detection_counts.items():
+            population_percentage = (individual_count / total_marine_population) * 100
+            species_distribution_analysis[species] = {
+                "count": individual_count,
+                "percentage": round(population_percentage, 2)
             }
         
-        # Identify species of concern (minimum percentage)
-        min_species = min(species_distribution.keys(), 
-                         key=lambda x: species_distribution[x]["percentage"])
+        ######################################################################
+        # Identify species with minimum population representation
+        ######################################################################
+        species_of_primary_concern = min(species_distribution_analysis.keys(), 
+                                       key=lambda x: species_distribution_analysis[x]["percentage"])
         
-        # Conservation priority species
-        conservation_concerns = []
-        for species in species_distribution:
-            if species in self.conservation_status:
-                conservation_concerns.append({
+        ######################################################################
+        # Identify conservation priority species present in survey
+        ######################################################################
+        conservation_priority_list = []
+        for species in species_distribution_analysis:
+            if species in self.species_conservation_status:
+                conservation_priority_list.append({
                     "species": species,
-                    "percentage": species_distribution[species]["percentage"],
-                    "status": self.conservation_status[species],
-                    "ecological_role": self.ecological_importance.get(species, "Unknown")
+                    "percentage": species_distribution_analysis[species]["percentage"],
+                    "status": self.species_conservation_status[species],
+                    "ecological_role": self.species_ecological_roles.get(species, "Unknown")
                 })
         
-        conservation_concerns.sort(key=lambda x: x["percentage"])
+        conservation_priority_list.sort(key=lambda x: x["percentage"])
         
         return {
-            "total_population": total_population,
-            "species_distribution": species_distribution,
+            "total_population": total_marine_population,
+            "species_distribution": species_distribution_analysis,
             "species_of_concern": {
-                "species": min_species,
-                "percentage": species_distribution[min_species]["percentage"],
-                "count": species_distribution[min_species]["count"]
+                "species": species_of_primary_concern,
+                "percentage": species_distribution_analysis[species_of_primary_concern]["percentage"],
+                "count": species_distribution_analysis[species_of_primary_concern]["count"]
             },
-            "conservation_priority_species": conservation_concerns
+            "conservation_priority_species": conservation_priority_list
         }
 
+######################################################################
+# Complete Marine Conservation Pipeline
+######################################################################
+
 class MarineConservationPipeline:
-    """Complete pipeline with real LLM integration"""
+    """
+    Comprehensive pipeline integrating species detection, conservation analysis, and LLM recommendations.
+    Provides complete end-to-end marine conservation analysis workflow.
+    """
     
-    def __init__(self, llm_type="rule_based"):
-        self.classifier = MarineSpeciesClassifier()
-        self.analyzer = ConservationAnalyzer()
-        self.llm = ConservationLLM(llm_type)
+    def __init__(self, model_type="rule_based"):
+        self.species_detector = MarineSpeciesDetector()
+        self.conservation_analyzer = MarineConservationAnalyzer()
+        self.conservation_llm = ConservationLLMManager(model_type)
         
         os.makedirs("marine_data", exist_ok=True)
         os.makedirs("conservation_reports", exist_ok=True)
         
-        print(f"🌊 Marine Conservation Pipeline initialized with {llm_type} LLM")
+        print(f"Marine Conservation Pipeline initialized with {model_type} LLM")
     
-    def run_conservation_analysis(self, image_folder, metadata):
-        """Run complete conservation analysis with real LLM"""
+    def execute_comprehensive_conservation_analysis(self, image_directory, survey_metadata):
+        """
+        Executes complete conservation analysis workflow including species detection,
+        population analysis, and expert conservation recommendations.
+        """
         
-        print("🌊 MARINE SPECIES CONSERVATION ANALYSIS")
+        print("MARINE SPECIES CONSERVATION ANALYSIS")
         print("=" * 60)
         
-        # Algorithm Steps 1-3: Species Detection and Analysis
-        print("\n1. Species Detection and Counting...")
-        detection_result = self.classifier.classify_images(image_folder, metadata)
+        ######################################################################
+        # Phase 1: Marine Species Detection and Counting
+        ######################################################################
+        print("\nPhase 1: Species Detection and Counting...")
+        species_detection_results = self.species_detector.analyze_underwater_images(image_directory, survey_metadata)
         
-        print(f"   🐠 Detected {detection_result['total_species_detected']} species")
-        print(f"   📊 Total individuals: {sum(detection_result['species_counts'].values())}")
+        print(f"   Detected {species_detection_results['total_species_detected']} species")
+        print(f"   Total individuals: {sum(species_detection_results['species_counts'].values())}")
         
-        print("\n2. Analyzing species distribution...")
-        analysis_result = self.analyzer.analyze_species_distribution(detection_result['species_counts'])
+        ######################################################################
+        # Phase 2: Conservation Analysis and Priority Assessment
+        ######################################################################
+        print("\nPhase 2: Analyzing species distribution...")
+        population_analysis_results = self.conservation_analyzer.analyze_species_population_distribution(
+            species_detection_results['species_counts'])
         
-        species_of_concern = analysis_result['species_of_concern']
-        print(f"   ⚠️  Species of concern: {species_of_concern['species']} ({species_of_concern['percentage']}%)")
+        species_concern = population_analysis_results['species_of_concern']
+        print(f"   Species of concern: {species_concern['species']} ({species_concern['percentage']}%)")
         
-        # Algorithm Steps 4-5: LLM Analysis
-        print("\n3. Constructing expert conservation analysis...")
-        prompt = self.llm.create_conservation_prompt(analysis_result, metadata)
+        ######################################################################
+        # Phase 3: Expert Conservation Prompt Creation
+        ######################################################################
+        print("\nPhase 3: Constructing expert conservation analysis...")
+        conservation_prompt = self.conservation_llm.create_structured_conservation_prompt(
+            population_analysis_results, survey_metadata)
         
-        print("\n4. Generating conservation recommendations with real LLM...")
-        recommendations = self.llm.generate_conservation_recommendations(prompt)
+        ######################################################################
+        # Phase 4: LLM-Based Conservation Recommendations
+        ######################################################################
+        print("\nPhase 4: Generating conservation recommendations with LLM...")
+        conservation_recommendations = self.conservation_llm.generate_conservation_recommendations(conservation_prompt)
         
-        # Compile results
-        final_results = {
+        ######################################################################
+        # Compile comprehensive results
+        ######################################################################
+        comprehensive_analysis_results = {
             "analysis_date": datetime.now().strftime("%Y-%m-%d"),
-            "llm_type": self.llm.llm.llm_type,
-            "metadata": metadata,
-            "detection_results": detection_result,
-            "distribution_analysis": analysis_result,
-            "conservation_recommendations": recommendations,
+            "llm_type": self.conservation_llm.llm_processor.model_type,
+            "metadata": survey_metadata,
+            "detection_results": species_detection_results,
+            "distribution_analysis": population_analysis_results,
+            "conservation_recommendations": conservation_recommendations,
             "algorithm_outputs": {
-                "species_distribution": analysis_result['species_distribution'],
-                "species_of_concern": species_of_concern,
-                "conservation_priority": analysis_result['conservation_priority_species']
+                "species_distribution": population_analysis_results['species_distribution'],
+                "species_of_concern": species_concern,
+                "conservation_priority": population_analysis_results['conservation_priority_species']
             }
         }
         
-        # Display and save results
-        self._display_results(final_results)
-        self._save_results(final_results)
+        ######################################################################
+        # Display and save comprehensive results
+        ######################################################################
+        self.display_analysis_results(comprehensive_analysis_results)
+        self.save_comprehensive_analysis_results(comprehensive_analysis_results)
         
-        return final_results
+        return comprehensive_analysis_results
     
-    def _display_results(self, results):
-        """Display conservation analysis results"""
+    def display_analysis_results(self, analysis_results):
+        """
+        Displays comprehensive conservation analysis results in formatted output.
+        Provides clear summary of key findings and recommendations.
+        """
         
         print("\n" + "=" * 60)
-        print("🐠 MARINE CONSERVATION ANALYSIS REPORT")
+        print("MARINE CONSERVATION ANALYSIS REPORT")
         print("=" * 60)
         
-        print(f"📅 Analysis Date: {results['analysis_date']}")
-        print(f"🤖 LLM Type: {results['llm_type']}")
-        print(f"📍 Location: {results['metadata'].get('location', 'Unknown')}")
+        print(f"Analysis Date: {analysis_results['analysis_date']}")
+        print(f"LLM Type: {analysis_results['llm_type']}")
+        print(f"Location: {analysis_results['metadata'].get('location', 'Unknown')}")
         
-        # Detection summary
-        detection = results['detection_results']
-        print(f"\n📊 DETECTION SUMMARY:")
-        print(f"   Images analyzed: {detection['images_analyzed']}")
-        print(f"   Species detected: {detection['total_species_detected']}")
-        print(f"   Total individuals: {sum(detection['species_counts'].values())}")
+        ######################################################################
+        # Display detection summary
+        ######################################################################
+        detection_data = analysis_results['detection_results']
+        print(f"\nDETECTION SUMMARY:")
+        print(f"   Images analyzed: {detection_data['images_analyzed']}")
+        print(f"   Species detected: {detection_data['total_species_detected']}")
+        print(f"   Total individuals: {sum(detection_data['species_counts'].values())}")
         
-        # Top species
-        distribution = results['distribution_analysis']['species_distribution']
-        sorted_species = sorted(distribution.items(), key=lambda x: x[1]['percentage'], reverse=True)
+        ######################################################################
+        # Display top detected species
+        ######################################################################
+        species_distribution = analysis_results['distribution_analysis']['species_distribution']
+        sorted_species_by_population = sorted(species_distribution.items(), 
+                                            key=lambda x: x[1]['percentage'], reverse=True)
         
-        print(f"\n🐠 TOP SPECIES DETECTED:")
-        for species, data in sorted_species[:8]:
-            print(f"   {species}: {data['percentage']}% ({data['count']} individuals)")
+        print(f"\nTOP SPECIES DETECTED:")
+        for species, population_data in sorted_species_by_population[:8]:
+            print(f"   {species}: {population_data['percentage']}% ({population_data['count']} individuals)")
         
-        # Species of concern
-        concern = results['algorithm_outputs']['species_of_concern']
-        print(f"\n⚠️  SPECIES OF GREATEST CONCERN:")
-        print(f"   {concern['species']}: {concern['percentage']}% ({concern['count']} individuals)")
+        ######################################################################
+        # Display species of greatest concern
+        ######################################################################
+        primary_concern = analysis_results['algorithm_outputs']['species_of_concern']
+        print(f"\nSPECIES OF GREATEST CONCERN:")
+        print(f"   {primary_concern['species']}: {primary_concern['percentage']}% ({primary_concern['count']} individuals)")
         
-        # Conservation priority species
-        priority_species = results['algorithm_outputs']['conservation_priority']
-        if priority_species:
-            print(f"\n🔴 CONSERVATION PRIORITY SPECIES:")
-            for species_info in priority_species[:5]:
+        ######################################################################
+        # Display conservation priority species
+        ######################################################################
+        priority_species_list = analysis_results['algorithm_outputs']['conservation_priority']
+        if priority_species_list:
+            print(f"\nCONSERVATION PRIORITY SPECIES:")
+            for species_info in priority_species_list[:5]:
                 print(f"   {species_info['species']}: {species_info['percentage']}% ({species_info['status']})")
         
-        # LLM recommendations
-        print(f"\n🤖 REAL LLM CONSERVATION ANALYSIS:")
+        ######################################################################
+        # Display LLM conservation recommendations (preview)
+        ######################################################################
+        print(f"\nLLM CONSERVATION ANALYSIS:")
         print("-" * 60)
-        # Show first portion of recommendations
-        rec_lines = results['conservation_recommendations'].split('\n')
-        for i, line in enumerate(rec_lines[:15]):
+        recommendation_lines = analysis_results['conservation_recommendations'].split('\n')
+        for i, line in enumerate(recommendation_lines[:15]):
             if line.strip():
                 print(f"   {line.strip()}")
         
-        if len(rec_lines) > 15:
+        if len(recommendation_lines) > 15:
             print("   ... (continued in saved report)")
         print("-" * 60)
     
-    def _save_results(self, results):
-        """Save conservation analysis results"""
+    def save_comprehensive_analysis_results(self, analysis_results):
+        """
+        Saves comprehensive conservation analysis results in multiple formats.
+        Creates both detailed JSON data and human-readable reports.
+        """
         
-        # Save detailed JSON report
-        json_filename = f"conservation_reports/marine_analysis_{results['analysis_date']}.json"
-        with open(json_filename, 'w') as f:
-            json.dump(results, f, indent=2)
+        ######################################################################
+        # Save detailed JSON analysis report
+        ######################################################################
+        json_report_filename = f"conservation_reports/marine_analysis_{analysis_results['analysis_date']}.json"
+        with open(json_report_filename, 'w') as json_file:
+            json.dump(analysis_results, json_file, indent=2)
         
-        # Save human-readable report
-        report_filename = f"conservation_reports/conservation_report_{results['analysis_date']}.txt"
-        with open(report_filename, 'w') as f:
-            f.write("MARINE CONSERVATION ANALYSIS REPORT\n")
-            f.write("=" * 60 + "\n\n")
-            f.write(f"Analysis Date: {results['analysis_date']}\n")
-            f.write(f"LLM Model Used: {results['llm_type']}\n")
-            f.write(f"Location: {results['metadata'].get('location', 'Unknown')}\n\n")
-            f.write("SPECIES DISTRIBUTION:\n")
-            f.write("-" * 30 + "\n")
+        ######################################################################
+        # Save human-readable conservation report
+        ######################################################################
+        text_report_filename = f"conservation_reports/conservation_report_{analysis_results['analysis_date']}.txt"
+        with open(text_report_filename, 'w') as text_file:
+            text_file.write("MARINE CONSERVATION ANALYSIS REPORT\n")
+            text_file.write("=" * 60 + "\n\n")
+            text_file.write(f"Analysis Date: {analysis_results['analysis_date']}\n")
+            text_file.write(f"LLM Model Used: {analysis_results['llm_type']}\n")
+            text_file.write(f"Location: {analysis_results['metadata'].get('location', 'Unknown')}\n\n")
+            text_file.write("SPECIES DISTRIBUTION:\n")
+            text_file.write("-" * 30 + "\n")
             
-            # Write species distribution
-            distribution = results['distribution_analysis']['species_distribution']
-            sorted_species = sorted(distribution.items(), key=lambda x: x[1]['percentage'], reverse=True)
+            ######################################################################
+            # Write complete species distribution
+            ######################################################################
+            species_distribution = analysis_results['distribution_analysis']['species_distribution']
+            sorted_species_data = sorted(species_distribution.items(), 
+                                       key=lambda x: x[1]['percentage'], reverse=True)
             
-            for species, data in sorted_species:
-                f.write(f"{species}: {data['percentage']}% ({data['count']} individuals)\n")
+            for species, population_data in sorted_species_data:
+                text_file.write(f"{species}: {population_data['percentage']}% ({population_data['count']} individuals)\n")
             
-            f.write(f"\nSPECIES OF CONCERN:\n")
-            f.write("-" * 30 + "\n")
-            concern = results['algorithm_outputs']['species_of_concern']
-            f.write(f"{concern['species']}: {concern['percentage']}% ({concern['count']} individuals)\n")
+            text_file.write(f"\nSPECIES OF CONCERN:\n")
+            text_file.write("-" * 30 + "\n")
+            species_concern = analysis_results['algorithm_outputs']['species_of_concern']
+            text_file.write(f"{species_concern['species']}: {species_concern['percentage']}% ({species_concern['count']} individuals)\n")
             
-            f.write(f"\nCONSERVATION RECOMMENDATIONS:\n")
-            f.write("-" * 30 + "\n")
-            f.write(results['conservation_recommendations'])
+            text_file.write(f"\nCONSERVATION RECOMMENDATIONS:\n")
+            text_file.write("-" * 30 + "\n")
+            text_file.write(analysis_results['conservation_recommendations'])
         
-        print(f"\n✅ Reports saved:")
-        print(f"   📄 Detailed data: {json_filename}")
-        print(f"   📋 Conservation report: {report_filename}")
+        print(f"\nReports saved:")
+        print(f"   Detailed data: {json_report_filename}")
+        print(f"   Conservation report: {text_report_filename}")
 
-# ============================================================================
-# 4. MAIN EXECUTION WITH LLM SELECTION
-# ============================================================================
+######################################################################
+# Pipeline Setup and Configuration
+######################################################################
 
-def setup_marine_pipeline():
-    """Set up the marine conservation pipeline"""
+def setup_marine_conservation_pipeline():
+    """
+    Sets up the marine conservation pipeline with sample data and directory structure.
+    Creates necessary directories and sample image files for testing.
+    """
     
-    image_folder = "marine_images"
-    if not os.path.exists(image_folder):
-        os.makedirs(image_folder)
+    marine_images_directory = "marine_images"
+    if not os.path.exists(marine_images_directory):
+        os.makedirs(marine_images_directory)
         
-        # Create sample image files
-        sample_images = [
+        ######################################################################
+        # Create sample underwater survey images for testing
+        ######################################################################
+        sample_underwater_images = [
             "reef_overview_1.jpg", "coral_garden_1.jpg", "fish_school_1.jpg",
             "reef_overview_2.jpg", "coral_garden_2.jpg", "fish_school_2.jpg", 
             "deep_reef_1.jpg", "marine_life_1.jpg", "underwater_landscape_1.jpg",
             "species_diversity_1.jpg", "coral_formation_1.jpg", "marine_ecosystem_1.jpg"
         ]
         
-        for img in sample_images:
-            with open(f"{image_folder}/{img}", 'w') as f:
-                f.write("# Sample underwater image for marine species detection")
+        for image_filename in sample_underwater_images:
+            with open(f"{marine_images_directory}/{image_filename}", 'w') as sample_file:
+                sample_file.write("# Sample underwater image for marine species detection")
         
-        print(f"📁 Created {image_folder} with {len(sample_images)} sample images")
-        print("   Replace with your actual underwater survey images!")
+        print(f"Created {marine_images_directory} with {len(sample_underwater_images)} sample images")
+        print("   Replace with your actual underwater survey images for real analysis")
     
-    return image_folder
+    return marine_images_directory
 
-def print_llm_options():
-    """Print available LLM options"""
+def display_available_llm_options():
+    """
+    Displays available LLM options and setup instructions for users.
+    Provides clear guidance on choosing the appropriate analysis method.
+    """
     
-    print("🤖 AVAILABLE LLM OPTIONS:")
+    print("AVAILABLE LLM OPTIONS FOR MARINE CONSERVATION:")
     print("=" * 50)
     
     print("\n1. RULE-BASED ANALYSIS (Default)")
-    print("   ✅ No setup required - works immediately")
-    print("   ✅ Intelligent conservation expertise")
-    print("   ✅ Detailed scientific analysis")
-    print("   ✅ Species-specific recommendations")
+    print("   No setup required - works immediately")
+    print("   Intelligent conservation expertise")
+    print("   Detailed scientific analysis")
+    print("   Species-specific recommendations")
     
     print("\n2. OLLAMA (Local LLM)")
-    print("   📥 Requires: Install Ollama + model")
-    print("   ✅ High-quality AI analysis")
-    print("   ✅ Privacy-focused (local processing)")
-    print("   📋 Setup: https://ollama.ai/download")
+    print("   Requires: Install Ollama + model")
+    print("   High-quality AI analysis")
+    print("   Privacy-focused (local processing)")
+    print("   Setup: https://ollama.ai/download")
     
     print("\n3. HUGGING FACE TRANSFORMERS")
-    print("   📥 Requires: pip install transformers torch")
-    print("   ✅ Free models available")
-    print("   ⚠️  May require GPU for best performance")
+    print("   Requires: pip install transformers torch")
+    print("   Free models available")
+    print("   May require GPU for best performance")
     
-    print("\n🎯 RECOMMENDATION:")
+    print("\nRECOMMENDATION:")
     print("   Start with Rule-Based Analysis (option 1)")
-    print("   It provides expert-level conservation analysis immediately!")
+    print("   It provides expert-level conservation analysis immediately")
 
-def create_sample_marine_data():
-    """Create sample marine survey data"""
+def create_sample_marine_survey_data():
+    """
+    Creates sample marine survey metadata for testing and demonstration.
+    Represents different marine environments and survey conditions.
+    """
     
     return [
         {
@@ -889,80 +1017,104 @@ def create_sample_marine_data():
         }
     ]
 
+######################################################################
+# Main Execution and User Interface
+######################################################################
+
 def main():
-    """Main execution with LLM selection"""
+    """
+    Main execution function with LLM selection and pipeline management.
+    Provides interactive interface for marine conservation analysis.
+    """
     
-    print("🌊 MARINE SPECIES CONSERVATION PIPELINE")
+    print("MARINE SPECIES CONSERVATION PIPELINE")
     print("AI-Powered Marine Conservation Analysis")
     print("=" * 60)
     
-    # Show LLM options
-    print_llm_options()
+    ######################################################################
+    # Display available LLM options
+    ######################################################################
+    display_available_llm_options()
     
-    # Get user choice
+    ######################################################################
+    # Get user selection for LLM type
+    ######################################################################
     print("\n" + "=" * 60)
     print("SELECT LLM TYPE:")
     print("1. Rule-Based Analysis (Recommended)")
     print("2. Ollama Local LLM") 
     print("3. Hugging Face Transformers")
     
-    choice = input("\nEnter your choice (1-3) [1]: ").strip()
+    user_selection = input("\nEnter your choice (1-3) [1]: ").strip()
     
-    # Map choice to LLM type
-    llm_mapping = {
+    ######################################################################
+    # Map user selection to LLM type
+    ######################################################################
+    llm_type_mapping = {
         "1": "rule_based",
         "2": "ollama", 
         "3": "transformers",
-        "": "rule_based"  # Default
+        "": "rule_based"  # Default selection
     }
     
-    llm_type = llm_mapping.get(choice, "rule_based")
+    selected_llm_type = llm_type_mapping.get(user_selection, "rule_based")
     
-    print(f"\n🤖 Selected: {llm_type}")
+    print(f"\nSelected LLM type: {selected_llm_type}")
     
-    # Setup pipeline
-    image_folder = setup_marine_pipeline()
+    ######################################################################
+    # Setup pipeline infrastructure
+    ######################################################################
+    marine_images_directory = setup_marine_conservation_pipeline()
     
-    # Initialize pipeline with selected LLM
-    pipeline = MarineConservationPipeline(llm_type)
+    ######################################################################
+    # Initialize conservation pipeline with selected LLM
+    ######################################################################
+    conservation_pipeline = MarineConservationPipeline(selected_llm_type)
     
-    # Sample locations
-    sample_surveys = create_sample_marine_data()
+    ######################################################################
+    # Prepare sample survey data
+    ######################################################################
+    sample_marine_surveys = create_sample_marine_survey_data()
     
-    # Run analysis
+    ######################################################################
+    # Execute conservation analysis
+    ######################################################################
     try:
-        location_data = random.choice(sample_surveys)
+        selected_survey_location = random.choice(sample_marine_surveys)
         
-        print(f"\n🔍 Running conservation analysis...")
-        print(f"   Location: {location_data['location']}")
-        print(f"   Environment: {location_data['environmental_context']}")
+        print(f"\nExecuting conservation analysis...")
+        print(f"   Location: {selected_survey_location['location']}")
+        print(f"   Environment: {selected_survey_location['environmental_context']}")
         
-        results = pipeline.run_conservation_analysis(image_folder, location_data)
+        analysis_results = conservation_pipeline.execute_comprehensive_conservation_analysis(
+            marine_images_directory, selected_survey_location)
         
         print("\n" + "=" * 60)
-        print("🎉 MARINE CONSERVATION ANALYSIS COMPLETE!")
+        print("MARINE CONSERVATION ANALYSIS COMPLETE")
         print("=" * 60)
-        print("✅ Expert conservation recommendations generated")
-        print("✅ Species of concern identified")
-        print("✅ Detailed reports saved")
-        print("\n📁 Check 'conservation_reports' folder for:")
-        print("   📄 Detailed JSON data")
-        print("   📋 Conservation action plan")
+        print("Expert conservation recommendations generated")
+        print("Species of concern identified")
+        print("Detailed reports saved")
+        print("\nCheck 'conservation_reports' folder for:")
+        print("   Detailed JSON data")
+        print("   Conservation action plan")
         
-        # Quick summary
-        concern = results['algorithm_outputs']['species_of_concern']
-        print(f"\n🚨 CRITICAL FINDING:")
-        print(f"   Species: {concern['species']}")
-        print(f"   Population: {concern['percentage']}% ({concern['count']} individuals)")
+        ######################################################################
+        # Display critical findings summary
+        ######################################################################
+        species_concern = analysis_results['algorithm_outputs']['species_of_concern']
+        print(f"\nCRITICAL FINDING:")
+        print(f"   Species: {species_concern['species']}")
+        print(f"   Population: {species_concern['percentage']}% ({species_concern['count']} individuals)")
         print(f"   Action: Immediate conservation measures required")
         
-        return results
+        return analysis_results
         
-    except Exception as e:
-        print(f"\n❌ Error: {str(e)}")
+    except Exception as analysis_error:
+        print(f"\nError: {str(analysis_error)}")
         print("Please check your setup and try again.")
         return None
 
 if __name__ == "__main__":
-    # Run the complete marine conservation pipeline with real LLM
-    results = main()
+    # Execute the complete marine conservation pipeline with LLM integration
+    conservation_analysis_results = main()
