@@ -1,384 +1,552 @@
 # ============================================================================
-# LLM-BASED STRATEGIC FEASIBILITY ASSESSMENT IN OUTDOOR SPORTS (CRICKET)
-# Direct LLM analysis for cricket strategy and tactics
+# CRICKET STRATEGIC FEASIBILITY ASSESSMENT SYSTEM
+# Professional LLM-based analysis for cricket strategy and tactical planning
 # ============================================================================
 
 import json
 import requests
 from datetime import datetime
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Optional
 
 # ============================================================================
-# 1. SIMPLE LLM CRICKET STRATEGY ANALYZER
+# 1. CRICKET STRATEGY ANALYSIS ENGINE
 # ============================================================================
 
-class CricketStrategyAnalyzer:
-    """LLM-based cricket strategy and feasibility assessment"""
+class CricketStrategicAnalyzer:
+    """Professional cricket strategy and feasibility assessment using language models"""
     
     def __init__(self, llm_type="transformers"):
         self.llm_type = llm_type
-        print(f"🏏 Initializing {llm_type.upper()} Cricket Strategy Analyzer...")
+        self.model_ready = False
+        
+        print(f"Initializing {llm_type.upper()} Cricket Strategic Analysis System...")
         
         if llm_type == "transformers":
             self.setup_transformers()
         elif llm_type == "ollama":
             self.setup_ollama()
         else:
-            print("❌ Unsupported LLM type. Use 'transformers' or 'ollama'")
+            raise ValueError("Unsupported LLM type. Use 'transformers' or 'ollama'")
     
     def setup_transformers(self):
-        """Setup Hugging Face Transformers"""
+        """Initialize Hugging Face Transformers model"""
         try:
             from transformers import pipeline
-            print("📥 Loading Transformers model for cricket analysis...")
+            print("Loading Transformers model for cricket analysis...")
             
             self.llm = pipeline(
                 "text-generation",
                 model="microsoft/DialoGPT-medium",
                 tokenizer="microsoft/DialoGPT-medium",
-                device=-1
+                device=-1,  # CPU execution
+                return_full_text=False
             )
-            print("✅ Transformers model loaded successfully")
+            
+            self.model_ready = True
+            print("Transformers model loaded successfully")
             
         except ImportError:
-            print("❌ Please install transformers: pip install transformers torch")
-            exit(1)
+            print("ERROR: Transformers library not found")
+            print("Install with: pip install transformers torch")
+            raise
         except Exception as e:
-            print(f"❌ Error loading model: {e}")
-            exit(1)
+            print(f"ERROR: Failed to load Transformers model: {e}")
+            raise
     
     def setup_ollama(self):
-        """Setup Ollama LLM"""
+        """Initialize Ollama LLM connection"""
         try:
-            print("🦙 Connecting to Ollama...")
-            response = requests.get("http://localhost:11434/api/tags", timeout=5)
+            print("Connecting to Ollama server...")
+            response = requests.get("http://localhost:11434/api/tags", timeout=10)
             
             if response.status_code == 200:
                 models = response.json().get('models', [])
                 if models:
                     self.model_name = models[0]['name']
-                    print(f"✅ Using Ollama model: {self.model_name}")
+                    self.model_ready = True
+                    print(f"Connected to Ollama model: {self.model_name}")
                 else:
-                    print("❌ No Ollama models found. Install one: ollama pull llama2")
-                    exit(1)
+                    raise ConnectionError("No Ollama models available. Install with: ollama pull llama2")
             else:
-                print("❌ Ollama server not responding")
-                exit(1)
+                raise ConnectionError("Ollama server not responding")
                 
         except requests.exceptions.RequestException:
-            print("❌ Ollama server not running. Start with: ollama serve")
-            exit(1)
+            print("ERROR: Cannot connect to Ollama server")
+            print("Start Ollama with: ollama serve")
+            raise
     
-    def analyze_cricket_strategy(self, match_data):
-        """Main analysis function using LLM (Algorithm Steps 1-3)"""
+    def analyze_match_strategy(self, match_data: Dict) -> Dict:
+        """
+        Main analysis function for cricket strategy assessment
         
-        print("🏏 Analyzing cricket strategy with LLM...")
+        Args:
+            match_data: Comprehensive match context and environmental data
+            
+        Returns:
+            Strategic analysis results with feasibility assessment
+        """
         
-        # Step 1: Prompt Construction
-        prompt = self.construct_strategy_prompt(match_data)
+        if not self.model_ready:
+            raise RuntimeError("LLM model not properly initialized")
         
-        # Step 2: LLM Inference 
+        print("Analyzing cricket match strategy...")
+        
+        # Step 1: Construct strategic analysis prompt
+        strategy_prompt = self._construct_strategic_prompt(match_data)
+        
+        # Step 2: Execute LLM inference
         if self.llm_type == "transformers":
-            llm_output = self.analyze_with_transformers(prompt)
+            llm_response = self._analyze_with_transformers(strategy_prompt)
         elif self.llm_type == "ollama":
-            llm_output = self.analyze_with_ollama(prompt)
+            llm_response = self._analyze_with_ollama(strategy_prompt)
+        else:
+            raise ValueError(f"Unsupported LLM type: {self.llm_type}")
         
-        # Step 3: Extract Feasibility and Strategy
-        feasibility, factors, suggestions = self.extract_strategy_components(llm_output)
+        # Step 3: Extract and structure strategic components
+        feasibility_score, key_factors, tactical_recommendations = self._extract_strategic_components(llm_response)
         
-        # Structure complete result
-        analysis_result = {
-            "match_context": match_data,
-            "llm_analysis": {
-                "model_used": self.llm_type,
-                "analysis_timestamp": datetime.now().isoformat(),
-                "raw_llm_output": llm_output,
-                "success_feasibility_score": feasibility,
-                "key_influencing_factors": factors,
-                "tactical_suggestions": suggestions
-            },
-            "strategic_assessment": {
-                "overall_recommendation": self.determine_overall_strategy(feasibility, factors),
-                "confidence_level": self.assess_confidence(llm_output),
-                "priority_actions": self.extract_priority_actions(suggestions)
-            }
-        }
+        # Compile comprehensive analysis result
+        analysis_result = self._compile_strategic_assessment(
+            match_data, llm_response, feasibility_score, key_factors, tactical_recommendations
+        )
         
         return analysis_result
     
-    def construct_strategy_prompt(self, match_data):
-        """Algorithm Step 1: Construct comprehensive strategy prompt"""
+    def _construct_strategic_prompt(self, match_data: Dict) -> str:
+        """Construct comprehensive strategic analysis prompt"""
         
-        # Extract components
         environmental = match_data["environmental_data"]
-        ground_history = match_data["ground_history"]
-        team_metadata = match_data["team_metadata"]
+        ground_stats = match_data["ground_history"]
+        team_profile = match_data["team_metadata"]
         match_context = match_data["match_context"]
         
-        # Format environmental conditions
-        env_text = f"""
-ENVIRONMENTAL CONDITIONS:
-• Temperature: {environmental['temperature']}°C
-• Humidity: {environmental['humidity']}%
-• Wind Speed: {environmental['wind_speed']} km/h, Direction: {environmental['wind_direction']}
-• Altitude: {environmental['altitude']} meters
-• Expected Weather: {environmental['weather_forecast']}
-• Pitch Conditions: {environmental['pitch_conditions']}"""
+        # Format environmental analysis section
+        environmental_section = f"""
+ENVIRONMENTAL CONDITIONS ANALYSIS:
+• Temperature: {environmental['temperature']}°C (Impact on player performance and ball behavior)
+• Humidity: {environmental['humidity']}% (Affects ball swing and player stamina)
+• Wind: {environmental['wind_speed']} km/h from {environmental['wind_direction']} (Ball trajectory influence)
+• Altitude: {environmental['altitude']}m above sea level (Air density effects)
+• Weather Forecast: {environmental['weather_forecast']}
+• Pitch Assessment: {environmental['pitch_conditions']}"""
         
-        # Format ground history
-        history_text = f"""
-GROUND HISTORY & STATISTICS:
-• Ground: {ground_history['ground_name']}, {ground_history['location']}
-• Average First Innings Score: {ground_history['avg_first_innings_score']}
-• Average Second Innings Score: {ground_history['avg_second_innings_score']}
-• Toss Win Success Rate: {ground_history['toss_win_percentage']}%
-• Most Successful Strategy: {ground_history['most_successful_strategy']}
-• Key Ground Characteristics: {', '.join(ground_history['ground_characteristics'])}"""
+        # Format ground statistics section
+        ground_section = f"""
+GROUND STATISTICAL ANALYSIS:
+• Venue: {ground_stats['ground_name']}, {ground_stats['location']}
+• Historical Scoring Patterns:
+  - First Innings Average: {ground_stats['avg_first_innings_score']} runs
+  - Second Innings Average: {ground_stats['avg_second_innings_score']} runs
+• Toss Impact: {ground_stats['toss_win_percentage']}% success rate for toss winners
+• Optimal Strategy History: {ground_stats['most_successful_strategy']}
+• Ground Characteristics: {', '.join(ground_stats['ground_characteristics'])}"""
         
-        # Format team information
-        team_text = f"""
-TEAM PROFILE:
-• Team: {team_metadata['team_name']} vs {team_metadata['opponent_team']}
-• Home Region: {team_metadata['home_climate_region']}
-• Climate Adaptability: {team_metadata['climate_adaptability']}/10
-• Recent Form: {team_metadata['recent_form']} (last 5 matches)
-• Key Players: {', '.join(team_metadata['key_players'])}
-• Squad Strengths: {', '.join(team_metadata['squad_strengths'])}
-• Squad Weaknesses: {', '.join(team_metadata['squad_weaknesses'])}"""
+        # Format team profile section
+        team_section = f"""
+TEAM PROFILE ASSESSMENT:
+• Teams: {team_profile['team_name']} vs {team_profile['opponent_team']}
+• Climate Adaptation: {team_profile['team_name']} from {team_profile['home_climate_region']}
+• Adaptability Rating: {team_profile['climate_adaptability']}/10
+• Current Form: {team_profile['recent_form']} (last 5 matches)
+• Key Personnel: {', '.join(team_profile['key_players'])}
+• Strategic Strengths: {', '.join(team_profile['squad_strengths'])}
+• Identified Weaknesses: {', '.join(team_profile['squad_weaknesses'])}"""
         
-        # Format match context
-        context_text = f"""
-MATCH CONTEXT:
+        # Format match context section
+        context_section = f"""
+MATCH CONTEXT EVALUATION:
 • Format: {match_context['format']}
-• Tournament: {match_context['tournament']}
-• Match Importance: {match_context['importance_level']}
-• Expected Crowd: {match_context['crowd_support']}
-• Media Pressure: {match_context['media_pressure']}"""
+• Tournament Stage: {match_context['tournament']}
+• Stakes: {match_context['importance_level']}
+• Crowd Factor: {match_context['crowd_support']}
+• Pressure Level: {match_context['media_pressure']}"""
         
-        # Create comprehensive prompt
-        prompt = f"""You are a world-class cricket strategist and analyst with 20 years of experience in professional cricket. You have successfully guided teams to victory in various international tournaments and conditions.
+        # Construct comprehensive strategic prompt
+        prompt = f"""You are a professional cricket strategist with extensive experience in international cricket analysis and team management. Your expertise includes tactical planning, environmental adaptation, and strategic decision-making across all formats of the game.
 
-STRATEGIC ANALYSIS REQUEST:
-Analyze the following cricket match scenario and provide comprehensive strategic recommendations.
+STRATEGIC ASSESSMENT REQUEST:
+Conduct a comprehensive strategic feasibility analysis for the following cricket match scenario.
 
-{env_text}
+{environmental_section}
 
-{history_text}
+{ground_section}
 
-{team_text}
+{team_section}
 
-{context_text}
+{context_section}
 
-ANALYSIS REQUIREMENTS:
-Based on the above information, provide a detailed strategic assessment covering:
+STRATEGIC ANALYSIS FRAMEWORK:
+Please provide a detailed strategic assessment covering the following areas:
 
-1. SUCCESS FEASIBILITY ASSESSMENT:
-   - Overall likelihood of success (High/Moderate/Low)
-   - Confidence level in assessment
-   - Key risk factors
+1. SUCCESS FEASIBILITY EVALUATION:
+   - Overall success probability assessment (High/Moderate/Low)
+   - Confidence level in strategic recommendations
+   - Critical risk factors and mitigation strategies
 
-2. KEY INFLUENCING FACTORS:
-   - Environmental factors impact on gameplay
-   - Ground characteristics advantages/disadvantages  
-   - Team strengths/weaknesses in these conditions
-   - Historical patterns and trends
+2. KEY STRATEGIC FACTORS:
+   - Environmental conditions impact on tactical approach
+   - Ground characteristics advantages and challenges
+   - Team composition optimization for conditions
+   - Historical performance patterns and trends
 
-3. TACTICAL SUGGESTIONS:
-   - Optimal team selection and batting order
-   - Bowling strategy and field placements
-   - Toss decision recommendations
-   - In-match tactical adjustments
-   - Training focus areas before the match
+3. TACTICAL IMPLEMENTATION STRATEGY:
+   - Optimal team selection and batting order configuration
+   - Bowling attack strategy and field placement tactics
+   - Toss decision framework and rationale
+   - In-match tactical adaptation protocols
+   - Pre-match preparation focus areas
 
 4. CONTINGENCY PLANNING:
-   - Alternative strategies for different scenarios
-   - Adaptation strategies if conditions change
-   - Key decision points during the match
+   - Alternative strategic approaches for varying scenarios
+   - Adaptation mechanisms for changing conditions
+   - Critical decision points and response strategies
 
-Provide specific, actionable insights based on the match context and your cricket expertise.
+Provide specific, actionable strategic recommendations based on professional cricket analysis principles.
 
-STRATEGIC ANALYSIS:"""
+PROFESSIONAL STRATEGIC ANALYSIS:"""
 
         return prompt
     
-    def analyze_with_transformers(self, prompt):
-        """Algorithm Step 2: LLM Inference using Transformers"""
+    def _analyze_with_transformers(self, prompt: str) -> str:
+        """Execute strategic analysis using Transformers model"""
         
         try:
-            print("🤖 Processing cricket strategy with Transformers...")
+            print("Processing strategic analysis with Transformers...")
             
             result = self.llm(
                 prompt,
-                max_length=len(prompt.split()) + 400,
-                temperature=0.6,
+                max_new_tokens=500,
+                temperature=0.4,  # Moderate temperature for balanced creativity and consistency
                 do_sample=True,
                 pad_token_id=50256
             )
             
-            generated_text = result[0]['generated_text']
-            analysis = generated_text[len(prompt):].strip()
+            if isinstance(result, list) and len(result) > 0:
+                analysis = result[0].get('generated_text', '').strip()
+            else:
+                analysis = str(result).strip()
             
-            print("✅ Transformers cricket analysis complete")
+            print("Transformers strategic analysis completed")
             return analysis
             
         except Exception as e:
-            print(f"❌ Transformers error: {e}")
-            return "Error: Could not complete Transformers analysis"
+            error_msg = f"Transformers processing error: {e}"
+            print(f"ERROR: {error_msg}")
+            return error_msg
     
-    def analyze_with_ollama(self, prompt):
-        """Algorithm Step 2: LLM Inference using Ollama"""
+    def _analyze_with_ollama(self, prompt: str) -> str:
+        """Execute strategic analysis using Ollama model"""
         
         try:
-            print("🦙 Processing cricket strategy with Ollama...")
+            print("Processing strategic analysis with Ollama...")
             
-            payload = {
+            request_payload = {
                 "model": self.model_name,
                 "prompt": prompt,
                 "stream": False,
                 "options": {
-                    "temperature": 0.4,
+                    "temperature": 0.3,  # Conservative temperature for strategic consistency
                     "top_p": 0.9,
-                    "num_predict": 600
+                    "num_predict": 700,
+                    "stop": ["ANALYSIS COMPLETE", "END ANALYSIS"]
                 }
             }
             
             response = requests.post(
                 "http://localhost:11434/api/generate",
-                json=payload,
-                timeout=90
+                json=request_payload,
+                timeout=150  # Extended timeout for comprehensive analysis
             )
             
             if response.status_code == 200:
                 result = response.json()
                 analysis = result.get("response", "").strip()
-                print("✅ Ollama cricket analysis complete")
+                print("Ollama strategic analysis completed")
                 return analysis
             else:
-                return f"Error: Ollama API returned status {response.status_code}"
+                error_msg = f"Ollama API error: HTTP {response.status_code}"
+                print(f"ERROR: {error_msg}")
+                return error_msg
                 
         except Exception as e:
-            print(f"❌ Ollama error: {e}")
-            return "Error: Could not complete Ollama analysis"
+            error_msg = f"Ollama processing error: {e}"
+            print(f"ERROR: {error_msg}")
+            return error_msg
     
-    def extract_strategy_components(self, llm_output):
-        """Algorithm Step 3: Extract feasibility, factors, and suggestions"""
+    def _extract_strategic_components(self, llm_response: str) -> Tuple[str, List[str], List[str]]:
+        """Extract strategic components from LLM analysis"""
         
-        # Extract feasibility score
-        feasibility = "Moderate"  # Default
-        if "high" in llm_output.lower() and any(word in llm_output.lower() for word in ["success", "feasibility", "likelihood"]):
-            feasibility = "High"
-        elif "low" in llm_output.lower() and any(word in llm_output.lower() for word in ["success", "feasibility", "likelihood"]):
-            feasibility = "Low"
+        # Determine feasibility assessment
+        feasibility_score = self._assess_success_feasibility(llm_response)
         
-        # Extract key factors
+        # Extract key influencing factors
+        key_factors = self._identify_strategic_factors(llm_response)
+        
+        # Extract tactical recommendations
+        tactical_recommendations = self._extract_tactical_suggestions(llm_response)
+        
+        return feasibility_score, key_factors, tactical_recommendations
+    
+    def _assess_success_feasibility(self, llm_response: str) -> str:
+        """Assess success feasibility from LLM response"""
+        
+        response_lower = llm_response.lower()
+        
+        # Look for explicit feasibility indicators
+        high_indicators = ["high success", "highly favorable", "strong advantage", "excellent conditions"]
+        low_indicators = ["low success", "challenging conditions", "significant disadvantage", "unfavorable"]
+        
+        if any(indicator in response_lower for indicator in high_indicators):
+            return "High"
+        elif any(indicator in response_lower for indicator in low_indicators):
+            return "Low"
+        elif any(phrase in response_lower for phrase in ["moderate", "balanced", "reasonable"]):
+            return "Moderate"
+        
+        # Analyze strategic language patterns
+        positive_terms = ["advantage", "favorable", "strength", "opportunity", "optimal"]
+        negative_terms = ["challenge", "difficulty", "weakness", "risk", "concern"]
+        
+        positive_count = sum(1 for term in positive_terms if term in response_lower)
+        negative_count = sum(1 for term in negative_terms if term in response_lower)
+        
+        if positive_count > negative_count + 1:
+            return "High"
+        elif negative_count > positive_count + 1:
+            return "Low"
+        else:
+            return "Moderate"
+    
+    def _identify_strategic_factors(self, llm_response: str) -> List[str]:
+        """Identify key strategic factors from analysis"""
+        
         factors = []
+        response_lower = llm_response.lower()
         
         # Environmental factors
-        if "temperature" in llm_output.lower() or "heat" in llm_output.lower():
-            factors.append("Temperature and heat conditions")
-        if "humidity" in llm_output.lower():
-            factors.append("Humidity levels affecting ball swing")
-        if "wind" in llm_output.lower():
-            factors.append("Wind conditions impacting gameplay")
-        if "pitch" in llm_output.lower():
-            factors.append("Pitch conditions and behavior")
+        if any(term in response_lower for term in ["temperature", "heat", "climate"]):
+            factors.append("Temperature and climatic conditions impact")
+        if "humidity" in response_lower:
+            factors.append("Humidity effects on ball movement and player performance")
+        if "wind" in response_lower:
+            factors.append("Wind conditions affecting ball trajectory")
+        if "pitch" in response_lower and any(term in response_lower for term in ["condition", "behavior", "surface"]):
+            factors.append("Pitch characteristics and playing surface behavior")
         
-        # Team factors
-        if "adaptability" in llm_output.lower() or "adapt" in llm_output.lower():
-            factors.append("Team climate adaptability")
-        if "experience" in llm_output.lower():
-            factors.append("Player experience in similar conditions")
-        if "form" in llm_output.lower():
-            factors.append("Recent team form and momentum")
+        # Team performance factors
+        if "adaptation" in response_lower or "acclimatization" in response_lower:
+            factors.append("Team adaptation to local conditions")
+        if "experience" in response_lower and "conditions" in response_lower:
+            factors.append("Player experience in similar environmental conditions")
+        if "form" in response_lower or "momentum" in response_lower:
+            factors.append("Current team form and performance momentum")
         
         # Tactical factors
-        if "bowling" in llm_output.lower():
-            factors.append("Bowling strategy effectiveness")
-        if "batting" in llm_output.lower():
-            factors.append("Batting approach and order")
-        if "field" in llm_output.lower():
-            factors.append("Field placement strategy")
+        if "bowling" in response_lower and any(term in response_lower for term in ["strategy", "attack", "approach"]):
+            factors.append("Bowling strategy and attack configuration")
+        if "batting" in response_lower and any(term in response_lower for term in ["order", "approach", "strategy"]):
+            factors.append("Batting order and approach optimization")
+        if "field" in response_lower and "placement" in response_lower:
+            factors.append("Field placement and tactical positioning")
+        if "toss" in response_lower:
+            factors.append("Toss decision and its strategic implications")
         
-        if not factors:
-            factors.append("Comprehensive match conditions analysis")
+        # Ensure minimum factor count
+        if len(factors) < 3:
+            factors.extend([
+                "Match conditions analysis",
+                "Team composition considerations",
+                "Strategic planning requirements"
+            ])
         
-        # Extract tactical suggestions
-        suggestions = []
-        
-        if "toss" in llm_output.lower():
-            suggestions.append("Strategic toss decision based on conditions")
-        if "bowling" in llm_output.lower() and ("first" in llm_output.lower() or "pace" in llm_output.lower()):
-            suggestions.append("Optimize bowling order and pace strategy")
-        if "batting" in llm_output.lower() and ("order" in llm_output.lower() or "lineup" in llm_output.lower()):
-            suggestions.append("Adjust batting order for conditions")
-        if "field" in llm_output.lower() and "placement" in llm_output.lower():
-            suggestions.append("Tactical field placement adjustments")
-        if "training" in llm_output.lower() or "practice" in llm_output.lower():
-            suggestions.append("Targeted pre-match training focus")
-        if "selection" in llm_output.lower() or "team" in llm_output.lower():
-            suggestions.append("Strategic team selection optimization")
-        
-        if not suggestions:
-            suggestions.append("Comprehensive tactical approach based on analysis")
-        
-        return feasibility, factors, suggestions
+        return factors[:6]  # Limit to most relevant factors
     
-    def determine_overall_strategy(self, feasibility, factors):
-        """Determine overall strategic recommendation"""
+    def _extract_tactical_suggestions(self, llm_response: str) -> List[str]:
+        """Extract tactical suggestions from analysis"""
+        
+        suggestions = []
+        response_lower = llm_response.lower()
+        
+        # Team selection and composition
+        if "selection" in response_lower or "composition" in response_lower:
+            suggestions.append("Optimize team selection based on environmental conditions")
+        
+        # Toss strategy
+        if "toss" in response_lower and any(term in response_lower for term in ["decision", "strategy", "choose"]):
+            suggestions.append("Strategic toss decision framework implementation")
+        
+        # Bowling tactics
+        if "bowling" in response_lower and any(term in response_lower for term in ["order", "rotation", "strategy"]):
+            suggestions.append("Bowling attack rotation and strategic deployment")
+        
+        # Batting approach
+        if "batting" in response_lower and any(term in response_lower for term in ["approach", "strategy", "order"]):
+            suggestions.append("Batting order configuration and approach strategy")
+        
+        # Field placement
+        if "field" in response_lower and "placement" in response_lower:
+            suggestions.append("Dynamic field placement strategy implementation")
+        
+        # Training and preparation
+        if any(term in response_lower for term in ["training", "preparation", "practice", "conditioning"]):
+            suggestions.append("Targeted pre-match preparation and conditioning")
+        
+        # Adaptation strategies
+        if "adapt" in response_lower or "adjust" in response_lower:
+            suggestions.append("In-match tactical adaptation protocols")
+        
+        # Ensure minimum suggestion count
+        if len(suggestions) < 3:
+            suggestions.extend([
+                "Comprehensive tactical planning implementation",
+                "Strategic decision-making framework",
+                "Performance optimization strategies"
+            ])
+        
+        return suggestions[:6]  # Limit to most actionable suggestions
+    
+    def _compile_strategic_assessment(self, match_data: Dict, llm_response: str, 
+                                    feasibility: str, factors: List[str], 
+                                    recommendations: List[str]) -> Dict:
+        """Compile comprehensive strategic assessment"""
+        
+        overall_strategy = self._determine_overall_strategic_approach(feasibility, factors)
+        confidence_level = self._assess_analysis_confidence(llm_response)
+        priority_actions = self._extract_priority_action_items(recommendations)
+        
+        assessment = {
+            "match_metadata": {
+                "analysis_timestamp": datetime.now().isoformat(),
+                "match_format": match_data["match_context"]["format"],
+                "tournament": match_data["match_context"]["tournament"],
+                "teams": f"{match_data['team_metadata']['team_name']} vs {match_data['team_metadata']['opponent_team']}",
+                "venue": f"{match_data['ground_history']['ground_name']}, {match_data['ground_history']['location']}"
+            },
+            "strategic_analysis": {
+                "model_platform": self.llm_type,
+                "analysis_timestamp": datetime.now().isoformat(),
+                "success_feasibility_score": feasibility,
+                "confidence_rating": confidence_level,
+                "key_strategic_factors": factors,
+                "tactical_recommendations": recommendations,
+                "complete_llm_analysis": llm_response
+            },
+            "strategic_framework": {
+                "overall_strategic_approach": overall_strategy,
+                "priority_action_items": priority_actions,
+                "risk_assessment": self._assess_strategic_risks(llm_response),
+                "implementation_timeline": self._generate_implementation_timeline(recommendations)
+            },
+            "environmental_context": match_data["environmental_data"],
+            "team_analysis": match_data["team_metadata"]
+        }
+        
+        return assessment
+    
+    def _determine_overall_strategic_approach(self, feasibility: str, factors: List[str]) -> str:
+        """Determine overall strategic approach recommendation"""
         
         if feasibility == "High":
-            return "Aggressive strategy recommended - capitalize on favorable conditions"
+            return "Aggressive strategic approach - leverage favorable conditions for maximum advantage"
         elif feasibility == "Low":
-            return "Conservative strategy recommended - minimize risks and adapt cautiously"
+            return "Conservative strategic approach - minimize risks and focus on damage limitation"
         else:
-            return "Balanced strategy recommended - adapt tactically based on match flow"
+            return "Balanced strategic approach - adapt tactically based on match progression"
     
-    def assess_confidence(self, llm_output):
-        """Assess confidence level in LLM analysis"""
+    def _assess_analysis_confidence(self, llm_response: str) -> str:
+        """Assess confidence level in strategic analysis"""
         
-        if len(llm_output) > 300 and any(word in llm_output.lower() for word in ["recommend", "suggest", "strategy"]):
+        response_length = len(llm_response)
+        strategic_terms = ["strategy", "tactical", "recommend", "approach", "optimal"]
+        
+        if (response_length > 400 and 
+            sum(1 for term in strategic_terms if term in llm_response.lower()) >= 3):
             return "High"
-        elif len(llm_output) > 150:
+        elif response_length > 200:
             return "Medium"
         else:
             return "Low"
     
-    def extract_priority_actions(self, suggestions):
-        """Extract priority actions from suggestions"""
+    def _extract_priority_action_items(self, recommendations: List[str]) -> List[str]:
+        """Extract priority action items from recommendations"""
         
-        priorities = []
+        priority_items = []
         
-        for suggestion in suggestions:
-            if "toss" in suggestion.lower():
-                priorities.append("1. Make optimal toss decision")
-            elif "selection" in suggestion.lower() or "team" in suggestion.lower():
-                priorities.append("2. Finalize team selection")
-            elif "training" in suggestion.lower():
-                priorities.append("3. Focus pre-match training")
-            elif "bowling" in suggestion.lower():
-                priorities.append("4. Plan bowling strategy")
-            elif "batting" in suggestion.lower():
-                priorities.append("5. Set batting approach")
+        for idx, recommendation in enumerate(recommendations, 1):
+            if "toss" in recommendation.lower():
+                priority_items.append(f"{idx}. Execute optimal toss decision strategy")
+            elif "selection" in recommendation.lower() or "team" in recommendation.lower():
+                priority_items.append(f"{idx}. Finalize strategic team selection")
+            elif "preparation" in recommendation.lower() or "training" in recommendation.lower():
+                priority_items.append(f"{idx}. Implement targeted preparation protocols")
+            elif "bowling" in recommendation.lower():
+                priority_items.append(f"{idx}. Configure bowling strategy framework")
+            elif "batting" in recommendation.lower():
+                priority_items.append(f"{idx}. Establish batting approach strategy")
+            else:
+                priority_items.append(f"{idx}. {recommendation}")
         
-        if not priorities:
-            priorities = ["1. Review all strategic elements", "2. Adapt tactics to conditions"]
+        return priority_items[:5]  # Limit to top 5 priorities
+    
+    def _assess_strategic_risks(self, llm_response: str) -> List[str]:
+        """Assess strategic risks from analysis"""
         
-        return priorities
+        risks = []
+        response_lower = llm_response.lower()
+        
+        if any(term in response_lower for term in ["weather", "rain", "storm"]):
+            risks.append("Weather disruption potential")
+        
+        if "pressure" in response_lower or "stress" in response_lower:
+            risks.append("High-pressure situation management")
+        
+        if "adaptation" in response_lower or "unfamiliar" in response_lower:
+            risks.append("Environmental adaptation challenges")
+        
+        if "injury" in response_lower or "fatigue" in response_lower:
+            risks.append("Player fitness and injury concerns")
+        
+        if not risks:
+            risks.append("Standard match-related risks")
+        
+        return risks
+    
+    def _generate_implementation_timeline(self, recommendations: List[str]) -> Dict[str, List[str]]:
+        """Generate implementation timeline for recommendations"""
+        
+        timeline = {
+            "pre_match": [],
+            "toss_decision": [],
+            "early_match": [],
+            "mid_match": []
+        }
+        
+        for rec in recommendations:
+            if any(term in rec.lower() for term in ["preparation", "training", "selection"]):
+                timeline["pre_match"].append(rec)
+            elif "toss" in rec.lower():
+                timeline["toss_decision"].append(rec)
+            elif any(term in rec.lower() for term in ["opening", "early", "first"]):
+                timeline["early_match"].append(rec)
+            else:
+                timeline["mid_match"].append(rec)
+        
+        return timeline
 
 # ============================================================================
-# 2. SAMPLE DATA AND MAIN EXECUTION
+# 2. SAMPLE DATA GENERATION AND UTILITIES
 # ============================================================================
 
-def create_sample_cricket_data():
-    """Create comprehensive sample cricket match data"""
+def generate_comprehensive_match_data() -> Dict:
+    """Generate comprehensive cricket match data for analysis"""
     
     return {
         "match_context": {
             "format": "T20 International",
-            "tournament": "ICC T20 World Cup 2024",
-            "importance_level": "Semi-Final",
-            "crowd_support": "High - Home advantage",
-            "media_pressure": "Very High"
+            "tournament": "ICC T20 World Cup 2024 Semi-Final",
+            "importance_level": "Knockout Stage - Semi-Final",
+            "crowd_support": "High intensity - Home advantage expected",
+            "media_pressure": "Maximum - Global audience and elimination stakes"
         },
         "environmental_data": {
             "temperature": 35,
@@ -386,8 +554,8 @@ def create_sample_cricket_data():
             "wind_speed": 15,
             "wind_direction": "South-West",
             "altitude": 1200,
-            "weather_forecast": "Partly cloudy, possible evening showers",
-            "pitch_conditions": "Dry, expected to favor spinners in second innings"
+            "weather_forecast": "Partly cloudy with possible evening precipitation",
+            "pitch_conditions": "Dry surface expected to favor spinners in second innings"
         },
         "ground_history": {
             "ground_name": "M. Chinnaswamy Stadium",
@@ -395,137 +563,325 @@ def create_sample_cricket_data():
             "avg_first_innings_score": 168,
             "avg_second_innings_score": 152,
             "toss_win_percentage": 65,
-            "most_successful_strategy": "Bowl first, chase with spinners",
+            "most_successful_strategy": "Bowl first, utilize spinners in chase phase",
             "ground_characteristics": [
-                "Short boundaries (60m square)",
-                "Fast outfield",
-                "Spin-friendly in second innings",
-                "Dew factor in evening matches"
+                "Short square boundaries (60 meters)",
+                "Fast outfield with minimal friction",
+                "Spin-friendly conditions developing in second innings",
+                "Evening dew factor affecting ball grip"
             ],
-            "recent_matches": [
-                {"team1": "India", "team2": "Australia", "score1": 180, "score2": 165, "winner": "India"},
-                {"team1": "England", "team2": "South Africa", "score1": 145, "score2": 149, "winner": "South Africa"},
-                {"team1": "Pakistan", "team2": "New Zealand", "score1": 175, "score2": 170, "winner": "Pakistan"}
+            "recent_performance_data": [
+                {"teams": "India vs Australia", "first_innings": 180, "second_innings": 165, "winner": "India"},
+                {"teams": "England vs South Africa", "first_innings": 145, "second_innings": 149, "winner": "South Africa"},
+                {"teams": "Pakistan vs New Zealand", "first_innings": 175, "second_innings": 170, "winner": "Pakistan"}
             ]
         },
         "team_metadata": {
             "team_name": "India",
             "opponent_team": "Australia", 
-            "home_climate_region": "Tropical/Subtropical",
+            "home_climate_region": "Tropical/Subtropical monsoon climate",
             "climate_adaptability": 9,
-            "recent_form": "W-W-L-W-W",
+            "recent_form": "Won 4 of last 5 matches (W-W-L-W-W)",
             "key_players": [
-                "Virat Kohli (Batsman)",
-                "Jasprit Bumrah (Fast Bowler)", 
+                "Virat Kohli (Senior Batsman)",
+                "Jasprit Bumrah (Lead Fast Bowler)", 
                 "Ravindra Jadeja (All-rounder)",
-                "Rohit Sharma (Captain/Batsman)"
+                "Rohit Sharma (Captain/Opening Batsman)"
             ],
             "squad_strengths": [
-                "Strong spin bowling attack",
-                "Experienced batting lineup",
-                "Home ground advantage",
-                "Excellent fielding unit",
-                "Depth in all-rounders"
+                "Experienced spin bowling attack with local knowledge",
+                "Deep batting lineup with proven big-match performers",
+                "Home ground familiarity and crowd support",
+                "Athletic fielding unit with strong catching record",
+                "Versatile all-rounders providing tactical flexibility"
             ],
             "squad_weaknesses": [
-                "Pace bowling in death overs",
-                "Middle-order instability",
-                "Pressure handling in knockouts"
+                "Death bowling consistency in high-pressure situations",
+                "Middle-order batting stability under pressure",
+                "Tournament knockout stage performance anxiety"
             ],
-            "opponent_analysis": {
-                "opponent_strengths": ["Aggressive batting", "Quality pace attack", "Big match experience"],
-                "opponent_weaknesses": ["Spin bowling struggle", "Middle overs batting", "Subcontinent conditions"]
+            "opposition_analysis": {
+                "opponent_strengths": [
+                    "Aggressive power-hitting capability",
+                    "Quality pace bowling attack",
+                    "Big tournament experience and mental toughness"
+                ],
+                "opponent_weaknesses": [
+                    "Spin bowling adaptation in subcontinent conditions",
+                    "Middle overs scoring rate management",
+                    "Unfamiliarity with local ground conditions"
+                ]
             }
         },
-        "historical_context": {
-            "head_to_head_record": "India 12 - 8 Australia (Last 20 T20Is)",
-            "last_encounter": {
+        "performance_history": {
+            "head_to_head_record": "India leads 12-8 in last 20 T20 internationals",
+            "most_recent_encounter": {
                 "date": "2024-01-15",
-                "venue": "Melbourne",
+                "venue": "Melbourne Cricket Ground",
                 "result": "Australia won by 7 runs",
-                "key_factors": ["Australian pace bowling", "Indian middle-order collapse"]
+                "key_performance_factors": [
+                    "Australian pace bowling dominated powerplay",
+                    "Indian middle-order collapse under pressure",
+                    "Effective Australian death bowling strategy"
+                ]
             },
-            "tournament_performance": {
-                "india_progress": "Group: 4/4 wins, Quarter-final: Won vs England",
-                "australia_progress": "Group: 3/4 wins, Quarter-final: Won vs South Africa"
+            "tournament_progression": {
+                "team_performance": "Group stage: 4 wins from 4 matches, Quarter-final: Defeated England by 8 wickets",
+                "opponent_performance": "Group stage: 3 wins from 4 matches, Quarter-final: Defeated South Africa by 5 runs"
             }
+        },
+        "tactical_considerations": {
+            "pitch_behavior_timeline": [
+                "Overs 1-6: Pace-friendly with some movement",
+                "Overs 7-12: Batting-friendly with minimal assistance",
+                "Overs 13-20: Increasing spin assistance and variable bounce"
+            ],
+            "dew_factor_impact": "Expected from over 15 onwards, affecting ball grip and spin bowling",
+            "crowd_noise_factor": "Significant home advantage with capacity crowd expected"
         }
     }
 
-def main():
-    """Main execution function"""
+def save_strategic_analysis(analysis_results: Dict, filename: Optional[str] = None) -> str:
+    """Save strategic analysis results with proper formatting"""
     
-    print("🏏 CRICKET STRATEGIC FEASIBILITY ASSESSMENT")
-    print("=" * 70)
-    
-    # Create sample match data
-    print("📊 Creating sample cricket match data...")
-    match_data = create_sample_cricket_data()
-    
-    # Save input file
-    input_file = "cricket_match_input.json"
-    with open(input_file, 'w') as f:
-        json.dump(match_data, f, indent=2)
-    print(f"✅ Input saved: {input_file}")
-    
-    # Choose LLM type
-    llm_type = "transformers"  # or "ollama"
-    
-    print(f"\n🧠 Initializing {llm_type.upper()} Cricket Analyzer...")
+    if filename is None:
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        teams = analysis_results["match_metadata"]["teams"].replace(" vs ", "_vs_")
+        filename = f"cricket_strategic_analysis_{teams}_{timestamp}.json"
     
     try:
-        # Initialize analyzer
-        analyzer = CricketStrategyAnalyzer(llm_type=llm_type)
+        with open(filename, 'w', encoding='utf-8') as f:
+            json.dump(analysis_results, f, indent=2, ensure_ascii=False)
+        return filename
+    except Exception as e:
+        print(f"ERROR: Could not save analysis to {filename}: {e}")
+        return ""
+
+def print_strategic_summary(analysis_results: Dict) -> None:
+    """Print formatted strategic analysis summary"""
+    
+    print("\n" + "=" * 80)
+    print("CRICKET STRATEGIC ANALYSIS SUMMARY")
+    print("=" * 80)
+    
+    # Match metadata
+    metadata = analysis_results["match_metadata"]
+    strategic = analysis_results["strategic_analysis"]
+    framework = analysis_results["strategic_framework"]
+    
+    print(f"Match: {metadata['teams']}")
+    print(f"Tournament: {metadata['tournament']}")
+    print(f"Venue: {metadata['venue']}")
+    print(f"Analysis Date: {metadata['analysis_timestamp'][:19]}")
+    
+    print(f"\nSTRATEGIC ASSESSMENT:")
+    print(f"   Success Feasibility: {strategic['success_feasibility_score']}")
+    print(f"   Analysis Confidence: {strategic['confidence_rating']}")
+    print(f"   Overall Approach: {framework['overall_strategic_approach']}")
+    
+    print(f"\nKEY STRATEGIC FACTORS:")
+    for factor in strategic['key_strategic_factors']:
+        print(f"   • {factor}")
+    
+    print(f"\nTACTICAL RECOMMENDATIONS:")
+    for recommendation in strategic['tactical_recommendations']:
+        print(f"   • {recommendation}")
+    
+    print(f"\nPRIORITY ACTION ITEMS:")
+    for action in framework['priority_action_items']:
+        print(f"   {action}")
+    
+    print(f"\nRISK ASSESSMENT:")
+    for risk in framework['risk_assessment']:
+        print(f"   • {risk}")
+    
+    print("\n" + "=" * 80)
+
+# ============================================================================
+# 3. MAIN EXECUTION FRAMEWORK
+# ============================================================================
+
+def main():
+    """Main execution function for cricket strategic analysis"""
+    
+    print("CRICKET STRATEGIC FEASIBILITY ASSESSMENT SYSTEM")
+    print("=" * 80)
+    print("Professional strategic analysis for cricket match planning")
+    
+    # Generate comprehensive match data
+    print("\nGenerating comprehensive match scenario data...")
+    match_data = generate_comprehensive_match_data()
+    
+    # Save input data file
+    input_filename = "cricket_match_scenario.json"
+    try:
+        with open(input_filename, 'w', encoding='utf-8') as f:
+            json.dump(match_data, f, indent=2, ensure_ascii=False)
+        print(f"Match scenario data saved: {input_filename}")
+    except Exception as e:
+        print(f"WARNING: Could not save input file: {e}")
+    
+    # Configure analysis platform
+    llm_platform = "transformers"  # Options: "transformers" or "ollama"
+    
+    print(f"\nInitializing {llm_platform.upper()} strategic analysis platform...")
+    
+    try:
+        # Initialize strategic analyzer
+        analyzer = CricketStrategicAnalyzer(llm_type=llm_platform)
         
-        # Run LLM analysis
-        print("\n🏏 Running cricket strategy analysis...")
-        results = analyzer.analyze_cricket_strategy(match_data)
+        # Execute strategic analysis
+        print("\nExecuting comprehensive strategic analysis...")
+        strategic_results = analyzer.analyze_match_strategy(match_data)
         
-        # Save output file
-        output_file = f"cricket_strategy_output_{llm_type}_{datetime.now().strftime('%Y%m%d_%H%M%S')}.json"
-        with open(output_file, 'w') as f:
-            json.dump(results, f, indent=2)
-        print(f"📤 Output saved: {output_file}")
+        # Save analysis results
+        output_filename = save_strategic_analysis(strategic_results)
+        if output_filename:
+            print(f"Strategic analysis saved: {output_filename}")
         
-        # Display results
-        print("\n" + "=" * 70)
-        print("🏏 CRICKET STRATEGY ANALYSIS RESULTS")
-        print("=" * 70)
+        # Display comprehensive summary
+        print_strategic_summary(strategic_results)
         
-        llm_analysis = results["llm_analysis"]
-        strategic = results["strategic_assessment"]
+        # Display detailed strategic reasoning
+        print("\nDETAILED STRATEGIC ANALYSIS:")
+        print("-" * 80)
+        llm_analysis = strategic_results["strategic_analysis"]["complete_llm_analysis"]
+        if len(llm_analysis) > 800:
+            print(llm_analysis[:800] + "...")
+            print("\n[Analysis truncated - see output file for complete details]")
+        else:
+            print(llm_analysis)
+        print("-" * 80)
         
-        print(f"🤖 Model Used: {llm_analysis['model_used'].upper()}")
-        print(f"🎯 Success Feasibility: {llm_analysis['success_feasibility_score']}")
-        print(f"📊 Confidence Level: {strategic['confidence_level']}")
-        print(f"💡 Overall Strategy: {strategic['overall_recommendation']}")
-        
-        print(f"\n🔍 KEY INFLUENCING FACTORS:")
-        for factor in llm_analysis['key_influencing_factors']:
-            print(f"   • {factor}")
-        
-        print(f"\n⚡ TACTICAL SUGGESTIONS:")
-        for suggestion in llm_analysis['tactical_suggestions']:
-            print(f"   • {suggestion}")
-        
-        print(f"\n📋 PRIORITY ACTIONS:")
-        for action in strategic['priority_actions']:
-            print(f"   {action}")
-        
-        print(f"\n🧠 LLM STRATEGIC REASONING:")
-        print("-" * 50)
-        print(llm_analysis['raw_llm_output'][:500] + "..." if len(llm_analysis['raw_llm_output']) > 500 else llm_analysis['raw_llm_output'])
-        
-        print("\n" + "=" * 70)
-        print("✅ Cricket Strategy Analysis Complete!")
-        print(f"📁 Files: {input_file} → {output_file}")
-        print("=" * 70)
+        print(f"\nAnalysis workflow completed successfully.")
+        print(f"Files generated:")
+        print(f"   Input scenario: {input_filename}")
+        if output_filename:
+            print(f"   Strategic analysis: {output_filename}")
         
     except Exception as e:
-        print(f"❌ Error: {e}")
-        print("Make sure you have the required LLM setup:")
-        print("  - Transformers: pip install transformers torch")
-        print("  - Ollama: Download from ollama.ai and run 'ollama serve'")
+        print(f"\nERROR: Strategic analysis failed: {e}")
+        print("\nSystem requirements verification:")
+        print("   For Transformers: pip install transformers torch")
+        print("   For Ollama: Install from ollama.ai and run 'ollama serve'")
+        print("   Ensure sufficient system memory for model operations")
+
+def validate_analysis_quality(strategic_results: Dict) -> Dict:
+    """Validate the quality and completeness of strategic analysis"""
+    
+    validation_report = {
+        "analysis_completeness": "Complete",
+        "data_quality_score": 0,
+        "validation_issues": [],
+        "recommendations_clarity": "High"
+    }
+    
+    # Check analysis completeness
+    required_sections = [
+        "strategic_analysis", "strategic_framework", 
+        "match_metadata", "environmental_context"
+    ]
+    
+    missing_sections = [section for section in required_sections 
+                       if section not in strategic_results]
+    
+    if missing_sections:
+        validation_report["analysis_completeness"] = "Incomplete"
+        validation_report["validation_issues"].extend(
+            [f"Missing section: {section}" for section in missing_sections]
+        )
+    
+    # Assess data quality
+    strategic_analysis = strategic_results.get("strategic_analysis", {})
+    factors_count = len(strategic_analysis.get("key_strategic_factors", []))
+    recommendations_count = len(strategic_analysis.get("tactical_recommendations", []))
+    
+    quality_score = 0
+    if factors_count >= 4:
+        quality_score += 25
+    if recommendations_count >= 4:
+        quality_score += 25
+    if len(strategic_analysis.get("complete_llm_analysis", "")) > 300:
+        quality_score += 25
+    if strategic_analysis.get("success_feasibility_score") in ["High", "Medium", "Low"]:
+        quality_score += 25
+    
+    validation_report["data_quality_score"] = quality_score
+    
+    # Assess recommendations clarity
+    if recommendations_count < 3:
+        validation_report["recommendations_clarity"] = "Low"
+        validation_report["validation_issues"].append("Insufficient tactical recommendations")
+    elif recommendations_count < 5:
+        validation_report["recommendations_clarity"] = "Medium"
+    
+    return validation_report
+
+def generate_executive_summary(strategic_results: Dict) -> str:
+    """Generate executive summary for strategic analysis"""
+    
+    metadata = strategic_results["match_metadata"]
+    strategic = strategic_results["strategic_analysis"]
+    framework = strategic_results["strategic_framework"]
+    
+    summary = f"""
+EXECUTIVE SUMMARY - CRICKET STRATEGIC ANALYSIS
+
+Match Overview:
+{metadata['teams']} in {metadata['tournament']}
+Venue: {metadata['venue']}
+Analysis Confidence: {strategic['confidence_rating']}
+
+Strategic Assessment:
+Success Feasibility: {strategic['success_feasibility_score']}
+Recommended Approach: {framework['overall_strategic_approach']}
+
+Key Success Factors:
+{chr(10).join(f'• {factor}' for factor in strategic['key_strategic_factors'][:3])}
+
+Priority Actions:
+{chr(10).join(f'{action}' for action in framework['priority_action_items'][:3])}
+
+Risk Considerations:
+{chr(10).join(f'• {risk}' for risk in framework['risk_assessment'][:2])}
+
+This analysis provides a comprehensive strategic framework for match preparation
+and tactical implementation based on environmental conditions, team capabilities,
+and historical performance data.
+"""
+    
+    return summary.strip()
+
+def export_analysis_report(strategic_results: Dict, export_format: str = "json") -> str:
+    """Export analysis in various formats"""
+    
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    teams = strategic_results["match_metadata"]["teams"].replace(" vs ", "_vs_")
+    
+    if export_format == "json":
+        filename = f"cricket_strategic_report_{teams}_{timestamp}.json"
+        try:
+            with open(filename, 'w', encoding='utf-8') as f:
+                json.dump(strategic_results, f, indent=2, ensure_ascii=False)
+            return filename
+        except Exception as e:
+            print(f"ERROR: Could not export JSON report: {e}")
+            return ""
+    
+    elif export_format == "summary":
+        filename = f"cricket_executive_summary_{teams}_{timestamp}.txt"
+        try:
+            summary = generate_executive_summary(strategic_results)
+            with open(filename, 'w', encoding='utf-8') as f:
+                f.write(summary)
+            return filename
+        except Exception as e:
+            print(f"ERROR: Could not export summary: {e}")
+            return ""
+    
+    else:
+        print(f"ERROR: Unsupported export format: {export_format}")
+        return ""
 
 if __name__ == "__main__":
     main()
