@@ -58,8 +58,8 @@ class ConversationDataSimulator:
             ]
         }
         
-        print("🧠 Psychiatric Conversation Simulator initialized")
-        print("⚕️ Ethical safeguards and privacy protections enabled")
+        print("Psychiatric Conversation Simulator initialized")
+        print("Ethical safeguards and privacy protections enabled")
     
     def generate_conversation_logs(self, patient_profile, num_sessions=5):
         """Generate realistic therapy conversation logs"""
@@ -240,15 +240,15 @@ class PsychologicalFeatureExtractor:
             "needs_attention": ["hopeless", "worthless", "burden", "ending"]
         }
         
-        print("🔍 Psychological Feature Extractor initialized")
-        print("🛡️ Risk assessment protocols enabled")
+        print("Psychological Feature Extractor initialized")
+        print("Risk assessment protocols enabled")
     
     def extract_features(self, conversation_logs):
         """
         Algorithm Step 1: Extract emotional and behavioral features
         """
         
-        print("🧠 Analyzing conversation logs for psychological features...")
+        print("Analyzing conversation logs for psychological features...")
         
         # Initialize feature tracking
         features = {
@@ -472,7 +472,7 @@ class TherapeuticLLMIntegration:
         else:
             # Default to clinical expert system
             self.model_available = True
-            print("🧠 Using clinical psychology expert system")
+            print(" Using clinical psychology expert system")
     
     def setup_transformers(self):
         """Setup Hugging Face Transformers"""
@@ -482,7 +482,7 @@ class TherapeuticLLMIntegration:
             
             # Use a general model (avoid medical-specific models without proper licensing)
             model_name = "microsoft/DialoGPT-medium"
-            print(f"📥 Loading {model_name} for therapeutic analysis...")
+            print(f" Loading {model_name} for therapeutic analysis...")
             
             self.tokenizer = AutoTokenizer.from_pretrained(model_name)
             self.model = AutoModelForCausalLM.from_pretrained(model_name)
@@ -491,10 +491,10 @@ class TherapeuticLLMIntegration:
                 self.tokenizer.pad_token = self.tokenizer.eos_token
             
             self.model_available = True
-            print("✅ Transformers model loaded successfully")
+            print(" Transformers model loaded successfully")
             
         except Exception as e:
-            print(f"⚠️  Transformers error: {e}")
+            print(f"  Transformers error: {e}")
             print("   Using clinical expert system")
     
     def setup_ollama(self):
@@ -515,11 +515,11 @@ class TherapeuticLLMIntegration:
                 
                 if self.selected_model:
                     self.model_available = True
-                    print(f"✅ Using Ollama model: {self.selected_model}")
+                    print(f" Using Ollama model: {self.selected_model}")
                 else:
-                    print("⚠️  No suitable Ollama models found")
+                    print(" No suitable Ollama models found")
         except:
-            print("❌ Ollama not available")
+            print("Ollama not available")
     
     def create_therapeutic_prompt(self, psychological_features, patient_metadata):
         """
@@ -594,7 +594,7 @@ Please ensure all recommendations follow evidence-based practices and include ap
         Algorithm Step 3: Generate psychological insights and therapy suggestions
         """
         
-        print("🧠 Generating therapeutic analysis and recommendations...")
+        print("Generating therapeutic analysis and recommendations...")
         
         if self.llm_type == "transformers" and self.model_available:
             return self._transformers_generate(prompt)
@@ -650,7 +650,7 @@ Please ensure all recommendations follow evidence-based practices and include ap
             return response
             
         except Exception as e:
-            print(f"❌ Transformers generation error: {e}")
+            print(f"Transformers generation error: {e}")
             return self._clinical_expert_analysis(prompt)
     
     def _ollama_generate(self, prompt):
@@ -670,13 +670,13 @@ Please ensure all recommendations follow evidence-based practices and include ap
                 return self._clinical_expert_analysis(prompt)
                 
         except Exception as e:
-            print(f"❌ Ollama error: {e}")
+            print(f"Ollama error: {e}")
             return self._clinical_expert_analysis(prompt)
     
     def _clinical_expert_analysis(self, prompt):
         """Clinical psychology expert system analysis"""
         
-        print("👨‍⚕️ Using clinical psychology expert analysis")
+        print("Using clinical psychology expert analysis")
         
         # Extract key features from prompt
         features = self._extract_prompt_features(prompt)
@@ -872,15 +872,15 @@ class DoctorValidationInterface:
             "ethical_compliance": ["patient autonomy", "informed consent", "confidentiality"]
         }
         
-        print("👨‍⚕️ Doctor Validation Interface initialized")
-        print("🔒 Clinical oversight and safety protocols enabled")
+        print("Doctor Validation Interface initialized")
+        print("Clinical oversight and safety protocols enabled")
     
     def validate_recommendations(self, psychological_summary, therapy_suggestions):
         """
         Algorithm Step 4: Expert validation of AI recommendations
         """
         
-        print("👨‍⚕️ Conducting clinical validation review...")
+        print("Conducting clinical validation review...")
         
         # Simulate clinical validation process
         validation_result = self._perform_clinical_review(
@@ -990,8 +990,8 @@ class PsychiatricMonitoringPipeline:
         os.makedirs("patient_data", exist_ok=True)
         os.makedirs("clinical_reports", exist_ok=True)
         
-        print(f"🧠 Psychiatric Monitoring Pipeline initialized with {llm_type} LLM")
-        print("⚕️ Clinical safeguards and validation protocols enabled")
+        print(f" Psychiatric Monitoring Pipeline initialized with {llm_type} LLM")
+        print("Clinical safeguards and validation protocols enabled")
     
     def run_psychiatric_analysis(self, patient_profile=None):
         """
@@ -999,7 +999,7 @@ class PsychiatricMonitoringPipeline:
         Implements all algorithm steps with clinical oversight
         """
         
-        print("🧠 PSYCHIATRIC MONITORING AND THERAPY SUGGESTION ANALYSIS")
+        print("PSYCHIATRIC MONITORING AND THERAPY SUGGESTION ANALYSIS")
         print("=" * 70)
         
         # Default patient profile
@@ -1021,16 +1021,16 @@ class PsychiatricMonitoringPipeline:
             patient_profile, num_sessions=5
         )
         
-        print(f"   💬 Generated {len(conversation_logs)} therapy sessions")
-        print(f"   📅 Sessions span {conversation_logs[0]['date']} to {conversation_logs[-1]['date']}")
+        print(f"  Generated {len(conversation_logs)} therapy sessions")
+        print(f"  Sessions span {conversation_logs[0]['date']} to {conversation_logs[-1]['date']}")
         
         # Algorithm Step 1: Feature Extraction
         print("\n2. Extracting psychological features...")
         psychological_features = self.feature_extractor.extract_features(conversation_logs)
         
-        print(f"   🔍 Sentiment trend: {psychological_features['overall_sentiment_trend']}")
-        print(f"   🤝 Engagement level: {psychological_features['therapeutic_engagement']}")
-        print(f"   ⚠️  Risk assessment: {psychological_features['risk_assessment']}")
+        print(f"  Sentiment trend: {psychological_features['overall_sentiment_trend']}")
+        print(f"  Engagement level: {psychological_features['therapeutic_engagement']}")
+        print(f"  Risk assessment: {psychological_features['risk_assessment']}")
         
         # Algorithm Step 2: Prompt Construction
         print("\n3. Constructing therapeutic analysis prompt...")
@@ -1048,9 +1048,9 @@ class PsychiatricMonitoringPipeline:
             psychological_features, therapeutic_analysis
         )
         
-        print(f"   👨‍⚕️ Validation outcome: {validation_result['outcome']}")
-        print(f"   🔒 Safety cleared: {validation_result['safety_cleared']}")
-        print(f"   ✅ Implementation approved: {validation_result['implementation_approved']}")
+        print(f" Validation outcome: {validation_result['outcome']}")
+        print(f" Safety cleared: {validation_result['safety_cleared']}")
+        print(f" Implementation approved: {validation_result['implementation_approved']}")
         
         # Compile final results
         final_results = {
@@ -1078,39 +1078,39 @@ class PsychiatricMonitoringPipeline:
         """Display psychiatric analysis results"""
         
         print("\n" + "=" * 70)
-        print("🧠 PSYCHIATRIC MONITORING ANALYSIS RESULTS")
+        print("PSYCHIATRIC MONITORING ANALYSIS RESULTS")
         print("=" * 70)
         
         # Patient information
         profile = results['patient_profile']
-        print(f"👤 Patient ID: {profile['patient_id']}")
-        print(f"📅 Analysis Date: {results['analysis_date']}")
-        print(f"🧠 Primary Diagnosis: {profile['diagnosis']}")
-        print(f"⏱️  Treatment Duration: {profile['treatment_duration']}")
-        print(f"🤖 LLM Type: {results['llm_type']}")
+        print(f"Patient ID: {profile['patient_id']}")
+        print(f"Analysis Date: {results['analysis_date']}")
+        print(f"Primary Diagnosis: {profile['diagnosis']}")
+        print(f"Treatment Duration: {profile['treatment_duration']}")
+        print(f"LLM Type: {results['llm_type']}")
         
         # Psychological features summary
         features = results['psychological_features']
-        print(f"\n🔍 PSYCHOLOGICAL ANALYSIS SUMMARY:")
-        print(f"   Sessions analyzed: {features['session_count']}")
-        print(f"   Overall sentiment trend: {features['overall_sentiment_trend']}")
-        print(f"   Therapeutic engagement: {features['therapeutic_engagement']}/1.0")
-        print(f"   Risk assessment: {features['risk_assessment']}")
-        print(f"   Behavioral patterns: {', '.join(features['behavioral_patterns'])}")
+        print(f"\n PSYCHOLOGICAL ANALYSIS SUMMARY:")
+        print(f"Sessions analyzed: {features['session_count']}")
+        print(f"Overall sentiment trend: {features['overall_sentiment_trend']}")
+        print(f"Therapeutic engagement: {features['therapeutic_engagement']}/1.0")
+        print(f"Risk assessment: {features['risk_assessment']}")
+        print(f"Behavioral patterns: {', '.join(features['behavioral_patterns'])}")
         
         # Validation results
         validation = results['validation_result']
-        print(f"\n👨‍⚕️ CLINICAL VALIDATION RESULTS:")
-        print(f"   Reviewing clinician: {validation['reviewing_clinician']}")
-        print(f"   Validation outcome: {validation['outcome'].upper()}")
-        print(f"   Safety cleared: {'✅ YES' if validation['safety_cleared'] else '❌ NO'}")
-        print(f"   Implementation approved: {'✅ YES' if validation['implementation_approved'] else '❌ NO'}")
+        print(f"\n CLINICAL VALIDATION RESULTS:")
+        print(f"Reviewing clinician: {validation['reviewing_clinician']}")
+        print(f"Validation outcome: {validation['outcome'].upper()}")
+        print(f"Safety cleared: {'✅ YES' if validation['safety_cleared'] else '❌ NO'}")
+        print(f"Implementation approved: {'✅ YES' if validation['implementation_approved'] else '❌ NO'}")
         
         if validation.get('modifications_required'):
             print(f"   Required modifications: {len(validation['modifications_required'])}")
         
         # Therapy recommendations preview
-        print(f"\n🧠 THERAPY RECOMMENDATIONS PREVIEW:")
+        print(f"\n THERAPY RECOMMENDATIONS PREVIEW:")
         print("-" * 60)
         analysis_lines = results['therapeutic_analysis'].split('\n')
         for line in analysis_lines[:12]:
@@ -1177,10 +1177,10 @@ class PsychiatricMonitoringPipeline:
         with open(conv_filename, 'w') as f:
             json.dump(results['conversation_logs'], f, indent=2)
         
-        print(f"\n✅ Clinical reports saved:")
-        print(f"   📄 Detailed analysis: {json_filename}")
-        print(f"   📋 Therapy recommendations: {report_filename}")
-        print(f"   💬 Conversation logs: {conv_filename}")
+        print(f"\n Clinical reports saved:")
+        print(f" Detailed analysis: {json_filename}")
+        print(f" Therapy recommendations: {report_filename}")
+        print(f" Conversation logs: {conv_filename}")
 
 # ============================================================================
 # 6. MAIN EXECUTION WITH ETHICAL SAFEGUARDS
@@ -1189,13 +1189,13 @@ class PsychiatricMonitoringPipeline:
 def print_ethical_disclaimer():
     """Print ethical guidelines and disclaimer"""
     
-    print("⚕️ ETHICAL GUIDELINES AND CLINICAL DISCLAIMER")
+    print("ETHICAL GUIDELINES AND CLINICAL DISCLAIMER")
     print("=" * 60)
-    print("🔒 This system is designed as a clinical decision support tool")
-    print("👨‍⚕️ All recommendations require validation by licensed clinicians")
-    print("🛡️ Patient privacy and confidentiality are strictly protected")
-    print("⚠️  This tool does not replace professional clinical judgment")
-    print("📋 All outputs must be reviewed before clinical implementation")
+    print("This system is designed as a clinical decision support tool")
+    print("All recommendations require validation by licensed clinicians")
+    print("Patient privacy and confidentiality are strictly protected")
+    print("This tool does not replace professional clinical judgment")
+    print("All outputs must be reviewed before clinical implementation")
     print("=" * 60)
 
 def create_sample_patient_profiles():
@@ -1239,7 +1239,7 @@ def create_sample_patient_profiles():
 def print_llm_options():
     """Print LLM options for therapeutic analysis"""
     
-    print("\n🤖 LLM OPTIONS FOR THERAPEUTIC ANALYSIS:")
+    print("\n LLM OPTIONS FOR THERAPEUTIC ANALYSIS:")
     print("=" * 50)
     
     print("\n1. CLINICAL PSYCHOLOGY EXPERT SYSTEM (Recommended)")
@@ -1249,19 +1249,19 @@ def print_llm_options():
     print("   ✅ Comprehensive treatment planning")
     
     print("\n2. HUGGING FACE TRANSFORMERS")
-    print("   📥 Requires: pip install transformers torch")
-    print("   ✅ AI-powered therapeutic insights")
-    print("   ⚠️  Requires clinical validation")
+    print("Requires: pip install transformers torch")
+    print("AI-powered therapeutic insights")
+    print("Requires clinical validation")
     
     print("\n3. OLLAMA (Local LLM)")
-    print("   📥 Requires: Ollama installation")
-    print("   ✅ Privacy-focused local processing")
-    print("   ⚠️  Must be used with clinical oversight")
+    print("Requires: Ollama installation")
+    print("Privacy-focused local processing")
+    print("Must be used with clinical oversight")
 
 def main():
     """Main execution function with ethical safeguards"""
     
-    print("🧠 PSYCHIATRIC MONITORING AND THERAPY SUGGESTION PIPELINE")
+    print("PSYCHIATRIC MONITORING AND THERAPY SUGGESTION PIPELINE")
     print("AI-Assisted Clinical Decision Support for Mental Health Care")
     print("=" * 70)
     
@@ -1276,7 +1276,7 @@ def main():
     consent = input("Do you acknowledge the ethical guidelines and clinical requirements? (yes/no): ").strip().lower()
     
     if consent != "yes":
-        print("⚠️  Ethical acknowledgment required. Exiting system.")
+        print("Ethical acknowledgment required. Exiting system.")
         return None
     
     print("\nSYSTEM CONFIGURATION:")
@@ -1310,16 +1310,16 @@ def main():
     except:
         selected_profile = profiles[0]  # Default
     
-    print(f"\n🧠 Selected LLM: {selected_llm}")
+    print(f"\n Selected LLM: {selected_llm}")
     print(f"👤 Selected patient: {selected_profile['diagnosis']}")
     
     # Initialize pipeline
-    print(f"\n🔧 Initializing psychiatric monitoring pipeline...")
+    print(f"\n Initializing psychiatric monitoring pipeline...")
     pipeline = PsychiatricMonitoringPipeline(selected_llm)
     
     # Run analysis
     try:
-        print(f"\n🔍 Running psychiatric analysis...")
+        print(f"\n Running psychiatric analysis...")
         print(f"   Patient: {selected_profile['patient_id']}")
         print(f"   Diagnosis: {selected_profile['diagnosis']}")
         print(f"   Treatment duration: {selected_profile['treatment_duration']}")
@@ -1327,11 +1327,11 @@ def main():
         results = pipeline.run_psychiatric_analysis(selected_profile)
         
         print("\n" + "=" * 70)
-        print("🎉 PSYCHIATRIC ANALYSIS COMPLETE!")
+        print(" PSYCHIATRIC ANALYSIS COMPLETE!")
         print("=" * 70)
         
         # Display key findings
-        print("🔬 KEY CLINICAL FINDINGS:")
+        print(" KEY CLINICAL FINDINGS:")
         features = results['psychological_features']
         validation = results['validation_result']
         
@@ -1342,15 +1342,15 @@ def main():
         
         # Safety summary
         if validation['safety_cleared']:
-            print(f"\n✅ SAFETY CLEARED: Recommendations approved for clinical consideration")
+            print(f"\n SAFETY CLEARED: Recommendations approved for clinical consideration")
         else:
-            print(f"\n⚠️  SAFETY REVIEW REQUIRED: Additional clinical assessment needed")
+            print(f"\n  SAFETY REVIEW REQUIRED: Additional clinical assessment needed")
         
-        print("\n📁 CLINICAL REPORTS GENERATED:")
-        print("   📄 Comprehensive psychological analysis")
-        print("   📋 Evidence-based therapy recommendations")  
-        print("   💬 Detailed conversation analysis")
-        print("   👨‍⚕️ Clinical validation report")
+        print("\n CLINICAL REPORTS GENERATED:")
+        print("Comprehensive psychological analysis")
+        print("Evidence-based therapy recommendations")  
+        print("Detailed conversation analysis")
+        print("Clinical validation report")
         
         return results
         
