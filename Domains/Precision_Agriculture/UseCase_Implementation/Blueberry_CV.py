@@ -1,65 +1,92 @@
-# Simple CV Model Dummy Output Generator
-# Just run this to get sensible blueberry ripeness data
+##########################
+# Blueberry Computer Vision Analysis Output Generator
+# Generates realistic dummy data for testing the ripeness detection pipeline
+##########################
 
 import json
 from datetime import datetime
 import random
 
-def generate_cv_output():
-    """Generate realistic blueberry CV analysis output"""
+def generate_blueberry_analysis():
+    """
+    Creates realistic computer vision analysis results for blueberry ripeness detection.
+    Returns a dictionary containing detection metrics and ripeness distribution data.
+    """
     
-    # Realistic farm-scale numbers
-    images_taken = random.randint(45, 85)  # 45-85 images per field analysis
-    total_berries_detected = random.randint(15000, 35000)  # 15K-35K berries detected
-    field_coverage = random.randint(88, 96)  # 88-96% field coverage
+    ##########################
+    # Set realistic ranges based on typical farm field analysis
+    ##########################
+    num_images = random.randint(45, 85)
+    detected_berries = random.randint(15000, 35000)
+    coverage_percent = random.randint(88, 96)
     
-    # Sensible mid-season blueberry ripeness percentages
-    # (These add up to 100%)
-    cv_result = {
+    ##########################
+    # Define ripeness percentages that reflect mid-season conditions
+    # Categories: R1=Unripe, R2=Early, R3=Developing, R4=Ready, R5=Overripe
+    ##########################
+    ripeness_percentages = [12.5, 23.0, 34.5, 26.5, 3.5]
+    
+    analysis_results = {
         "analysis_date": datetime.now().strftime("%Y-%m-%d"),
-        "ripeness_distribution": [12.5, 23.0, 34.5, 26.5, 3.5],  # R1, R2, R3, R4, R5
-        "images_processed": images_taken,
-        "total_berries_detected": total_berries_detected,
-        "berries_per_image": round(total_berries_detected / images_taken),
+        "ripeness_distribution": ripeness_percentages,
+        "images_processed": num_images,
+        "total_berries_detected": detected_berries,
+        "berries_per_image": round(detected_berries / num_images),
         "confidence_score": round(random.uniform(0.87, 0.94), 2),
-        "field_coverage": f"{field_coverage}%"
+        "field_coverage": f"{coverage_percent}%"
     }
     
-    return cv_result
+    return analysis_results
 
-# Generate the output
-cv_output = generate_cv_output()
+def display_analysis_results(results):
+    """Print formatted analysis results to console"""
+    
+    print("COMPUTER VISION MODEL OUTPUT - REALISTIC SCALE")
+    print("=" * 50)
+    print(f"Analysis Date: {results['analysis_date']}")
+    print(f"Images Processed: {results['images_processed']}")
+    print(f"Total Berries Detected: {results['total_berries_detected']:,}")
+    print(f"Average Berries per Image: {results['berries_per_image']}")
+    print(f"Field Coverage: {results['field_coverage']}")
+    print(f"Detection Confidence: {results['confidence_score']}")
+    print("")
+    
+    ##########################
+    # Calculate and display berry counts for each ripeness stage
+    ##########################
+    ripeness_labels = ["R1 (Unripe)", "R2 (Early Stage)", "R3 (Developing)", 
+                      "R4 (Ready for Harvest)", "R5 (Overripe)"]
+    
+    print("Ripeness Stage Breakdown:")
+    total_berries = results['total_berries_detected']
+    
+    for i, (label, percentage) in enumerate(zip(ripeness_labels, results['ripeness_distribution'])):
+        berry_count = int(total_berries * percentage / 100)
+        print(f"  {label}: {percentage}% = {berry_count:,} berries")
 
-# Print it nicely
-print("🫐 CV MODEL OUTPUT (Realistic Scale)")
-print("=" * 50)
-print(f"Date: {cv_output['analysis_date']}")
-print(f"Images analyzed: {cv_output['images_processed']}")
-print(f"Total berries detected: {cv_output['total_berries_detected']:,}")
-print(f"Berries per image: {cv_output['berries_per_image']}")
-print(f"Field coverage: {cv_output['field_coverage']}")
-print(f"Detection confidence: {cv_output['confidence_score']}")
-print(f"")
-print(f"Ripeness breakdown:")
-print(f"  R1 (Unripe): {cv_output['ripeness_distribution'][0]}% = {int(cv_output['total_berries_detected'] * cv_output['ripeness_distribution'][0] / 100):,} berries")
-print(f"  R2 (Early): {cv_output['ripeness_distribution'][1]}% = {int(cv_output['total_berries_detected'] * cv_output['ripeness_distribution'][1] / 100):,} berries")
-print(f"  R3 (Developing): {cv_output['ripeness_distribution'][2]}% = {int(cv_output['total_berries_detected'] * cv_output['ripeness_distribution'][2] / 100):,} berries")
-print(f"  R4 (Ready): {cv_output['ripeness_distribution'][3]}% = {int(cv_output['total_berries_detected'] * cv_output['ripeness_distribution'][3] / 100):,} berries")
-print(f"  R5 (Overripe): {cv_output['ripeness_distribution'][4]}% = {int(cv_output['total_berries_detected'] * cv_output['ripeness_distribution'][4] / 100):,} berries")
+def save_results_to_file(results, filename='cv_analysis_output.json'):
+    """Save analysis results to JSON file"""
+    with open(filename, 'w') as file:
+        json.dump(results, file, indent=2)
+    print(f"\nResults saved to: {filename}")
 
-# Save to file
-with open('cv_dummy_output.json', 'w') as f:
-    json.dump(cv_output, f, indent=2)
+def show_pipeline_format(results):
+    """Display the exact format needed for integration with analysis pipeline"""
+    print(f"\nTotal ripeness percentage validation: {sum(results['ripeness_distribution'])}%")
+    print("\nPipeline Integration Format:")
+    print("cv_analysis_data = {")
+    print(f"    'analysis_date': '{results['analysis_date']}',")
+    print(f"    'ripeness_distribution': {results['ripeness_distribution']},")
+    print(f"    'images_processed': {results['images_processed']},")
+    print(f"    'confidence_score': {results['confidence_score']},")
+    print(f"    'field_coverage': '{results['field_coverage']}'")
+    print("}")
 
-print(f"\n✅ Saved to: cv_dummy_output.json")
-print(f"📊 Total percentage: {sum(cv_output['ripeness_distribution'])}%")
-
-# Show the exact format your pipeline needs
-print(f"\n🔗 Use this in your pipeline:")
-print("cv_results = {")
-print(f"    'analysis_date': '{cv_output['analysis_date']}',")
-print(f"    'ripeness_distribution': {cv_output['ripeness_distribution']},")
-print(f"    'images_processed': {cv_output['images_processed']},")
-print(f"    'confidence_score': {cv_output['confidence_score']},")
-print(f"    'field_coverage': '{cv_output['field_coverage']}'")
-print("}")
+##########################
+# Main execution
+##########################
+if __name__ == "__main__":
+    analysis_data = generate_blueberry_analysis()
+    display_analysis_results(analysis_data)
+    save_results_to_file(analysis_data)
+    show_pipeline_format(analysis_data)
